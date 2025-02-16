@@ -18,44 +18,42 @@ import getCollection from "@/composables/getCollection";
 import BlogIcons from './BlogIcons.vue';
 
 import { onMounted, ref, watchEffect } from 'vue';
-import useImageMetadata from '@/composables/getImageMetadata'
+import useImageMetadata from '@/composables/fetchImageMetadata' 
 
 export default {
     components: {
         BlogIcons
     },
     setup(){
-
-        const { error: errorGetCollection, documents: topics, subscribeToCollection } = getCollection("Blogs");
-
-        const { metadata, error, loading, fetchMetadata } = useImageMetadata();
-
-
         
+        const { imagesMetadata, error } = useImageMetadata();
+        
+        const { error: errorGetCollection, documents: topics, subscribeToCollection } = getCollection("blog_categories");
+
         onMounted(() =>{
             subscribeToCollection()
-
-            fetchMetadata("blog")
         })
 
         watchEffect(() => {
-        if (topics.value && topics.value.length && metadata.value && metadata.value.length) {
-            topics.value.forEach(topic => {
-                const matchingMeta = metadata.value.filter(meta => 
-                    meta.sub_section === topic.identifier && meta.role === "main"
-                );
+            if (topics?.value?.length && imagesMetadata?.value?.length) {
+                topics.value.forEach(topic => {
+                    
+                    let matchingImages = imagesMetadata.value.filter(item => item.id === topic.image_metedata);
 
-                if (matchingMeta.length === 1) {
-                    topic.source = matchingMeta[0].image_url;
-                } else if (matchingMeta.length > 1) {
-                    topic.source = matchingMeta[0].image_url; // Take the first item
-                }
-            });
-        }
+                    if (matchingImages.length) {
+                        topic.image_url = matchingImages[0].image_url;
+                    }
+
+                    else{
+                        console.log('no image for blog item :', topic.title)
+                    }
+                });
+            }
         });
 
         return { topics }
     }
+
 
 }
 </script>

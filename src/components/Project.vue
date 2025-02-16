@@ -27,7 +27,7 @@
                 'md:visible': !isHovered,
             }"
         >
-            <img class="object-cover w-full h-full" :src="project.source" alt="">
+            <img class="object-cover w-full h-full" :src="project.image_url" alt="">
         </div>
         <!-- second frame -->
         <div class="project-frame bg-projects-cards md:project-absolute-layout flex flex-row-reverse items-center justify-center text-right"
@@ -49,7 +49,7 @@
 
 <script>
 import { ref, onMounted, onUnmounted, watchEffect } from 'vue';
-import useImageMetadata from '@/composables/getImageMetadata'
+import useImageMetadata from '@/composables/fetchImageMetadata.js'
 
 export default { 
     props: {
@@ -62,7 +62,8 @@ export default {
 
         const screenWidth = ref(window.innerWidth);
 
-        const { metadata, error, loading, fetchMetadata } = useImageMetadata();
+        const { imagesMetadata, error: errorUseImageMetadata } = useImageMetadata();
+
 
         const updateScreenWidth = () => {
             screenWidth.value = window.innerWidth;
@@ -70,25 +71,6 @@ export default {
 
         onMounted(async () => {
             window.addEventListener("resize", updateScreenWidth);
-
-            const roleCondition = [
-                {
-                    field: 'sub_section',
-                    operator: '==',
-                    value: props.project.identifier,
-                },
-                {
-                    field: 'role',
-                    operator: '==',
-                    value: 'main',
-                }
-            ]
-
-            await fetchMetadata('projects', roleCondition)
-
-            if (!error.value){
-                console.log("error loading images metadata", error.value)
-            }
         });
 
         onUnmounted(() => {
@@ -97,9 +79,18 @@ export default {
 
 
         watchEffect(()=>{
-            console.log('metadata length', metadata.value.length)
-            if (metadata.value.length){
-                props.project.source = metadata.value.at(0).image_url
+            
+            if (imagesMetadata?.value?.length){
+                
+                let matchingImages = imagesMetadata.value.filter(item => item.id === props.project.image_metedata);
+
+                if (matchingImages.length) {
+                    props.project.image_url = matchingImages[0].image_url;
+                }
+                else{
+                        console.log('no image for project item :', props.project.title)
+                }
+
             }
         })
 

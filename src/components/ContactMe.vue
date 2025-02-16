@@ -65,6 +65,7 @@
 <script>
 import { ref, onMounted, watch } from 'vue';
 
+
 export default {
     props: {
         aligmentDirection: {

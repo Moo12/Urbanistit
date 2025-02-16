@@ -11,8 +11,6 @@ const useImageMetadata = () => {
     loading.value = true;
     error.value = null;
 
-    console.log('fetchMetadata')
-
     try {
       const colRef = collection(projectFireStore, 'images_metadata');
       // Construct a query based on the section and other conditions
@@ -34,13 +32,9 @@ const useImageMetadata = () => {
             where(condition.field, condition.operator, condition.value)
         );
 
-      console.log('queries', allQueries)
-
       let queryRef = query(colRef, ...allQueries);
 
       const querySnapshot = await getDocs(queryRef);
-
-      console.log('metadata section', section, ' length ', querySnapshot.docs.length )
       // Map your documents to an array
       metadata.value = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     } 

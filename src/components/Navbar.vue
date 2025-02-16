@@ -28,10 +28,13 @@
 </template>
 
 <script>
-import { onMounted, ref, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 
 import DropdownMenu from './DropdownMenu.vue';
-import useImageMetadata from '@/composables/getImageMetadata'
+
+import useImageMetadata from '@/composables/fetchImageMetadata'
+import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
+
  
 export default {
   props: {
@@ -47,29 +50,26 @@ export default {
     const isOpen = ref(false)
 
     const homeImageSrc = ref(null)
-
-    const { metadata, error, loading, fetchMetadata } = useImageMetadata();
-
-    onMounted(() => {
-      fetchMetadata("navbar")
-    })
+    const { imagesMetadata, error } = useImageMetadata();
+    const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
     watchEffect( () => {
+      if (imagesMetadata?.value?.length && generalContentMetadata?.value?.length){
+        generalContentMetadata.value.forEach(generalContentItem => {
+					if (generalContentItem.id === "navbar"){
+						let homeButtonImg = imagesMetadata.value.filter( item => item.id === generalContentItem.home_button_img_metadata)
+						if (homeButtonImg?.length){
 
-      if (metadata.value && metadata.value.length){
-        console.log('navbar metadata has been retrieved', metadata.value) 
-
-
-        const matchingMeta = metadata.value.filter(meta => 
-          meta.sub_section === "home_button")
-      
-        if (matchingMeta.length ) {
-          homeImageSrc.value = matchingMeta[0].image_url
-        }
+							homeImageSrc.value = homeButtonImg[0].image_url
+							
+						}
+						else{
+							console.error('navbar image button url was not found in general content')
+						}
+					}
+				})
       }
     });
-
-
 
     return { isOpen, homeImageSrc }
   }

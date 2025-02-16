@@ -56,6 +56,7 @@ const getCollection = (collectionName) => {
       //setError("Failed to set up Firestore listener");
     }
   };
+  
 
   // Clean up listener on component unmount
   onUnmounted(() => {

@@ -15,8 +15,6 @@ import getCollection from "@/composables/getCollection";
 
 import useImageMetadata from '@/composables/getImageMetadata'
 
-
-
 export default {
     components: {
         Project,
@@ -60,7 +58,6 @@ export default {
             const newProjects = [...projects_db.value];
             newProjects.splice(index, 0, squareMain);
 
-            console.log(newProjects)
             return newProjects;
         });
 

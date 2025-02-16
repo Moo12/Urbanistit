@@ -1,46 +1,38 @@
 import { ref } from 'vue'
-import { projectFireStore } from '@/firebase/config'
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
-
+import { projectFireStore } from '@/firebase/config';
 
 const useDocument = (collectionName, id) => {
-
-  const error = ref(null)
-  const isPending = ref(false)
-
-  let docRef = doc(projectFireStore, collectionName, id)
+  const error = ref(null);
+  const isPending = ref(false);
 
   const _deleteDoc = async () => {
-    isPending.value = true
-    error.value = null
-    try{
-      const res = await deleteDoc(docRef)
-      isPending.value = false
+    isPending.value = true;
+    error.value = null;
+    try {
+      await deleteDoc(doc(projectFireStore, collectionName, id));
+      isPending.value = false;
+    } catch (err) {
+      console.error(err);
+      error.value = "Could not delete the document";
+      isPending.value = false;
     }
-    catch(err){
-      console.log(err)
-      isPending.value = false
-      error.value = "could not delete the document"
+  };
+
+  const _updateDoc = async (updates) => {
+    isPending.value = true;
+    error.value = null;
+    try {
+      await updateDoc(doc(projectFireStore, collectionName, id), updates);
+      isPending.value = false;
+    } catch (err) {
+      console.error(err);
+      error.value = "Could not update the document";
+      isPending.value = false;
     }
-  }
+  };
 
-  const _updateDoc = async(updates) => {
-    isPending.value = true
-    error.value = null
-    try{
-      const res = await updateDoc(docRef, updates)
-      isPending.value = false
-    }
-    catch(err){
-      console.log(err)
-      isPending.value = false
-      error.value = "could not update the document"
-    }
+  return { error, _deleteDoc, isPending, _updateDoc };
+};
 
-  }
-
-  return { error, _deleteDoc, isPending, _updateDoc }
-
-}
-
-export default useDocument
+export default useDocument;

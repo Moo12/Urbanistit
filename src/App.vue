@@ -37,9 +37,9 @@ export default {
 
 
     const homeAnchor = {
-      text: "",
+      text: "home",
       href: "/",
-      image: gurFooterIcon
+      image: "",
     };
 
     const middleIndex = Math.floor(menuFooterItems.length / 2);

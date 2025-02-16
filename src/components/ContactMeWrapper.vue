@@ -11,7 +11,7 @@
 
         <!-- right part -->
         <div class="absolute right-0 top-[-10%] md:top-[-20%] h-full">
-            <img src="/img/gur_contact_me_popup.png" alt="Overlay Image"
+            <img :src="sideImgSrc" alt="Overlay Image"
                     class="object-cover h-full md:h-[120%] w-auto ">
 
         </div>
@@ -19,9 +19,11 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import ContactMe from '@/components/ContactMe.vue'
-import useImageMetadata from '@/composables/getImageMetadata'
+import useImageMetadata from '@/composables/fetchImageMetadata'
+import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
+
 
 export default {
     components: {
@@ -32,7 +34,31 @@ export default {
         const message = ref('')
         const email = ref('')
 
-        return { name, message, email}
+        const sideImgSrc = ref(null)
+
+        const { imagesMetadata, error } = useImageMetadata();
+        const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
+
+        watchEffect(() => {
+            if (imagesMetadata?.value?.length && generalContentMetadata?.value?.length){
+                generalContentMetadata.value.forEach(generalContentItem => {
+                    if (generalContentItem.id === "contact_me"){
+                        let sideImg = imagesMetadata.value.filter( item => item.id === generalContentItem.side_img_metadata)
+                        if (sideImg?.length){
+
+                            sideImgSrc.value = sideImg[0].image_url
+                            
+                        }
+                        else{
+                            console.error('contact me side  image  url was not found in general content')
+                        }
+                    }
+                })
+            }
+        })
+
+
+        return { name, message, email, sideImgSrc}
     }
 
 }
