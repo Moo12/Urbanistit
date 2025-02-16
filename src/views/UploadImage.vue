@@ -56,7 +56,7 @@ export default {
 
         const types = ['image/png', 'image/jpeg']
 
-        const categorys = ['navbar', 'blog', 'contact_me', 'projects']
+        const categorys = ['navbar', 'blog', 'contact_me', 'projects', 'footer', 'about_me']
 
         const subcategories = ref([])
 
@@ -68,7 +68,10 @@ export default {
             blog: ["nomad", "enviroment", "thoughts"],
             projects: ["venatata", "world_city", "students_union", "mottomation", "bezalel"],
             gallery: ["landscapes", "portraits"],
-            navbar: ['home_button']
+            navbar: ['home_button'],
+            footer: ['home_button', 'cover'],
+            contact_me: ['side_img'],
+            about_me: ['cover', 'quotes']
         };
 
         const {url, error: fileError, filePath, uploadImage } = useStorage()

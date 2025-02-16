@@ -13,8 +13,6 @@ import Project from "./Project.vue"
 
 import getCollection from "@/composables/getCollection";
 
-import useImageMetadata from '@/composables/getImageMetadata'
-
 export default {
     components: {
         Project,

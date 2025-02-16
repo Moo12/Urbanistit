@@ -66,14 +66,4 @@ export default {
 
 
 <style>
-.bg-shape {
-    width: 100%;   
-    height: 100%;  
-    border-top-left-radius: 50% 100%; 
-    border-bottom-left-radius: 0;
-    border-top-right-radius: 50% 100%; 
-    border-bottom-right-radius: 0; 
-
-}
-
 </style>

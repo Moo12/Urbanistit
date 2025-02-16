@@ -1,0 +1,12 @@
+specVersion: "v1beta"
+serviceId: "urbanistit"
+location: "us-central1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "fdcdb"
+      cloudSql:
+        instanceId: "urbanistit-fdc"
+      # schemaValidation: "COMPATIBLE"
+connectorDirs: ["./connector"]

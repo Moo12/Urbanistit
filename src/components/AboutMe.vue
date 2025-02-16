@@ -94,13 +94,4 @@ export default {
 
 <style>
 
-.bg-intro-cover {
-  background-image: url('../assets/img/gur_cover.jpg');
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  aspect-ratio: 16/9; 
-}
-
-
 </style>

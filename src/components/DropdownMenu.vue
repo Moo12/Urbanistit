@@ -1,12 +1,4 @@
 <template>
-    <!-- <div class="absolute top-full right-0 w-48 bg-green-500 shadow-lg">
-
-        <ul v-show="isOpen" class="z-50  rounded-lg  pt-2">
-          <li v-for="(item, index) in menuItems" :key="index" class="btn border-b-2 border-green-700">
-              <a :href="item.href" class="text-right block px-4 py-2 text-gray-800">{{ item.text }}</a>
-          </li>
-        </ul>
-    </div> -->
     <div v-show="isOpen" class="fixed top-0 right-0 w-[50vw] h-screen  shadow-lg z-[9999]">
 
         <!-- Right Rectangular Section (Green) -->

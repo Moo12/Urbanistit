@@ -3,20 +3,6 @@
         <h1 class="font-bold text-5xl text-background-site">{{ project.name }}</h1>
 
     </div>
-    <!-- <div v-else @mouseenter="onMouseEnter" @mouseleave="onMouseLeave"
-        class="relative transitixon-opacity duration-300 w-full overflow-hidden text-right aspect-square rounded-3xl border-8 border-projects-cards cursor-pointer ">
-        
-        <div :class="isHovered ? 'invisible pointer-events-none' : 'btn visible absolute top-0 right-0 w-full h-full '">
-            <img class="object-fill" :src="project.source" alt="">
-        </div>
-
-        <div :class="isHovered ? 'visible absolute top-0 right-0 pointer-events-none' : 'invisible' "  
-            class=" bg-projects-cards  w-full h-full gap-2 transition-opacity duration-300 flex flex-row-reverse items-center justify-center text-right">
-            <h1 class="font-bold text-xl md:text-4xl border-l-4 text-background-site border-background-site px-2">{{ project.title }}</h1>
-            <h1 id="" class="text:xl md:text-4xl text-background-site"> {{ project.subtitle }}</h1>
-        </div>
-    </div> -->
-
     <div v-else class="md:relative  grid grid-cols-2 gap-4 w-full h-full md:flex md:items-center md:justify-center overflow-hidden"
         @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
         <!-- first square -->
