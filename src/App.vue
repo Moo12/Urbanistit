@@ -13,7 +13,6 @@
 <script>
 import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
-import gurFooterIcon from '@/assets/img/gur_footer_icon.png'
 
 export default {
   components: {
