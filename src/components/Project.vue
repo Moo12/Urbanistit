@@ -1,6 +1,6 @@
 <template>
     <div v-if="project.isMain" class="btn flex items-center justify-center  bg-contact-me-bg rounded-3xl aspect-square w-full h-full">
-        <h1 class="font-bold text-5xl text-background-site">{{ project.name }}</h1>
+        <p class="font-bold text-5xl text-background-site">{{ project.name }}</p>
 
     </div>
     <div v-else class="md:relative  grid grid-cols-2 gap-4 w-full h-full md:flex md:items-center md:justify-center overflow-hidden"
@@ -26,7 +26,7 @@
             }">
             <div class="flex flex-col justify-center items-center content-center">
 
-                <p class="font-bold text-xl pb-4 border-background-site border-b-4 md:text-4xl text-background-site px-2">{{ project.title }}</p>
+                <p class="font-bold text-xl pb-4 border-background-site border-b-4 md:text-4xl text-background-site px-2 text-center">{{ project.title }}</p>
                 <div class="flex flex-col mt-4 justify-center content-center">
 
                     <p class="text:xl md:text-4xl text-center text-background-site"> {{ project.subtitle }}</p>

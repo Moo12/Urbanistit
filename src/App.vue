@@ -1,12 +1,12 @@
 <template>
   <div class="ridection">
-    <Navbar :menuItems="menuItems" />
+    <Navbar/>
     <div class="content">
       <router-view/>
     </div>
   </div>
   <div>
-    <Footer :menuItems="menuFooterItems" />
+    <Footer/>
   </div>
 </template>
 
@@ -18,33 +18,6 @@ export default {
   components: {
     Navbar,
     Footer
-  },
-
-  setup(){
-    const menuItems = [
-        { text: "פרויקטים", href: "#projects_section" },
-        { text: "בלוג", href: "#blog_section" },
-        { text: "צור קשר", href: "#contactme_section" }
-    ];
-
-    const menuFooterItems = [
-        { text: "צור קשר", href: "#contactme_section" },
-        { text: "בלוג", href: "#blog_section" },
-        { text: "פרויקטים", href: "#projects_section" },
-        { text: "מי אני", href: "#introduction" }
-    ];
-
-
-    const homeAnchor = {
-      text: "home",
-      href: "/",
-      image: "",
-    };
-
-    const middleIndex = Math.floor(menuFooterItems.length / 2);
-    menuFooterItems.splice(middleIndex, 0, homeAnchor);
-
-      return { menuItems, menuFooterItems }
   }
 }
 
@@ -53,9 +26,9 @@ export default {
 
 <style>
 .content{
-  margin: 0 auto;
+  margin: 0 0;
   max-width: auto;
-  padding: 0 20px;
+  padding: 0;
 }
 
 body.rtl {
