@@ -17,10 +17,12 @@ module.exports = {
         "menu-button": "#ffbd59",
         "background-site": "#f2f2f2",
         "contact-me-bg": "#292929",
-        "blog-cards": "#107645"
+        "blog-cards": "#107645",
+        "gray-background": "#f2f2f2"
       },
       fontFamily: {
-        body: ['Nunito']
+        heebo: ["Heebo", "sans-serif"],
+        helvetica: ["Helvetica Neue", "Arial", "sans-serif"]
       },
       spacing: {
         '1/8': '12.5%', // Adds 'top-1/8' with 12.5% positioning

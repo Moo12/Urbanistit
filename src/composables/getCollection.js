@@ -1,26 +1,21 @@
 import { ref, onUnmounted, watch } from 'vue';
 import { projectFireStore } from '../firebase/config';
-//import { setError } from '@/state/state';
-import { collection, query, where, onSnapshot } from "firebase/firestore";
-
+import { collection, query, where, onSnapshot, getDocs } from "firebase/firestore";
 
 const getCollection = (collectionName) => {
   const documents = ref(null);
   const error = ref(null);
   let unsub = null; // Store the current unsubscribe function
 
-  // Function to set up the Firestore listener with a given query
+  // Function to set up the Firestore listener (REAL-TIME)
   const subscribeToCollection = (conditions = []) => {
-    // Clean up the old listener
     if (unsub) {
       unsub();
       console.log('Old listener unsubscribed');
     }
     try {
-      // Initialize the collection reference
       let collectionRef = collection(projectFireStore, collectionName);
 
-      // Apply query conditions if provided
       if (conditions.length > 0) {
         const queries = conditions.map((condition) =>
           where(condition.field, condition.operator, condition.value)
@@ -28,16 +23,13 @@ const getCollection = (collectionName) => {
         collectionRef = query(collectionRef, ...queries);
       }
 
-      // Set up a new listener
       unsub = onSnapshot(
         collectionRef,
         (snapshot) => {
-          const results = snapshot.docs
-            .map((doc) => ({
-              ...doc.data(),
-              id: doc.id,
-            }))
-            .filter((doc) => doc.created_at); // Ensure `createdAt` exists if needed
+          const results = snapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
 
           documents.value = results;
           error.value = null;
@@ -46,17 +38,38 @@ const getCollection = (collectionName) => {
           console.error(err.message);
           documents.value = null;
           error.value = "Could not fetch the data";
-          //setError("Could not fetch the data");
         }
       );
     } catch (err) {
-      console.error('catch getCollection');
-      console.error(err.message);
+      console.error('Error in subscribeToCollection:', err.message);
       error.value = "Failed to set up Firestore listener";
-      //setError("Failed to set up Firestore listener");
     }
   };
-  
+
+  // Function to fetch documents ONCE (SYNC FETCH)
+  const fetchCollectionOnce = async (conditions = []) => {
+    try {
+      let collectionRef = collection(projectFireStore, collectionName);
+
+      if (conditions.length > 0) {
+        const queries = conditions.map((condition) =>
+          where(condition.field, condition.operator, condition.value)
+        );
+        collectionRef = query(collectionRef, ...queries);
+      }
+
+      const snapshot = await getDocs(collectionRef);
+      documents.value = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+
+      error.value = null;
+    } catch (err) {
+      console.error('Error fetching collection:', err.message);
+      error.value = "Failed to fetch data";
+    }
+  };
 
   // Clean up listener on component unmount
   onUnmounted(() => {
@@ -66,7 +79,7 @@ const getCollection = (collectionName) => {
     }
   });
 
-  return { documents, error, subscribeToCollection };
+  return { documents, error, subscribeToCollection, fetchCollectionOnce };
 };
 
 export default getCollection;

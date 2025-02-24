@@ -43,7 +43,7 @@ export default {
             if (imagesMetadata?.value?.length && generalContentMetadata?.value?.length){
                 generalContentMetadata.value.forEach(generalContentItem => {
                     if (generalContentItem.id === "contact_me"){
-                        let sideImg = imagesMetadata.value.filter( item => item.id === generalContentItem.side_img_metadata)
+                        let sideImg = imagesMetadata.value.filter( item => item.id === generalContentItem.common_data?.images_metadata?.side)
                         if (sideImg?.length){
 
                             sideImgSrc.value = sideImg[0].image_url

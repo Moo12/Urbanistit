@@ -2,7 +2,7 @@
     <div v-show="isOpen" class="fixed top-0 right-0 w-[50vw] h-screen  shadow-lg z-[9999]">
 
         <!-- Right Rectangular Section (Green) -->
-        <div class="h-full w-full flex space-4 flex-col items-end bg-blog-cards content-end" :style="ellipseStyle">
+        <div class="h-full w-full flex space-4 flex-col items-end bg-menu-button content-end" :style="ellipseStyle">
             <div class="m-3">
 
                 <button class="btn self-end text-5xl font-bold" @click="$emit('close')"> 
@@ -13,7 +13,7 @@
 
             <ul class="space-y-4 m-1/10">
                 <li v-for="(item, index) in menuItems" :key="index" class="btn ">
-                <a :href="item.href" class="text-right block px-4 py-2 text-4xl text-background-site">{{ item.text }}</a>
+                    <a :href="item.href" class="text-right block px-4 py-2 text-xl text-background-site">{{ item.label }}</a>
                 </li>
             </ul>
         </div>

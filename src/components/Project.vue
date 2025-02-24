@@ -24,8 +24,14 @@
                 'project-absolute-layout' : screenWidth >= 768,
  
             }">
-            <h1 class="font-bold text-xl md:text-4xl border-l-4 text-background-site border-background-site px-2">{{ project.title }}</h1>
-            <h1 class="text:xl md:text-4xl text-background-site"> {{ project.subtitle }}</h1>
+            <div class="flex flex-col justify-center items-center content-center">
+
+                <p class="font-bold text-xl pb-4 border-background-site border-b-4 md:text-4xl text-background-site px-2">{{ project.title }}</p>
+                <div class="flex flex-col mt-4 justify-center content-center">
+
+                    <p class="text:xl md:text-4xl text-center text-background-site"> {{ project.subtitle }}</p>
+                </div>
+            </div>
         </div>
     </div>
 

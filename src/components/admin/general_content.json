@@ -1,0 +1,279 @@
+{
+  "contact_me": {
+    "metadata": {
+      "last_update": "contactme",
+      "updated_by": "",
+      "created_at": "",
+      "created_by": "",       
+      "user_opener": "",     
+      "status": "active",
+      "readonly": false
+    },
+    "common_data": {
+      "images_metadata":{
+        "side": "JOAa2YWYhl1MjGPiHtlB"
+      },
+      "isActive": {
+        "value": true,
+        "readonly": false
+      }
+    },
+    "translations": {
+      "en": {
+        "title": {
+          "value": "Feel free to reach out to us!",
+          "readonly": false
+        },
+        "sub_title": {
+          "value": "Lets Create Together",
+          "readonly": false
+        },
+        "form_fields": {
+          "value":
+          [
+            { 
+              "label": "Name", 
+              "type": "text", 
+              "required": true,
+              "readonly": false
+            },
+            { 
+              "label": "Email", 
+              "type": "email", 
+              "required": true,
+              "readonly": false
+            },
+            { 
+              "label": "Phone Number", 
+              "type": "text", 
+              "required": false,
+              "readonly": false
+            },
+            { 
+              "label": "Message", 
+              "type": "textarea", 
+              "required": true,
+              "readonly": false
+            }
+          ],
+          "readonly" : false
+        }
+      },
+      "he": {
+        "title": {
+          "value": "אל תהססו לפנות אלינו!",
+          "readonly": false
+        },
+        "sub_title": {
+          "value": "שניצור יחד משהו מיוחד?",
+          "readonly": false
+        },
+        "isActive": {
+          "value": true,
+          "readonly": false
+        },
+        "form_fields": {
+          "value": [
+            { 
+              "label": "שם", 
+              "type": "text", 
+              "required": true,
+              "readonly": false
+            },
+            { 
+              "label": "אימייל",
+              "type": "email",
+              "required": true,
+              "readonly": false
+            },
+            { 
+              "label": "מספר טלפון", 
+              "type": "text", 
+              "required": false,
+              "readonly": false
+            },
+            { 
+              "label": "הודעה", 
+              "type": "textarea", 
+              "required": true,
+              "readonly": false
+            }
+          ],
+          "readonly": false
+        }
+      }
+    }
+  },
+  "about_me": {
+    "metadata": {
+      "last_update": "",
+      "updated_by": "",
+      "created_at": "",
+      "created_by": "",
+      "user_opener": "",
+      "status": "active",
+      "readonly": false
+    },
+    "common_data": {
+      "images_metadata":{
+        "cover": "vpLr8KvPfccGkqsSaKFt",
+        "quotes": "DkMYfc1gAvvDUDM75Csb"
+      },
+      "isActive": {
+        "value": true,
+        "readonly": false
+      }
+    },
+    "translations": {
+      "en": {
+        "description": {
+          "value": "Hi There!",
+          "readonly": false
+        }
+      },
+      "he": {
+        "description": {
+          "value": "קוקו ממרוקו",
+          "readonly": false
+        }
+      }
+    }
+  },
+  "footer": {
+    "metadata": {
+      "last_update": "",
+      "updated_by": "",
+      "created_at": "",
+      "created_by": "",
+      "user_opener": "",
+      "status": "active",
+      "readonly": false
+    },
+    "common_data": {
+      "images_metadata":{
+        "cover": "J5Z7vt8drOgFdqB4IXNe"
+      },
+      "isActive": {
+        "value": true,
+        "readonly": false
+      }
+    },
+    "translations": {
+      "en": {
+        "nav_links": {
+          "value": [
+            { "label": "Projects", "id": "Projects", "type": "text", "href": "#projects_section", "image_metadata": "" },
+            { "label": "Blog", "id": "Blog", "type": "text", "href": "#blog_section", "image_metadata": "" },
+            { "label": "Contact", "id": "Contact", "type": "text", "href": "#contactme_section", "image_metadata": "" },
+            { "label": "Admin", "id": "Admin", "type": "text", "href": "/admin", "image_metadata": ""},
+            { "label": "Home", "id": "Home", "type": "text", "href": "/", "image_metadata": "4tniQ50WJ15mWo26jRbj"}
+          ],
+          "readonly": false
+        }
+      },
+      "he": {
+        "nav_links": {
+          "value": [
+            { "label": "פרויקטים", "id": "Projects", "href": "#projects_section", "image_metadata": "" },
+            { "label": "בלוג", "id": "Blog", "href": "#blog_section", "image_metadata": "" },
+            { "label": "צור קשר", "id": "Contact", "href": "#contactme_section", "image_metadata": "" },
+            { "label": "אדמין",  "id": "Admin", "href": "/admin", "image_metadata": ""},
+            { "label": "בית", "id": "Home", "href": "/", "image_metadata": "4tniQ50WJ15mWo26jRbj"}
+          ],
+          "readonly": false
+        }
+      }
+    }
+  },
+  "navbar": {
+    "metadata": {
+      "last_update": "",
+      "updated_by": "",
+      "created_at": "",
+      "created_by": "",
+      "user_opener": "",
+      "status": "active",
+      "readonly": false 
+    },
+    "common_data": {
+      "isActive": {
+        "value": true,
+        "readonly": false
+      }
+    },
+    "translations": {
+      "en": {
+        "nav_links": {
+          "value": [
+            { "label": "Projects", "id": "Projects", "type": "text", "href": "#projects_section", "image_metadata": "" },
+            { "label": "Blog", "id": "Blog", "type": "text", "href": "#blog_section", "image_metadata": "" },
+            { "label": "Contact", "id": "Contact", "type": "text", "href": "#contactme_section", "image_metadata": "" },
+            { "label": "Admin", "id": "Admin", "type": "text", "href": "/admin", "image_metadata": ""},
+            { "label": "Home", "id": "Home", "type": "text", "href": "/", "image_metadata": "lbJDt6KaIra5CKAdpynH"}
+          ]
+        },
+        "readonly": false
+      },
+      "he": {
+        "nav_links": {
+          "value": [
+            { "label": "פרויקטים", "id": "Projects", "href": "#projects_section", "image_metadata": "" },
+            { "label": "בלוג", "id": "Blog", "href": "#blog_section", "image_metadata": "" },
+            { "label": "צור קשר", "id": "Contact", "href": "#contactme_section", "image_metadata": "" },
+            { "label": "אדמין",  "id": "Admin", "href": "/admin", "image_metadata": ""},
+            { "label": "בית", "id": "Home", "href": "/", "image_metadata": "lbJDt6KaIra5CKAdpynH"}
+          ],
+          "readonly": false
+        }
+      }
+    }
+  },
+  "blog": {
+    "metadata": {
+      "last_update": "",
+      "updated_by": "",
+      "created_at": "",
+      "created_by": "",
+      "user_opener": "",
+      "status": "active",
+      "readonly": false
+    },
+    "common_data":{
+      "table_items": "Blogs",
+      "isActive": {
+        "value": true,
+        "readonly": false
+      }
+    },
+    "translations": {
+      "en": {
+        "title": {
+          "value": "Open The Door",
+          "readonly": false
+        },
+        "categories": {
+          "value": [
+            { "label": "Enviroment", "id": "enviroment", "image_metadata": "RuG1AG1aZOs1poSdpbhW" },
+            { "label": "Nomad",      "id": "nomad",      "image_metadata": "nqHXjhCV51Lb5Jot0URs" },
+            { "label": "Thoughts",   "id": "thoughts",   "image_metadata": "osj9OeKtynr7787696Kb" }
+          ],
+          "readonly": false
+        }
+      },
+      "he": {
+        "title": {
+          "value": "יוצאים מהמגירה",
+          "readonly": false
+        },
+        "categories": {
+          "value": [
+            { "label": "סביבה", "id": "enviroment", "image_metadata": "RuG1AG1aZOs1poSdpbhW" },
+            { "label": "נוודות", "id": "nomad",      "image_metadata": "nqHXjhCV51Lb5Jot0URs" },
+            { "label": "הגיגים", "id": "thoughts",   "image_metadata": "osj9OeKtynr7787696Kb" }
+          ],
+          "readonly": false
+        }
+      }
+    }
+  }
+}

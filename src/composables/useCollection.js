@@ -9,8 +9,9 @@ const useCollection = (collectionName) => {
   const addDocImp = async (docData, id = null) => {
     error.value = null;
 
-    docData.created_at = timestamp()
-    docData.updated_at = timestamp()
+    docData.metadata = docData.metadata ?? {}; 
+    docData.metadata.created_at = docData.metadata.created_at ?? timestamp();
+    docData.metadata.last_update = timestamp();
 
     try {
       if (id) {

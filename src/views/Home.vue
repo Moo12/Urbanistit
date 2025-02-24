@@ -9,7 +9,7 @@
     </div>
 
     <!-- blog posts contact me sections -->
-    <div class="bg-gray-200">
+    <div class="bg-gray-background">
       <div id="blog_section" class="w-full mt-6">
         <Blog/>
       </div>
@@ -26,6 +26,9 @@
 
 <script>
 
+import {onMounted, watch, nextTick} from 'vue';
+import { useRoute } from 'vue-router';
+
 import Projects from '@/components/Projects.vue';
 import Blog from '@/components/Blog.vue';
 import ContactMeWrapper from '@/components/ContactMeWrapper.vue'
@@ -38,7 +41,31 @@ export default {
     Blog,
     ContactMeWrapper,
     AboutMe,
+  },
+  setup(){
+      const route = useRoute()
+
+      const scrollToHash = () => {
+      nextTick(() => {
+        const hash = window.location.hash;
+        if (hash) {
+          const element = document.querySelector(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    };
+
+    onMounted(() => {
+      scrollToHash();
+    });
+
+    watch(route, () => {
+      scrollToHash();
+    });
   }
+
 
 }
 </script>

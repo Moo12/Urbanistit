@@ -1,14 +1,14 @@
 <template>
     <div class="w-full h-full bg-cover" :style="{ backgroundImage: `url(${backgroundImage})` }">
         
-        <!-- contett -->
+        <!-- content -->
         <div class="w-5/6 mx-auto h-full overflow-hidden" >
             <!-- horizontal anchors-->
-            <ul  class="flex  h-full flex-row justify-between items-center">
-                <li v-for="(item, index) in localMenuItems" :key="index" class="btn h-full">
+            <ul class="flex  h-full flex-row justify-between items-center">
+                <li v-for="(item, index) in orderedMenuItems" :key="index" class="btn h-full">
                     <a :href="item.href" class="no-underline h-full flex items-center">
-                        <img v-if="item.image" :src="item.image" alt="item.text" class="h-3/4 self-end object-cover" />
-                        <p v-else class="font-bold  md:text-3lg  lg:text-5xl text-background-site">{{ item.text }}</p>
+                        <img v-if="item.image" :src="item.image" alt="item.label" class="h-3/4 self-end object-cover" />
+                        <p v-else class="font-bold  md:text-3lg  lg:text-5xl text-background-site">{{ item.label }}</p>
                     </a>
                 </li>
             </ul>
@@ -19,33 +19,26 @@
 </template>
 
 <script>
-import { onMounted, watchEffect, ref } from 'vue';
+import { onMounted, watchEffect, ref, computed } from 'vue';
 import useImageMetadata from '@/composables/fetchImageMetadata'
 import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
 
 export default {
-    props: {
-      menuItems: {
-          type: Array,
-          required: true
-      },
-    },
-    setup(props){
+    setup(){
         const backgroundImage = ref(null)
-        const localMenuItems = ref([...props.menuItems]); // Create a reactive copy
+        const localMenuItems = ref([]); // Create a reactive copy
         
         const { imagesMetadata, error } = useImageMetadata();
         const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
-
 
         onMounted(() => {
         })
 
         watchEffect(() => {
             if (imagesMetadata?.value?.length && generalContentMetadata?.value?.length){
-                    generalContentMetadata.value.forEach(generalContentItem => {
+                generalContentMetadata.value.forEach(generalContentItem => {
                     if (generalContentItem.id === "footer"){
-                        let coverImgMd = imagesMetadata.value.filter( item => item.id === generalContentItem.cover_img_metadata)
+                        let coverImgMd = imagesMetadata.value.filter( item => item.id === generalContentItem.common_data?.images_metadata?.cover)
 
                         if (coverImgMd?.length){
                             backgroundImage.value = coverImgMd[0].image_url
@@ -54,31 +47,45 @@ export default {
                             console.error('no imagesMetadatamage metadata for footer cover')
                         }
 
-                        let homeButtonImg = imagesMetadata.value.filter( item => item.id === generalContentItem.home_button_img_metadata)
+                        localMenuItems.value = generalContentItem.translations?.he?.nav_links?.value
 
-                        if (homeButtonImg?.length){
-                            let homeAnchor = localMenuItems.value.filter(item => item.text === 'home')
+                        console.log('nav items', localMenuItems.value)
 
-                            if (homeAnchor?.length){
-                                homeAnchor[0].image = homeButtonImg[0].image_url
+                        localMenuItems.value.forEach(menuItem => {
+                            if (menuItem.image_metadata !== '') {
+                                let imgMetadata = imagesMetadata.value.filter(img => img.id === menuItem.image_metadata);
 
+                                if (imgMetadata.length) {
+                                    menuItem.image = imgMetadata[0].image_url;
+
+                                    console.log('add image to : ', menuItem.label)
+                                }
+                                else{
+                                    console.error('did not match image for : ', menuItem.label)
+                                }
                             }
-                            else{
-                                console.error('footer home anchor is not found in array.')
-                            }
-
-                        }
-                        else{
-                            console.error('no image for home button was found')
-                        }
+                        });
                     }
                 })
             }
+        });
 
+        // Ensure "Home" is always in the middle
+        const orderedMenuItems = computed(() => {
+            let items = [...localMenuItems.value]; // Create a new array to avoid mutation
+            let homeIndex = items.findIndex(item => item.id.toLowerCase() === "home");
+
+            if (homeIndex !== -1) {
+                let homeItem = items.splice(homeIndex, 1)[0]; // Remove Home
+                let middleIndex = Math.floor(items.length / 2); // Get middle index
+                items.splice(middleIndex, 0, homeItem); // Insert Home in the middle
+            }
+
+            return items;
         });
 
 
-        return { localMenuItems, backgroundImage }
+        return { backgroundImage, orderedMenuItems }
     }
 }
 </script>

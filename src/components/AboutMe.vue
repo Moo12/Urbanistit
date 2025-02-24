@@ -1,27 +1,20 @@
 <template>
-    <div>   <!-- introduction --> 
-    <div class=" w-full h-full bg-cover bg-center aspect-[16/9]" :style="{ backgroundImage: `url(${backgroundImage})` }"
-    >
-
-        <div class="flex flex-row justify-center items-stretch mx-auto gap-1 w-2/2">
-            <div class="flex flex-col items-center flex-[2]">
+  <div>   <!-- introduction --> 
+      <!-- Background Image -->
+      <div class=" w-full h-full bg-cover bg-center aspect-[16/9]" :style="{ backgroundImage: `url(${backgroundImage})` }">
+        <div class="flex flex-row justify-center items-stretch mx-auto gap-1">
+            <div class="flex flex-col items-center">
                 <p  class="font-bold md:text-4xl lg:text-5xl text-lg text-center contact-me-bg tracking-wide "> Don't be pushed by your problems be led by your dreams</p>
                 <p  class="text-md my-2 text-2xl contact-me-bg text-center">Ralph Waldo Emerson</p>
             </div>
-            <div class="flex flex-[1]">
+            <!-- Quatations Image -->
+            <div class="flex justify-center w-1/2 md:w-full h-1/2 md:h-full">
                 <img :src="quotedImg" alt="Overlay Image"
                     class="object-cover ">
             </div>
             
 
         </div>
-
-      <!-- Background Image -->
-      <!-- <img :src="coverImage" alt="Background Image" class="w-full"> -->
-
-      <!-- Overlay Image (centered) -->
-
-
     </div>
     <!--paragracph about me -->
     <div class="text-right my-10">
@@ -65,7 +58,7 @@ export default {
         if (imagesMetadata?.value?.length && generalContentMetadata?.value?.length){
               generalContentMetadata.value.forEach(generalContentItem => {
                 if (generalContentItem.id === "about_me"){
-                  let coverImgMd = imagesMetadata.value.filter( item => item.id === generalContentItem.cover_img_metadata)
+                  let coverImgMd = imagesMetadata.value.filter( item => item.id === generalContentItem.common_data?.images_metadata?.cover)
 
                   if (coverImgMd?.length){
                     backgroundImage.value = coverImgMd[0].image_url
@@ -74,7 +67,7 @@ export default {
                     console.error('no iimagesMetadatamage metadata for about me cover')
                   }
 
-                  let quatesImgMd = imagesMetadata.value.filter( item => item.id === generalContentItem.quotes_img_metadata)
+                  let quatesImgMd = imagesMetadata.value.filter( item => item.id === generalContentItem.common_data?.images_metadata?.quotes)
 
                   if (quatesImgMd?.length){
                     quotedImg.value = quatesImgMd[0].image_url

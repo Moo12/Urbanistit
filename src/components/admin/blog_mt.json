@@ -1,0 +1,110 @@
+{
+    "blog": {
+        "metadata": {
+            "last_update": "",
+            "updated_by": "",
+            "created_at": "",
+            "created_by": "",       
+            "user_opener": "",     
+            "status": "active",
+            "readonly": false
+        },
+        "languages":[
+            "en", "he"
+        ],
+        "default_language": "en",
+        "common_data": {
+            "category":
+            {
+                "type": "select",
+                "required": true,
+                "label": "Category",
+                "options_source": "static",
+                "options": ["Eviroment", "Thoughts", "Nomad"]
+            },
+            "tags":
+            {
+                "type": "multi_select",
+                "required": false,
+                "label": "Tags",
+                "options_source": "database",
+                "source_collection": "tags",
+                "field_title_name": "title"
+            },        
+            "comments":
+            {
+                "type": "array",
+                "required": false,
+                "hide": true,
+                "fields": {
+                    "author":
+                    {
+                        "type": "text",
+                        "required": true
+                    },
+                    "created_at":
+                    {
+                        "type": "timestamp"
+                    },
+                    "updated_at":
+                    {
+                        "type": "timestamp"
+                    },
+                    "title":
+                    {
+                        "type": "text",
+                        "required": true
+                    },
+                    "content":
+                    {
+                        "type": "textarea",
+                        "required": true
+                    }
+                }
+            }
+        },
+        "data":{
+            "title":
+            {
+                "required": true,
+                "label": "Title",
+                "type": "text"
+            },
+            "sub_title":
+            {
+                "required": true,
+                "label": "Sub Title",
+                "type": "text"
+            },
+            "content":
+            {
+                "required": true,
+                "label": "Conetnt",
+                "type": "textarea"
+            }
+        }
+    },
+    "tags": {
+        "metadata": {
+            "last_update": "",
+            "updated_by": "",
+            "created_at": "",
+            "created_by": "",       
+            "user_opener": "",     
+            "status": "active",
+            "readonly": false
+        },
+        "languages":[
+            "en", "he"
+        ],
+        "default_language": "en",
+        "data":{
+            "title":
+            {
+                "required": true,
+                "label": "Title",
+                "type": "text"
+            }
+        }
+    }
+}
