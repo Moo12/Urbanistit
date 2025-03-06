@@ -39,7 +39,7 @@ const useImageMetadata = () => {
       metadata.value = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     } 
     catch (err) {
-      console.log(err.message)
+      console.error(err.message)
       error.value = err.message;
     } finally {
       loading.value = false;

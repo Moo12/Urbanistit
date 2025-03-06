@@ -1,9 +1,9 @@
 <template>
-    <div class="flex flex-row-reverse justify-around">
+    <div class="flex flex-row-reverse justify-around padding-section">
 
         <div class="flex flex-col items-center justify-center  text-right">
-            <h1 class="text-background-site font-bold md:text-6xl lg:text-7xl text-4xl">שניצור יחד</h1>
-            <h1 class="text-background-site font-bold md:text-6xl lg:text-7xl text-4xl">משהו מיוחד?</h1>
+            <p class="text-background-site header-title text-6xl">שניצור יחד</p>
+            <p class="text-background-site header-title text-6xl">משהו מיוחד?</p>
         </div>
         <div class="h-full flex flex-col justify-center">
             <form action="">
@@ -109,11 +109,7 @@ export default {
         };
 
         onMounted(() => {
-            console.log('mounted')
             setAlignmentClasses(); // Set alignment on component mount
-
-            console.log('column:', columnDirectionClassName.value)
-            console.log('raw:', rowDirectionClassName.value)
         });
     
         watch(() => props.aligmentDirection, setAlignmentClasses); // Update alignment when prop changes

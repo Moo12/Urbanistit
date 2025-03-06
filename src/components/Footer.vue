@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-full bg-cover" :style="{ backgroundImage: `url(${backgroundImage})` }">
+    <div class="w-full bg-cover" :style="{ backgroundImage: `url(${backgroundImage})` }">
         
         <!-- content -->
         <div class="w-5/6 mx-auto h-full overflow-hidden" >
@@ -49,16 +49,12 @@ export default {
 
                         localMenuItems.value = generalContentItem.translations?.he?.nav_links?.value
 
-                        console.log('nav items', localMenuItems.value)
-
                         localMenuItems.value.forEach(menuItem => {
                             if (menuItem.image_metadata !== '') {
                                 let imgMetadata = imagesMetadata.value.filter(img => img.id === menuItem.image_metadata);
 
                                 if (imgMetadata.length) {
                                     menuItem.image = imgMetadata[0].image_url;
-
-                                    console.log('add image to : ', menuItem.label)
                                 }
                                 else{
                                     console.error('did not match image for : ', menuItem.label)

@@ -1,5 +1,5 @@
 <template>
-<div class="flex h-screen">
+<div class="flex h-full     ">
     <!-- Sidebar (Always Visible) -->
     <Sidebar class="w-1/4 bg-gray-800 text-white" />
 
@@ -26,12 +26,12 @@ export default {
 
 <style>
 .content-editor {
-  max-width: 600px;
   margin: auto;
-  max-height: 80vh; /* Limits height to 80% of viewport */
+  max-width: 100%;
+  overflow-x: hidden;
   overflow-y: auto; /* Enables vertical scrolling */
-  border: 1px solid #ddd;
   padding: 10px;
+  height: 100%;
 }
 
 

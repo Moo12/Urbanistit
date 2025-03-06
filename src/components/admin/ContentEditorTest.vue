@@ -82,7 +82,6 @@ const updateSection = () => {
             <input v-if="typeof subField.value === 'boolean'" v-model="subField.value" :disabled="subField.readonly" type="checkbox" />
           </div>
         </div>
-
       </div>
 
       <!-- Submit Button -->

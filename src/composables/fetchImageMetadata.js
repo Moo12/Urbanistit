@@ -1,15 +1,14 @@
 // src/composables/useImageMetadata.js
-import { ref, onMounted } from "vue";
-import { collection, getDocs } from "firebase/firestore";
+import { ref, onMounted, watchEffect } from "vue";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import { projectFireStore } from "@/firebase/config";
 
 const imagesMetadata = ref(null);  // Ensuring it's a shared reference
 const isLoaded = ref(false);
 const error = ref(null);
 
+// Fetch metadata initially
 const fetchImageMetadata = async () => {
-  if (isLoaded.value) return;  // Prevent multiple fetches
-
   try {
     const querySnapshot = await getDocs(collection(projectFireStore, "images_metadata"));
     imagesMetadata.value = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -20,12 +19,38 @@ const fetchImageMetadata = async () => {
   }
 };
 
-// Ensure data is fetched when the composable is used
+// Subscribe to real-time updates from Firestore
+const subscribeToImageMetadata = () => {
+  const unsubscribe = onSnapshot(
+    collection(projectFireStore, "images_metadata"),
+    (querySnapshot) => {
+      imagesMetadata.value = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    },
+    (err) => {
+      error.value = "Failed to listen to image metadata changes";
+      console.error(err);
+    }
+  );
+
+  // Optionally, return unsubscribe function to stop listening
+  return unsubscribe;
+};
+
+// Ensure data is fetched and subscribed to when the composable is used
 const useImageMetadata = () => {
-  if (!isLoaded.value) {
-    fetchImageMetadata();  // Only fetch if not already loaded
-  }
-  
+    onMounted(() => {
+    if (!isLoaded.value) {
+      fetchImageMetadata();  // Only fetch if not already loaded
+    }
+    
+    const unsubscribe = subscribeToImageMetadata(); // Subscribe to real-time updates
+
+    // Clean up subscription when component is destroyed
+    watchEffect(() => {
+      return () => unsubscribe();
+    });
+  });
+
   return { imagesMetadata, error };
 };
 

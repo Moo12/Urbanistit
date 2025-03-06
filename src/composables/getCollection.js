@@ -2,19 +2,27 @@ import { ref, onUnmounted, watch } from 'vue';
 import { projectFireStore } from '../firebase/config';
 import { collection, query, where, onSnapshot, getDocs } from "firebase/firestore";
 
-const getCollection = (collectionName) => {
+const getCollection = (initialCollectionName = null) => {
+  const collectionName = ref(initialCollectionName); // Store the collection name
   const documents = ref(null);
   const error = ref(null);
   let unsub = null; // Store the current unsubscribe function
 
   // Function to set up the Firestore listener (REAL-TIME)
-  const subscribeToCollection = (conditions = []) => {
+  const subscribeToCollection = (dynamicCollectionName = null, conditions = []) => {
+    // Use the dynamically passed collection name or the initial one if not provided
+    const finalCollectionName = dynamicCollectionName || collectionName.value;
+    if (!finalCollectionName) {
+      error.value = "No collection name provided";
+      return;
+    }
+
     if (unsub) {
       unsub();
-      console.log('Old listener unsubscribed');
     }
+
     try {
-      let collectionRef = collection(projectFireStore, collectionName);
+      let collectionRef = collection(projectFireStore, finalCollectionName);
 
       if (conditions.length > 0) {
         const queries = conditions.map((condition) =>
@@ -47,9 +55,16 @@ const getCollection = (collectionName) => {
   };
 
   // Function to fetch documents ONCE (SYNC FETCH)
-  const fetchCollectionOnce = async (conditions = []) => {
+  const fetchCollectionOnce = async (dynamicCollectionName = null, conditions = []) => {
+    // Use the dynamically passed collection name or the initial one if not provided
+    const finalCollectionName = dynamicCollectionName || collectionName.value;
+    if (!finalCollectionName) {
+      error.value = "No collection name provided";
+      return;
+    }
+
     try {
-      let collectionRef = collection(projectFireStore, collectionName);
+      let collectionRef = collection(projectFireStore, finalCollectionName);
 
       if (conditions.length > 0) {
         const queries = conditions.map((condition) =>
@@ -75,7 +90,6 @@ const getCollection = (collectionName) => {
   onUnmounted(() => {
     if (unsub) {
       unsub();
-      console.log('Listener unsubscribed on component unmount');
     }
   });
 

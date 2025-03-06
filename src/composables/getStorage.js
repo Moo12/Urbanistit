@@ -20,7 +20,7 @@ const useStorage = () => {
             url.value = res.ref.getDownloadURL()
         }catch(err){
             
-            console.log(err.message)
+            console.error(err.message)
             error.value = err.message
         }
     }

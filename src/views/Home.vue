@@ -4,13 +4,13 @@
       <AboutMe/>
     </div>
     <!-- Projects --> 
-    <div id="projects_section">
+    <div id="projects_section" class="mt-10">
       <Projects/>
     </div>
 
     <!-- blog posts contact me sections -->
-    <div class="bg-gray-background">
-      <div id="blog_section" class="w-full mt-6">
+    <div class="bg-gray-background mt-10">
+      <div id="blog_section" class="w-full py-20">
         <Blog/>
       </div>
       <div class="">

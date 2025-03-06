@@ -28,6 +28,14 @@ module.exports = {
         '1/8': '12.5%', // Adds 'top-1/8' with 12.5% positioning
         '1/10': '10%'
       },
+      fontSize: {
+        'main-title': '2.25rem',  // Extra small
+        'sub-title': '1.7rem',   // Extra large
+        'section': '1.125rem',     // Custom huge size
+        'main-title-small_sc': '1.375rem',  // Extra small
+        'sub-title-small-sc': '1.275rem',   // Extra large
+        'section-small_sc': '1rem',     // Custom huge size
+      }
     },
     accentColor: ({ theme }) => ({
       ...theme('colors'),

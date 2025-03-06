@@ -13,7 +13,33 @@
             "en", "he"
         ],
         "default_language": "en",
+        "display_config": {
+            "full_view": {
+                "common_data": ["tags", "comments", "category"],
+                "data": ["title", "sub_title"]
+            },
+            "short_view":
+            {
+                "common_data": ["tags", "category"],
+                "data": ["title", "sub_title", "content"]
+            }
+        },
         "common_data": {
+            "images_metadata": {
+                "type": "array",
+                "type_item": "image",
+                "fields": 
+                [
+                    "role",
+                    "metadata_id"
+                ],
+                "role": {
+                    "type": "select",
+                    "options_source": "static",
+                    "options": ["main", "sub"]
+
+                }
+            },
             "category":
             {
                 "type": "select",
@@ -29,11 +55,12 @@
                 "label": "Tags",
                 "options_source": "database",
                 "source_collection": "tags",
-                "field_title_name": "title"
-            },        
+                "field_display_name": "title"
+            },
             "comments":
             {
                 "type": "array",
+                "type_item": "object",
                 "required": false,
                 "hide": true,
                 "fields": {
@@ -68,23 +95,26 @@
             {
                 "required": true,
                 "label": "Title",
-                "type": "text"
+                "type_item": "text", 
+                "type": null
             },
             "sub_title":
             {
                 "required": true,
                 "label": "Sub Title",
-                "type": "text"
+                "type_item": "text",
+                "type": null
             },
             "content":
             {
                 "required": true,
                 "label": "Conetnt",
-                "type": "textarea"
+                "type_item": "text",
+                "type": null
             }
         }
     },
-    "tags": {
+    "projects": {
         "metadata": {
             "last_update": "",
             "updated_by": "",
@@ -98,12 +128,166 @@
             "en", "he"
         ],
         "default_language": "en",
+        "display_config": {
+            "full_view": {
+                "common_data": ["clients"],
+                "data": ["title", "sub_title"]
+            },
+            "short_view":
+            {
+                "common_data": ["clients"],
+                "data": ["title", "sub_title"]
+            }
+        },
+        "common_data": {
+            "images_metadata": {
+                "type": "array",
+                "type_item": "image",
+                "fields": 
+                [
+                    "role",
+                    "metadata_id"
+                ],
+                "role": {
+                    "type": "select",
+                    "options_source": "static",
+                    "options": ["main", "sub","clients"]
+                }
+            },
+            "clients":
+            {
+                "type": "select",
+                "required": false,
+                "label": "Clients",
+                "options_source": "database",
+                "source_collection": "clients",
+                "field_display_name": "title"
+            }
+
+        },
         "data":{
             "title":
             {
                 "required": true,
                 "label": "Title",
-                "type": "text"
+                "type_item": "text", 
+                "type": null
+            },
+            "sub_title":
+            {
+                "required": true,
+                "label": "Sub Title",
+                "type_item": "text",
+                "type": null
+            },
+            "content":
+            {
+                "required": true,
+                "label": "Conetnt",
+                "type_item": "text",
+                "type": null
+            }
+        }
+    },
+    "clients": {
+        "metadata": {
+            "last_update": "",
+            "updated_by": "",
+            "created_at": "",
+            "created_by": "",       
+            "user_opener": "",     
+            "status": "active",
+            "readonly": false
+        },
+        "languages":[
+            "en", "he"
+        ],
+        "default_language": "en",
+        "display_config": {
+            "full_view": {
+                "common_data": [],
+                "data": ["title", "sub_title"]
+            },
+            "short_view":
+            {
+                "common_data": [],
+                "data": ["title", "sub_title"]
+            }
+        },
+        "common_data": {
+            "images_metadata": {
+                "type": "array",
+                "type_item": "image",
+                "fields": 
+                [
+                    "role",
+                    "metadata_id"
+                ],
+                "role": {
+                    "type": "select",
+                    "options_source": "static",
+                    "options": ["main", "sub"]
+
+                }
+            }
+        },
+        "data":{
+            "title":
+            {
+                "required": true,
+                "label": "Title",
+                "type_item": "text", 
+                "type": null
+            },
+            "sub_title":
+            {
+                "required": true,
+                "label": "Sub Title",
+                "type_item": "text",
+                "type": null
+            },
+            "content":
+            {
+                "required": true,
+                "label": "Conetnt",
+                "type_item": "text",
+                "type": null
+            }
+        }
+    },
+
+    "tags": {
+        "metadata": {
+            "last_update": "",
+            "updated_by": "",
+            "created_at": "",
+            "created_by": "",
+            "user_opener": "",
+            "status": "active",
+            "readonly": false
+        },
+        "languages":[
+            "en", "he"
+        ],
+        "default_language": "en",
+        "display_config": {
+            "full_view": {
+                "common_data": [],
+                "data": ["title"]
+            },
+            "short_view":
+            {
+                "common_data": [],
+                "data": ["title"]
+            }
+        },
+        "data":{
+            "title":
+            {
+                "required": true,
+                "label": "Title",
+                "type_item": "text", 
+                "type": null
             }
         }
     }

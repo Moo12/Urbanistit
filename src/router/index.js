@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import UploadImage from '@/views/UploadImage.vue'
+import UploadImageWrapper from '@/views/UploadImageWrapper.vue'
 import BlogPage from '@/views/BlogPage.vue'
 import AdminLayout from '@/views/AdminLayout.vue'
 import ContentEditor from '@/components/admin/ContentEditor.vue'
-import ListEditorTest from '@/components/admin/ListEditorTest.vue'
+import AllContentPage from '@/components/admin/AllContentPage.vue'
 
 const routes = [
   {
@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/uploadimage',
     name: 'uploadimage',
-    component: UploadImage
+    component: UploadImageWrapper
   },
   {
     path: '/blog',
@@ -30,12 +30,10 @@ const routes = [
       {
         path: "edit-page/:id",
         name: "edit-page",
-        component: ListEditorTest,
+        component: AllContentPage,
          props: route => ({
-           section: {
-             id: route.params.id,
-             name: route.query.name,
-           }
+           id: route.params.id,
+           name: route.query.name,
          }),
       },
       {
@@ -49,7 +47,6 @@ const routes = [
            }
          }),
       },
-
       ]
   },
 ]

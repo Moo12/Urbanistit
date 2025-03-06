@@ -5,15 +5,21 @@
         <li v-for="section in sections" :key="section.id">
           <button 
             @click="toggleChild(section._id)" 
-            class="w-full text-left p-2 hover:bg-gray-600 font-semibold">
+            class="w-full text-left p-2 hover:bg-gray-600 font-semibold flex justify-between items-center">
             {{ section.name }}
+            <span
+              class="transition-transform duration-200" 
+              :class="{'rotate-180': isChildVisible(section._id)}">
+              ▼
+            </span>
           </button>
           <!-- Child Items -->
           <ul v-if="isChildVisible(section._id)" class="pl-4 space-y-1">
             <li v-for="child in section.children" :key="child._id">
               <router-link 
-                :to="{ name: child.path, params: { id: child._id }, query: { name: child.name, type: child.type }, key: route.params[route.meta.watchParam] }"
-                class="block w-full text-left p-2 hover:bg-gray-500">
+                :to="{ name: child.path, params: { id: child._id }, query: { name: child.name } }"
+                class="block w-full text-left p-2 hover:bg-gray-500"
+                :class="{ 'bg-gray-700': isActiveTab(child) }">
                 {{ child.name }}
               </router-link>
             </li>
@@ -24,7 +30,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 export default {
@@ -32,6 +38,7 @@ export default {
       const route = useRoute();
 
         const sections = [
+          
             {
                 name: "עמוד ראשי", _id: "main_page", children: [
                 { name: "About Me", _id: "about_me", type: "single", path: "edit-section" },
@@ -42,13 +49,14 @@ export default {
                 ]
             },
             {
-                name: "עמודים", _id: "pages", children: [
+                name: "הוספת לקולקציה", _id: "pages", children: [
                 { name: "Blog", _id: "blog", type: "list", path: 'edit-page' },
                 { name: "Projects", _id: "projects", type: "list", path: 'edit-page' },
+                { name: "Clients", _id: "clients", type: "list", path: 'edit-page' },
                 { name: "Tags", _id: "tags", type: "list", path: 'edit-page' }
 
                 ]
-            }
+            },
         ];
 
 
@@ -63,7 +71,22 @@ export default {
             return visibleSections.value[id];
         };
 
-        return { isChildVisible, toggleChild, visibleSections, sections, route } 
+        const isActiveTab = (child) => {
+            return route.params.id === child._id && route.name === child.path ;
+        };
+
+        const expandSectionBasedOnRoute = () => {
+            sections.forEach(section => {
+                if (section.children.some(child => route.params.id === child._id &&  route.name === child.path)) {
+                    visibleSections.value[section._id] = true;
+                }
+            });
+        };
+
+        watch(route, expandSectionBasedOnRoute, { immediate: true });
+
+
+        return { isChildVisible, toggleChild, isActiveTab, visibleSections, sections, route } 
     }
 }
 </script>

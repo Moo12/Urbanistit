@@ -1,14 +1,14 @@
 <template>
-    <div class="w-full text-right">
+    <div class="w-full text-right padding-section">
         <router-link to="/blog">
-            <div class="btn mt-12">
-                <h2 class="text-4xl md:text-6xl font-bold text-white">
+            <div class="btn">
+                <p class="header-title text-contact-me-bg">
                  יוצאים מהמגירה
-                </h2>
+                </p>
             </div>
         </router-link>
 
-        <div class="w-3/4 mx-auto h-full mt-6">
+        <div class="mt-6 flex justify-center">
             <BlogIcons :vertical="false"/>
         </div>
         <!--  images title gird -->

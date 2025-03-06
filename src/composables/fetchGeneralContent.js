@@ -22,7 +22,6 @@ const fetchGeneralContentMetadata = async () => {
 
 // Ensure data is fetched when the composable is used
 const useGeneralContentMetadata = () => {
-  console.log('general data: ', generalContentMetadata.value)
   if (!isLoaded.value) {
     fetchGeneralContentMetadata();  // Only fetch if not already loaded
   }

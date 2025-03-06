@@ -1,25 +1,24 @@
 <template>
   <div>   <!-- introduction --> 
       <!-- Background Image -->
-      <div class=" w-full h-full bg-cover bg-center aspect-[16/9]" :style="{ backgroundImage: `url(${backgroundImage})` }">
-        <div class="flex flex-row justify-center items-stretch mx-auto gap-1">
-            <div class="flex flex-col items-center">
-                <p  class="font-bold md:text-4xl lg:text-5xl text-lg text-center contact-me-bg tracking-wide "> Don't be pushed by your problems be led by your dreams</p>
-                <p  class="text-md my-2 text-2xl contact-me-bg text-center">Ralph Waldo Emerson</p>
-            </div>
-            <!-- Quatations Image -->
-            <div class="flex justify-center w-1/2 md:w-full h-1/2 md:h-full">
-                <img :src="quotedImg" alt="Overlay Image"
-                    class="object-cover ">
-            </div>
-            
 
-        </div>
+      <div class="flex flex-row justify-center mx-auto gap-1 padding-section">
+          <div class="flex-[1] flex flex-col justify-center items-center gap-3">
+              <p  class="header-title text-center font-heebo contact-me-bg tracking-wide "> Don't be pushed by your problems be led by your dreams</p>
+              <p  class="section-title-main font-heebo contact-me-bg text-center">Ralph Waldo Emerson</p>
+          </div>
+          <!-- Quatations Image -->
+          <div class="flex-[1] flex justify-center">
+              <img :src="quotedImg" alt="Overlay Image"
+                  class="object-cover h-full">
+          </div>
+      </div>
+      <div class=" w-full h-full bg-cover bg-center aspect-[16/9]" :style="{ backgroundImage: `url(${backgroundImage})` }">
     </div>
     <!--paragracph about me -->
-    <div class="text-right my-10">
-      <h1 class="font-bold text-5xl">היי! איזה כיף שהגעת. נעים להכיר, אני מאיה</h1>
-      <p class="my-7 text-lg tracking-wide">
+    <div class="text-right mt-10 padding-section">
+      <p class="header-title-sub">היי! איזה כיף שהגעת. נעים להכיר, אני מאיה</p>
+      <p class="mt-7 section-title-main tracking-wide">
         זאת אני, סיטי גירל בכל רמ״ח איברי. משוטטת ברחובות, לוגמת קפה או יין בכל פינה חדשה שנפתחת, צופה בעוברים ושבים וגומעת ספרים בכל רגע פנוי. במאי 2023 החלטתי לצעוד בנתיב חדש ויצאתי לחיי נוודות, להגשים חלום ישן לטייל בעולם, לטעום תרבויות שונות (תרתי משמע – אני חובבת אוכל מושבעת!), ולהתאהב שוב ושוב בערים המדהימות שהאנושות יצרה.<br/><br>
 חיי הנוודות שלי אינם רק הרפתקה אישית – כבוגרת תואר שני בעיצוב אורבני מ׳בצלאל׳, הם מהווים מעבדה חיה לחקר המרחב העירוני. בכל עיר אני מתעמקת בתרבות המקומית, בוחנת את המרקם העירוני, ולומדת כיצד תושבים מתנהלים במרחב. מהמטבח המקומי ועד לתשתיות העירוניות, כל פרט מספר סיפור על העיר ותושביה. <br/><br>
 

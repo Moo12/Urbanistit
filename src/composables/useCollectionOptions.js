@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { projectFireStore } from "../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 
-const useCollectionOptions = (collectionName, fieldName, lang = "en") => {
+const useCollectionOptions = (collectionName) => {
   const options = ref([]);
   const error = ref(null);
 
@@ -14,7 +14,7 @@ const useCollectionOptions = (collectionName, fieldName, lang = "en") => {
 
       options.value = snapshot.docs.map((doc) => ({
         id: doc.id,
-        title: doc.data()?.translations?.[lang]?.[fieldName] || `Unknown (${doc.id})`, // Extract title dynamically
+        data: doc.data(),
       }));
     } catch (err) {
       console.error("Error fetching options:", err.message);

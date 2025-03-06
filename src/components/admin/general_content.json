@@ -165,7 +165,6 @@
             { "label": "Projects", "id": "Projects", "type": "text", "href": "#projects_section", "image_metadata": "" },
             { "label": "Blog", "id": "Blog", "type": "text", "href": "#blog_section", "image_metadata": "" },
             { "label": "Contact", "id": "Contact", "type": "text", "href": "#contactme_section", "image_metadata": "" },
-            { "label": "Admin", "id": "Admin", "type": "text", "href": "/admin", "image_metadata": ""},
             { "label": "Home", "id": "Home", "type": "text", "href": "/", "image_metadata": "4tniQ50WJ15mWo26jRbj"}
           ],
           "readonly": false
@@ -177,7 +176,6 @@
             { "label": "פרויקטים", "id": "Projects", "href": "#projects_section", "image_metadata": "" },
             { "label": "בלוג", "id": "Blog", "href": "#blog_section", "image_metadata": "" },
             { "label": "צור קשר", "id": "Contact", "href": "#contactme_section", "image_metadata": "" },
-            { "label": "אדמין",  "id": "Admin", "href": "/admin", "image_metadata": ""},
             { "label": "בית", "id": "Home", "href": "/", "image_metadata": "4tniQ50WJ15mWo26jRbj"}
           ],
           "readonly": false
@@ -208,7 +206,6 @@
             { "label": "Projects", "id": "Projects", "type": "text", "href": "#projects_section", "image_metadata": "" },
             { "label": "Blog", "id": "Blog", "type": "text", "href": "#blog_section", "image_metadata": "" },
             { "label": "Contact", "id": "Contact", "type": "text", "href": "#contactme_section", "image_metadata": "" },
-            { "label": "Admin", "id": "Admin", "type": "text", "href": "/admin", "image_metadata": ""},
             { "label": "Home", "id": "Home", "type": "text", "href": "/", "image_metadata": "lbJDt6KaIra5CKAdpynH"}
           ]
         },
@@ -220,7 +217,6 @@
             { "label": "פרויקטים", "id": "Projects", "href": "#projects_section", "image_metadata": "" },
             { "label": "בלוג", "id": "Blog", "href": "#blog_section", "image_metadata": "" },
             { "label": "צור קשר", "id": "Contact", "href": "#contactme_section", "image_metadata": "" },
-            { "label": "אדמין",  "id": "Admin", "href": "/admin", "image_metadata": ""},
             { "label": "בית", "id": "Home", "href": "/", "image_metadata": "lbJDt6KaIra5CKAdpynH"}
           ],
           "readonly": false

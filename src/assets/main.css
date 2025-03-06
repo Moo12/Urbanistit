@@ -7,7 +7,7 @@
 @tailwind utilities;
 
 body {
-    @apply font-heebo;
+    @apply font-helvetica;
 }
 
 
@@ -27,6 +27,10 @@ body {
     @apply rounded-3xl border-8 border-projects-cards cursor-pointer
 }
 
+.square-frame {
+    @apply rounded-3xl cursor-pointer h-full aspect-square
+}
+
 .project-absolute-layout {
     @apply absolute w-full h-full aspect-square top-0 right-0
 }
@@ -36,15 +40,19 @@ body {
 }
 
 .header-title {
-    @apply font-black text-3xl md:text-6xl 
+    @apply font-black text-main-title-small_sc md:text-main-title
 }
 
 .header-title-sub {
-    @apply font-bold text-2xl md:text-5xl
+    @apply font-bold text-sub-title-small-sc md:text-sub-title
 }
 
 .section-title-main {
-    @apply font-medium md:text-2xl text-lg
+    @apply font-medium text-section-small_sc md:text-section
+}
+
+.padding-section {
+    @apply px-10 py-2.5;
 }
 
 .admin-pannel input,

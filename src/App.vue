@@ -1,16 +1,16 @@
 <template>
-  <div class="ridection">
-    <Navbar/>
-    <div class="content">
-      <router-view/>
-    </div>
-  </div>
   <div>
-    <Footer/>
+    <Navbar @navbarHeightUpdate="updateNavbarHeight" class="navbar-fixed"/>
+      <div class="content-admin">
+        <router-view/>
+        <Footer />
+      </div>
   </div>
 </template>
 
 <script>
+import { ref, onMounted, nextTick, watchEffect} from 'vue'
+
 import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
 
@@ -18,6 +18,17 @@ export default {
   components: {
     Navbar,
     Footer
+  },
+  setup(){
+    const navbarHeight = ref(null)
+
+    const updateNavbarHeight = (height) => {
+      navbarHeight.value = height;
+      document.documentElement.style.setProperty("--navbar-height", `${height}px`);
+      console.log(`Updated navbar height: ${height}px`);
+    };
+
+    return { updateNavbarHeight };
   }
 }
 
@@ -25,15 +36,35 @@ export default {
 
 
 <style>
-.content{
-  margin: 0 0;
-  max-width: auto;
+html, body {
+  height: 100%;
+  margin: 0;
   padding: 0;
+  overflow: hidden; /* Hide default body scrollbar */
 }
 
-body.rtl {
-  direction: rtl;
-  text-align: right;
+.navbar-fixed {
+  position: fixed;
+  margin: 0 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  align-items: center;
 }
+
+.footer-fixed{
+
+}
+
+
+.content-admin {
+  margin: 0 0;
+  position: relative; /* Ensures proper stacking */
+  top: var(--navbar-height, 60px); /* Dynamic height from JS */
+  height: calc(100vh - var(--navbar-height, 60px)); /* Takes full viewport minus navbar */
+  overflow-y: auto; /* Enables vertical scrolling */
+  max-width: 100%;
+}
+
 
 </style>

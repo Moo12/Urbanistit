@@ -65,7 +65,6 @@ const handleSave = async () => {
   }
 };
 
-
 const sectionDisplay = ref(props.section || {
   id: route.params.id,
   name: route.query.name,

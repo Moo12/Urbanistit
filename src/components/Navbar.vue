@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <nav class="shadow-md border-b border-gray-400">
+  <div >
+    <nav class="shadow-md border-b border-gray-400" ref="navbarRef">
         <div class="relative mx-2 md:mx-8 flex justify-between items-center">
             <!-- home button -->
             <div v-if="homeAnchor" class="md:w-1/4 w-1/2 h-1/8-screen  overflow-hidden">
@@ -19,7 +19,7 @@
             <!-- horizontal anchors-->
             <ul id="menu" class="hidden md:flex flex-row space-x-8 items-center">
                 <li v-for="(item, index) in sideMenuItems" :key="index" class="btn">
-									<router-link :to="item.href" class="font-bold text-3xl no-underline inline-flex">
+									<router-link :to="item.href" class="section-title-main no-underline inline-flex">
 											{{ item.label }}
 									</router-link>
                 </li>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { ref, watchEffect, computed } from 'vue';
+import { ref, watchEffect, computed, nextTick, onMounted, onUnmounted } from 'vue';
 
 import DropdownMenu from './DropdownMenu.vue';
 
@@ -45,12 +45,16 @@ export default {
   components: {
     DropdownMenu,
   },
-  setup(){
+  emits: ['navbarHeightUpdate'],
+  setup(_, { emit }){
+    const navbarRef = ref(null);
+    let resizeObserver = null;
+
     const isOpen = ref(false)
 
     const localMenuItems = ref([]);
 
-    const homeAnchor = ref(null)
+    const homeAnchor = ref(null);
     const { imagesMetadata, error } = useImageMetadata();
     const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
@@ -71,8 +75,6 @@ export default {
 
                             if (imgMetadata.length) {
                                 menuItem.image = imgMetadata[0].image_url;
-
-                                console.log('add image to : ', menuItem.label)
                             }
                             else{
                                 console.error('did not match image for : ', menuItem.label)
@@ -81,8 +83,6 @@ export default {
                     });
                     // Assign the home anchor
                     homeAnchor.value = localMenuItems.value.find(menuItem => menuItem.id.toLowerCase() === "home") || null;
-
-                    console.log('Navbar - Home anchor assigned:', homeAnchor.value);
                     
                 }
             })
@@ -94,7 +94,41 @@ export default {
       return localMenuItems?.value?.filter(item => item.id.toLowerCase() !== "home") || [];
     });
 
-    return { isOpen, homeAnchor, sideMenuItems, localMenuItems }
+    const updateHeight = () => {
+      if (navbarRef.value) {
+        const newHeight = navbarRef.value.getBoundingClientRect().height;
+        emit('navbarHeightUpdate', newHeight); // Emit to App.vue
+      }
+    };
+
+    onMounted(() => {
+      nextTick(() => {
+        if (navbarRef.value) {
+          // Setup ResizeObserver
+          resizeObserver = new ResizeObserver(() => updateHeight());
+          resizeObserver.observe(navbarRef.value);
+
+          // Ensure images trigger an update when they load
+          const images = navbarRef.value.querySelectorAll("img");
+          images.forEach(img => {
+            if (!img.complete) {
+              img.onload = updateHeight;
+              img.onerror = updateHeight;
+            }
+          });
+
+          // MutationObserver: Watch for DOM changes like added images
+          const mutationObserver = new MutationObserver(() => updateHeight());
+          mutationObserver.observe(navbarRef.value, { childList: true, subtree: true });
+        }
+      });
+    });
+
+    onUnmounted(() => {
+      if (resizeObserver) resizeObserver.disconnect();
+    });
+
+    return { isOpen, homeAnchor, sideMenuItems, localMenuItems, navbarRef }
   }
 }
 
