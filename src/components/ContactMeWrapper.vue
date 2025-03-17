@@ -40,9 +40,8 @@ export default {
         const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
         watchEffect(() => {
-            if (imagesMetadata?.value?.length && generalContentMetadata?.value?.length){
-                generalContentMetadata.value.forEach(generalContentItem => {
-                    if (generalContentItem.id === "contact_me"){
+            if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("contact_me")){
+                let generalContentItem = generalContentMetadata.value.get("contact_me")
                         let sideImg = imagesMetadata.value.filter( item => item.id === generalContentItem.common_data?.images_metadata?.side)
                         if (sideImg?.length){
 
@@ -54,10 +53,7 @@ export default {
                         }
                     }
                 })
-            }
-        })
-
-
+        
         return { name, message, email, sideImgSrc}
     }
 

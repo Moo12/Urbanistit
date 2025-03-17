@@ -1,6 +1,6 @@
 <template>
   <div >
-    <nav class="shadow-md border-b border-gray-400" ref="navbarRef">
+    <nav class="shadow-md border-b border-gray-400 z-[10000]" ref="navbarRef">
         <div class="relative mx-2 md:mx-8 flex justify-between items-center">
             <!-- home button -->
             <div v-if="homeAnchor" class="md:w-1/4 w-1/2 h-1/8-screen  overflow-hidden">
@@ -59,9 +59,9 @@ export default {
     const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
     watchEffect(() => {
-        if (imagesMetadata?.value?.length && generalContentMetadata?.value?.length){
-            generalContentMetadata.value.forEach(generalContentItem => {
-                if (generalContentItem.id === "navbar"){
+        if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("navbar")){
+          let generalContentItem = generalContentMetadata.value.get("navbar")
+
                     localMenuItems.value = generalContentItem.translations?.he?.nav_links?.value
 
                     if (!localMenuItems.value?.length){
@@ -85,8 +85,6 @@ export default {
                     homeAnchor.value = localMenuItems.value.find(menuItem => menuItem.id.toLowerCase() === "home") || null;
                     
                 }
-            })
-        }
     });
 
     //remove home button

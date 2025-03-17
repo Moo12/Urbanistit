@@ -22,7 +22,19 @@ const useCollectionOptions = (collectionName) => {
     }
   };
 
-  return { options, error, fetchOptions };
+  const getSelectedOptionValue = (id) => {
+    if (!options.value || options.value.length === 0) {
+      return null;
+    }
+  
+    if (Array.isArray(id)) {
+      return options.value.filter(option => id.includes(option.id));
+    } else {
+      return options.value.find(option => option.id === id) || null;
+    }
+  };
+
+  return { options, error, fetchOptions, getSelectedOptionValue };
 };
 
 export default useCollectionOptions;

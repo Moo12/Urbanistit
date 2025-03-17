@@ -1,5 +1,5 @@
 <template>
-    <div v-show="isOpen" class="fixed top-0 right-0 w-[50vw] h-screen  shadow-lg z-[9999]">
+    <div v-if="isOpen" class="fixed top-0 right-0 w-[50vw] h-screen  shadow-lg z-[10001]">
 
         <!-- Right Rectangular Section (Green) -->
         <div class="h-full w-full flex space-4 flex-col items-end bg-menu-button content-end" :style="ellipseStyle">
@@ -12,7 +12,7 @@
             <!-- Menu Items (Overlay on Top of Background) -->
 
             <ul class="space-y-4 m-1/10">
-                <li v-for="(item, index) in menuItems" :key="index" class="btn ">
+                <li v-for="(item, index) in menuItems" :key="index" class="btn">
                     <a :href="item.href" class="text-right block px-4 py-2 section-title-main  text-background-site">{{ item.label }}</a>
                 </li>
             </ul>

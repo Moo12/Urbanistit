@@ -36,8 +36,25 @@ const subscribeToImageMetadata = () => {
   return unsubscribe;
 };
 
+
+
 // Ensure data is fetched and subscribed to when the composable is used
 const useImageMetadata = () => {
+    const getImageUrl = (id) => {
+      
+      let imgMetadata = imagesMetadata.value.filter(img => img.id === id);
+    
+      // Check if imgMetadata has any results and return the image_url
+      if (imgMetadata.length > 0) {
+        console.log("image metadta found ", imgMetadata[0].image_url)
+        return imgMetadata[0].image_url;
+      } else {
+        // Return a default value or handle the case where the image is not found
+        console.warn(`Image with id ${id} not found.`);
+        return null; // Or any other default value you'd prefer
+      }
+    }
+
     onMounted(() => {
     if (!isLoaded.value) {
       fetchImageMetadata();  // Only fetch if not already loaded
@@ -51,7 +68,7 @@ const useImageMetadata = () => {
     });
   });
 
-  return { imagesMetadata, error };
+  return { imagesMetadata, error, getImageUrl };
 };
 
 export default useImageMetadata;

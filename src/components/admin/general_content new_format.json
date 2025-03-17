@@ -1,0 +1,60 @@
+{
+  "contact_me": {
+      "metadata": {
+          "last_update": "",
+          "updated_by": "",
+          "created_at": "",
+          "created_by": "",       
+          "user_opener": "",     
+          "status": "active",
+          "readonly": false
+      },
+      "languages":[
+          "en", "he"
+      ],
+      "default_language": "en",
+      "display_config": {
+          "full_view": {
+              "common_data": [],
+              "data": ["title", "sub_title"]
+          },
+          "short_view":
+          {
+              "common_data": [""],
+              "data": ["title", "sub_title"]
+          }
+      },
+      "common_data": {
+          "images_metadata": {
+              "type": "array",
+              "type_item": "image",
+              "fields": 
+              [
+                  "role",
+                  "metadata_id"
+              ],
+              "role": {
+                  "type": "select",
+                  "options_source": "static",
+                  "options": ["main", "sub"]
+              }
+          }
+      },
+      "data":{
+          "title":
+          {
+              "required": true,
+              "label": "Title",
+              "type_item": "text", 
+              "type": null
+          },
+          "sub_title":
+          {
+              "required": true,
+              "label": "Sub Title",
+              "type_item": "text",
+              "type": null
+          }
+      }
+  }
+}

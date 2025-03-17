@@ -54,9 +54,8 @@ export default {
     })
 
     watchEffect(() => {
-        if (imagesMetadata?.value?.length && generalContentMetadata?.value?.length){
-              generalContentMetadata.value.forEach(generalContentItem => {
-                if (generalContentItem.id === "about_me"){
+        if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("about_me")){
+                  const generalContentItem = generalContentMetadata.value.get("about_me")
                   let coverImgMd = imagesMetadata.value.filter( item => item.id === generalContentItem.common_data?.images_metadata?.cover)
 
                   if (coverImgMd?.length){
@@ -75,9 +74,7 @@ export default {
                     console.error('no image metadata for about me quotes')
                   }
               }
-            })
-        }
-    })
+        })
 
     return { backgroundImage, quotedImg }
   }

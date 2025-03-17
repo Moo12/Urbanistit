@@ -53,14 +53,15 @@ export default {
                 { name: "Blog", _id: "blog", type: "list", path: 'edit-page' },
                 { name: "Projects", _id: "projects", type: "list", path: 'edit-page' },
                 { name: "Clients", _id: "clients", type: "list", path: 'edit-page' },
-                { name: "Tags", _id: "tags", type: "list", path: 'edit-page' }
+                { name: "Tags", _id: "tags", type: "list", path: 'edit-page' },
+                { name: "Blog Categories", _id: "general_content/blog/categories", type: "list", path: 'edit-page' }
 
                 ]
             },
         ];
 
 
-        // State to track which section has visible children
+        // State to track which section has visible childresn
         const visibleSections = ref({});
 
         const toggleChild = (id) => {

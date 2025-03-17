@@ -1,7 +1,9 @@
 <template>
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 padding-section">
-        <div v-for="project in insertSquareMain" :key="project.name">
-            <Project :project="project"></Project>
+        <div v-for="client in insertSquareMain" :key="client.id">
+            <router-link :to="{ name: 'Client', params: { id: client.id }}">
+                <Project :project="client"></Project>
+            </router-link>
         </div>
     </div>
 </template>

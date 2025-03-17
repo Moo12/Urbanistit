@@ -35,9 +35,9 @@ export default {
         })
 
         watchEffect(() => {
-            if (imagesMetadata?.value?.length && generalContentMetadata?.value?.length){
-                generalContentMetadata.value.forEach(generalContentItem => {
-                    if (generalContentItem.id === "footer"){
+            if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("footer")){
+                let generalContentItem = generalContentMetadata.value.get("footer")
+
                         let coverImgMd = imagesMetadata.value.filter( item => item.id === generalContentItem.common_data?.images_metadata?.cover)
 
                         if (coverImgMd?.length){
@@ -62,9 +62,7 @@ export default {
                             }
                         });
                     }
-                })
-            }
-        });
+            })
 
         // Ensure "Home" is always in the middle
         const orderedMenuItems = computed(() => {

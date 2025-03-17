@@ -45,8 +45,9 @@
                 "type": "select",
                 "required": true,
                 "label": "Category",
-                "options_source": "static",
-                "options": ["Eviroment", "Thoughts", "Nomad"]
+                "options_source": "database",
+                "source_collection": "general_content/blog/categories",
+                "field_display_name": "title"
             },
             "tags":
             {
@@ -290,5 +291,58 @@
                 "type": null
             }
         }
+    },
+    "general_content/blog/categories": {
+        "metadata": {
+            "last_update": "",
+            "updated_by": "",
+            "created_at": "",
+            "created_by": "",
+            "user_opener": "",
+            "status": "active",
+            "readonly": false
+        },
+        "languages":[
+            "en", "he"
+        ],
+        "default_language": "en",
+        "display_config": {
+            "full_view": {
+                "common_data": [],
+                "data": ["title"]
+            },
+            "short_view":
+            {
+                "common_data": [],
+                "data": ["title"]
+            }
+        },
+        "common_data": {
+            "images_metadata": {
+                "type": "array",
+                "type_item": "image",
+                "fields": 
+                [
+                    "role",
+                    "metadata_id"
+                ],
+                "role": {
+                    "type": "select",
+                    "options_source": "static",
+                    "options": ["main", "sub"]
+
+                }
+            }
+        },
+        "data":{
+            "title":
+            {
+                "required": true,
+                "label": "Title",
+                "type_item": "text", 
+                "type": null
+            }
+        }
     }
+
 }

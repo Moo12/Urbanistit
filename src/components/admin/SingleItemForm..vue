@@ -98,10 +98,12 @@ const onFileSubmission = ({ role, files }) => {
 };
 
 const getImageUrl = (id) => {
+  console.log("image id", id)
   let imgMetadata = imagesMetadata.value.filter(img => img.id === id);
 
   // Check if imgMetadata has any results and return the image_url
   if (imgMetadata.length > 0) {
+    console.log("image metadta found ", imgMetadata[0].image_url)
     return imgMetadata[0].image_url;
   } else {
     // Return a default value or handle the case where the image is not found
@@ -198,8 +200,9 @@ const removeImage = (index) => {
             <h3 class="text-lg font-bold mt-4">Images</h3>
     
             <div v-if=" itemRef?.default?.images_metadata">
+              images
               <div v-for="(image, index) in itemRef.default.images_metadata" :key="index" class="border p-2 mb-2">
-                <img :src="getImageUrl(image.metadata_id)" class="w-32 h-32 object-cover" alt="Uploaded Image" />
+                <img :src="getImageUrl(image.metadata_id)" class="w-32 h-32 object-fill bg-gray-700" alt="Uploaded Image"/>
                 <p>Role: {{ image.role }}</p>
                             <!-- Select -->
                 <!-- <select

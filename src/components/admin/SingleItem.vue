@@ -37,7 +37,7 @@ const { itemRef, metadataRef, getFieldValue, getSelectedOptionsValue } = useSing
                 {{ selected.title }}
               </p>
             </div>
-          </div>                          
+          </div>
         </div>
       </div>
     </div>

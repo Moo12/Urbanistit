@@ -7,11 +7,8 @@
           <div v-for="item in items" :key="item.id" class="border-4 flex flex-col justify-between">
             <SingleItem  :item="item" :metadata="metadataCollection" lang="en" :databaseFieldOptions="dynamicOptions"/>
             <div class="flex justify-center gap-3">
-              <button @click="handleEditItem(item)" class="btn border-4">
-                <span>Edit</span>
-              </button>
-              <div v-if="status.action === 'delete' && item.id === activeItem.id" class="flex justify-center items-center mt-4">
-                <div v-if="status.result === 'pending'">
+              <div v-if="status.action === 'delete' && item.id === activeItem?.id">
+                <div v-if="status.result === 'pending'"  class="flex flex-col justify-center items-center mt-2 gap-2">
                   <span class="spinner"></span> <!-- Add a spinner for pending state -->
                   <p class="ml-2">{{ status.message }}</p>
                 </div>
@@ -20,16 +17,13 @@
                   <button @click="setInitStatus">X</button>
                 </div>
               </div>
-              <div v-else>
+              <div v-else class="flex justify-center gap-3">
+                <button @click="handleEditItem(item)" class="btn border-4">
+                  <span>Edit</span>
+                </button>
                 <button @click="handleDeleteItem(item)" class="btn border-4">
                   <span>Delete</span>
                 </button>
-                            <!-- Show status information -->
-              <div v-if="status.result === 'pending' && status.action === 'delete'" class="flex justify-center items-center mt-4">
-                <span class="spinner"></span> <!-- Add a spinner for pending state -->
-                <p class="ml-2">{{ status.message }}</p>
-              </div>
-
               </div>
             </div>
           </div>
@@ -219,13 +213,17 @@ const handleCancelItem = (item) => {
 const handleDeleteItem = async (item) => {
   currentAction.value = "delete"
   activeItem.value = item
+
+  console.log('active item id ', activeItem.value.id)
+  console.log('original item id ', item.id)
+
   status.value = { action: 'delete', result: 'pending', message: 'Deleting the item...' }; // Set status to 'pending'
 
   let statusError = { action: 'delete', result: 'failure', message: 'Error Deleting the item. Please try again.' }; // Error
 
   console.log("handleDeleteItem ", item.id, status.value)
   try{
-    await delay(3000)
+    await delay(2000)
     _deleteDoc(item.id)
     
     if (!errorUseDocument.value){

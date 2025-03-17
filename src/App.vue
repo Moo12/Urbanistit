@@ -9,10 +9,11 @@
 </template>
 
 <script>
-import { ref, onMounted, nextTick, watchEffect} from 'vue'
+import { ref } from 'vue'
 
 import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
+import useGeneralContentMetadata from './composables/fetchGeneralContent';
 
 export default {
   components: {
@@ -20,6 +21,8 @@ export default {
     Footer
   },
   setup(){
+    useGeneralContentMetadata({ blog: "categories"})
+
     const navbarHeight = ref(null)
 
     const updateNavbarHeight = (height) => {
@@ -50,12 +53,8 @@ html, body {
   left: 0;
   width: 100%;
   align-items: center;
+  z-index: 10000;
 }
-
-.footer-fixed{
-
-}
-
 
 .content-admin {
   margin: 0 0;
