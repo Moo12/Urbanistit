@@ -103,7 +103,6 @@ const getImageUrl = (id) => {
 
   // Check if imgMetadata has any results and return the image_url
   if (imgMetadata.length > 0) {
-    console.log("image metadta found ", imgMetadata[0].image_url)
     return imgMetadata[0].image_url;
   } else {
     // Return a default value or handle the case where the image is not found

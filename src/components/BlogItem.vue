@@ -84,9 +84,6 @@ watchEffect(() => {
 
         if (categories){
             const categoryItem = getSelectedOptionValue(blogDoc.value.default?.category, categories)
-            console.log("category id", blogDoc.value.default?.category)
-            console.log("categories", categories)
-            console.log("categories", categories)
 
             selectedCategory.value = categoryItem.translations?.[language].title
         }

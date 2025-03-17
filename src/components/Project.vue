@@ -26,10 +26,10 @@
             }">
             <div class="flex flex-col justify-center items-center content-center">
 
-                <p class="header-title-sub pb-4 border-background-site border-b-4  text-background-site px-2 text-center">{{ project.title }}</p>
+                <p class="header-title-sub pb-4 border-background-site border-b-4  text-background-site px-2 text-center">{{ project.translations?.he?.title }}</p>
                 <div class="flex flex-col mt-4 justify-center content-center">
 
-                    <p class="section-title-main text-center text-background-site"> {{ project.subtitle }}</p>
+                    <p class="section-title-main text-center text-background-site"> {{ project.translations?.he?.sub_title }}</p>
                 </div>
             </div>
         </div>
@@ -51,10 +51,11 @@ export default {
         }
     },
     setup(props){
-
+        const language = ref("he")
+ 
         const screenWidth = ref(window.innerWidth);
 
-        const { imagesMetadata, error: errorUseImageMetadata } = useImageMetadata();
+        const { imagesMetadata, error: errorUseImageMetadata, getMainImageUrl } = useImageMetadata();
 
 
         const updateScreenWidth = () => {
@@ -72,17 +73,8 @@ export default {
 
         watchEffect(()=>{
             
-            if (imagesMetadata?.value?.length){
-                
-                let matchingImages = imagesMetadata.value.filter(item => item.id === props.project.image_metedata);
-
-                if (matchingImages.length) {
-                    props.project.image_url = matchingImages[0].image_url;
-                }
-                else{
-                        console.log('no image for project item :', props.project.title)
-                }
-
+            if (imagesMetadata?.value?.length && !props.project.isMain ){
+                props.project.image_url = getMainImageUrl(props.project.default.images_metadata);
             }
         })
 
@@ -97,7 +89,7 @@ export default {
             isHovered.value = false;
         }
 
-        return {isHovered, onMouseEnter, onMouseLeave, screenWidth}
+        return {isHovered, onMouseEnter, onMouseLeave, screenWidth, language}
     }
 
 }

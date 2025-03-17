@@ -5,7 +5,7 @@
 
         <!-- inage -->
          <div class="h-full rounded-3xl overflow-hidden">
-            <img src='img/gur_blog_cover.png' class="h-full object-cover" alt="">
+            <img :src=blogCoverImage class="h-full object-cover" alt="">
          </div>
          <!-- header and icons -->
         <div class="flex flex-col items-center justify-between gap-10">
@@ -46,7 +46,7 @@
         </div>
         <!-- "Display More" Button -->
         <div class="flex justify-center mt-6" v-if="visibleBlogs?.length < blogDocuments?.length">
-            <button @click="loadMoreBlogs" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition">
+            <button @click="loadMoreBlogs" class="btn">
                 Display More
             </button>
         </div>
@@ -56,7 +56,7 @@
 
 <script setup>
 
-import { ref, computed, defineProps} from 'vue';
+import { ref, computed, defineProps, watchEffect} from 'vue';
 
 import BlogIcons from '@/components/BlogIcons.vue';
 import getCollection from '@/composables/getCollection';
@@ -70,9 +70,12 @@ const props = defineProps({
 
 const selectedLang = ref(props.language || "en")
 
-const { imagesMetadata, error : errorImageMd } = useImageMetadata();
+const { imagesMetadata, error : errorImageMd, getImageUrl } = useImageMetadata();
 const { documents : blogDocuments , error : errorBlogDocs, subscribeToCollection } = getCollection("blog")
 const { documents : tagsDocuments , error : errorTagDocs, fetchCollectionOnce : fetchCollectionOnceTags } = getCollection("tags")
+
+const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
+
 
 
 subscribeToCollection()
@@ -92,14 +95,12 @@ const loadMoreBlogs = () => {
 
 const getMainImageSrc = (blog) => {
     if (!blog?.default?.images_metadata?.length) {
-        console.log("No images metadata available");
+        console.warn("No images metadata available");
         return "";
     }
 
     // Corrected filtering condition: Find image with role 'main'
     let mainImages = blog.default.images_metadata.filter(image_md => image_md.role === 'main');
-
-    console.log("mainImages", mainImages);
 
     if (mainImages.length) {
         let mainImageMt = imagesMetadata.value.find(item => item.id === mainImages[0].metadata_id);
@@ -107,14 +108,24 @@ const getMainImageSrc = (blog) => {
         if (mainImageMt) {
             return mainImageMt.image_url;
         } else {
-            console.log("Image metadata not found for ID", mainImages[0].metadata_id);
+            console.warn("Image metadata not found for ID", mainImages[0].metadata_id);
         }
     } else {
-        console.log("No main images found");
+        console.warn("No main images found");
     }
 
     return "";
 };
+
+const blogCoverImage = computed(() => {
+
+    if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("blog")){
+        let generalContentItem = generalContentMetadata.value.get("blog")
+        return  getImageUrl(generalContentItem.common_data?.images_metadata?.cover)
+    }
+
+    return ""
+})
 
 </script>
 

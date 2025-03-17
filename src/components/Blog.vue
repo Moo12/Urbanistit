@@ -46,8 +46,6 @@ export default {
 
         
         watchEffect( async () => {
-            console.log("blog docs", documents.value)
-        
             convertedItems.value = []
 
             if (!documents.value){
@@ -55,7 +53,7 @@ export default {
             }
 
             documents.value.forEach(doc => {
-                convertedItems.value.push( { image: getImageUrl(doc.default.images_metadata[0].metadata_id), title: doc.translations.he?.title})
+                convertedItems.value.push( { image: getImageUrl(doc.default.images_metadata[0].metadata_id), title: doc.translations.he?.title, id: doc.id })
             });
     
         });

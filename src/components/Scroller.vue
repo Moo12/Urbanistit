@@ -11,7 +11,9 @@
           class="scroll-item"
           :style="{ backgroundImage: `url(${item.image})` }"
         >
-          <div class="title-overlay">{{ item.title }}</div>
+          <router-link :to="{ name: 'Single-Blog', params: { id: item.id }}">
+            <div class="title-overlay">{{ item.title }}</div>
+          </router-link>
         </div>
       </div>
   

@@ -46,7 +46,6 @@ const useImageMetadata = () => {
     
       // Check if imgMetadata has any results and return the image_url
       if (imgMetadata.length > 0) {
-        console.log("image metadta found ", imgMetadata[0].image_url)
         return imgMetadata[0].image_url;
       } else {
         // Return a default value or handle the case where the image is not found
@@ -54,6 +53,21 @@ const useImageMetadata = () => {
         return null; // Or any other default value you'd prefer
       }
     }
+
+    const getMainImageUrl = (imagesMetadata) => {
+      if (!Array.isArray(imagesMetadata)) {
+        console.error("getMainImageUrl: Invalid input, expected an array");
+        return null;
+      }
+    
+      const mainImageMd = imagesMetadata.find(imageMd => imageMd?.role === "main");
+    
+      if (!mainImageMd?.metadata_id) {
+        return null; // Return null if no valid main image found
+      }
+
+      return getImageUrl(mainImageMd.metadata_id);
+    };
 
     onMounted(() => {
     if (!isLoaded.value) {
@@ -68,7 +82,7 @@ const useImageMetadata = () => {
     });
   });
 
-  return { imagesMetadata, error, getImageUrl };
+  return { imagesMetadata, error, getImageUrl, getMainImageUrl };
 };
 
 export default useImageMetadata;
