@@ -4,7 +4,10 @@
 
       <div class="flex flex-row justify-center mx-auto gap-1 padding-section">
           <div class="flex-[1] flex flex-col justify-center items-center gap-3">
-              <p  class="header-title text-center font-heebo contact-me-bg tracking-wide "> Don't be pushed by your problems be led by your dreams</p>
+            <div>
+              <p  class="header-title text-center font-heebo contact-me-bg tracking-wide "> Don't be pushed by your problems</p>
+              <p  class="header-title text-center font-heebo contact-me-bg tracking-wide "> be led by your dreams</p>
+            </div>
               <p  class="section-title-main font-heebo contact-me-bg text-center">Ralph Waldo Emerson</p>
           </div>
           <!-- Quatations Image -->

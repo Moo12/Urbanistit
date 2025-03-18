@@ -57,7 +57,6 @@ export default {
 
         const { imagesMetadata, error: errorUseImageMetadata, getMainImageUrl } = useImageMetadata();
 
-
         const updateScreenWidth = () => {
             screenWidth.value = window.innerWidth;
         };

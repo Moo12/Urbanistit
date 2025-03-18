@@ -3,7 +3,7 @@
     <nav class="shadow-md border-b border-gray-400 z-[10000]" ref="navbarRef">
         <div class="relative mx-2 md:mx-8 flex justify-between items-center">
             <!-- home button -->
-            <div v-if="homeAnchor" class="md:w-1/4 w-1/2 h-1/8-screen  overflow-hidden">
+            <div v-if="homeAnchor" class="md:w-1/8 w-1/2 h-1/8-screen  overflow-hidden">
               <router-link :to="homeAnchor.href">
                 <img :src="homeAnchor.image" class="w-full h-full object-cover" :alt="homeAnchor.label">
               </router-link>
@@ -63,6 +63,8 @@ export default {
           let generalContentItem = generalContentMetadata.value.get("navbar")
 
                     localMenuItems.value = generalContentItem.translations?.he?.nav_links?.value
+
+                    
 
                     if (!localMenuItems.value?.length){
                       console.error('nav items is empty')

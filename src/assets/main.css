@@ -24,7 +24,7 @@ body {
 }
 
 .project-frame {
-    @apply rounded-3xl border-8 border-projects-cards cursor-pointer
+    @apply rounded-3xl border-2 border-projects-cards cursor-pointer
 }
 
 .square-frame {
@@ -37,6 +37,11 @@ body {
 
 .project-relative-layout {
     @apply static h-full aspect-square
+}
+
+.mega-title {
+    @apply font-bold text-main-title-small_sc md:text-mega-title
+
 }
 
 .header-title {
@@ -52,7 +57,7 @@ body {
 }
 
 .padding-section {
-    @apply px-10 py-2.5;
+    @apply px-40 py-2.5;
 }
 
 .admin-pannel input,

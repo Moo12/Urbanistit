@@ -80,8 +80,8 @@
   }
   
   .scroll-item {
-    height: 600px;
-    width: 400px;
+    height: 400px;
+    width: 500px;
     background-size: cover;
     background-position: center;
     display: flex;

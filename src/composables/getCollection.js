@@ -24,6 +24,7 @@ const getCollection = (initialCollectionName = null) => {
     try {
       let collectionRef = collection(projectFireStore, finalCollectionName);
 
+
       if (conditions.length > 0) {
         const queries = conditions.map((condition) =>
           where(condition.field, condition.operator, condition.value)
@@ -34,11 +35,13 @@ const getCollection = (initialCollectionName = null) => {
       unsub = onSnapshot(
         collectionRef,
         (snapshot) => {
+
           const results = snapshot.docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
           }));
 
+          console.log('snapshot', results)
           documents.value = results;
           error.value = null;
         },
@@ -85,13 +88,6 @@ const getCollection = (initialCollectionName = null) => {
       error.value = "Failed to fetch data";
     }
   };
-
-  // Clean up listener on component unmount
-  onUnmounted(() => {
-    if (unsub) {
-      unsub();
-    }
-  });
 
   return { documents, error, subscribeToCollection, fetchCollectionOnce };
 };

@@ -1,34 +1,31 @@
 <template>
-  <div class="m-10 flex flex-col gap-16">
+  <div class="my-10 mx-10 md:mx-40 flex flex-col gap-16">
     <!-- first part -->
-    <div class="grid grid-cols-[3fr_2fr]">
+    <div class="grid grid-cols-[3fr_2fr] gap-10">
 
         <!-- inage -->
-         <div class="h-full rounded-3xl overflow-hidden">
+         <div class="rounded-3xl overflow-hidden">
             <img :src=blogCoverImage class="h-full object-cover" alt="">
          </div>
          <!-- header and icons -->
-        <div class="flex flex-col items-center justify-between gap-10">
-            <div class="flex flex-col gap-3 justify-center text-center">
-                <p class="header-title">יוצאים מהמגירה</p>
-                <p class="header-title-sub">הפשיטו אותי</p>
+        <div class="flex flex-col items-center justify-between  self-end place-self-end gap-10">
+            <div class="flex flex-col  gap-10 justify-center text-center">
+                <p class="mega-title text-center leading-tight">יוצאים מהמגירה</p>
+                <p class="section-title-main text-center justify-self-start">כאן, בין המילים, אני מנסה ללכוד רגעים -
+
+את החולף, את החמקמק, את הפלא שבשינוי ובשגרה. בין כוס קפה בשוק קטן לרגעי שקט מול הים, אני משוטטת ומשאירה עקבות קלילים בסמטאות, לוגמת את רחשי הרחוב, משתהה אל מול היופי הרגעי ומניחה לשאלות להתקיים מסביבי.</p>
             </div>
-            <div class="grid grid-cols-[1fr_2fr_1fr]">
-                <div class="col-start-2 col-span-1">
-                    <BlogIcons iconBg="beige" :vertical="true" class="max-w-full"/>
-                </div>
+            <div class="w-[40%] flex justify-center">
+                    <BlogCategoryIcons iconBg="beige" :vertical="true" class="max-w-full" @categoryClicked="handleCategory"/>
             </div>
         </div>
     </div>
-    <!-- second part tags -->
-    <div class="flex flex-wrap gap-2 md:gap-x-4 md:gap-y-5">
-        <div v-for="(tag, index) in tagsDocuments" :key="index" class="rounded-3xl bg-menu-button flex items-center p-3">
-            <p class="text-center section-title-main" >{{ tag.translations.en.title }}</p>
-        </div>
+    <div v-if="tagsDocuments">
+        <TagsIcons :tagsDocuments="tagsDocuments" @tagToggled="handleToggledTags"/>
     </div>
     <!-- thirs part blogs -->
-     <div class="bg-gray-background -m-10">
-        <div class="m-10">
+     <div class="bg-gray-background -mx-10 md:-mx-40">
+        <div class="my-10 mx-10 md:mx-40">
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                 <div v-for="blog in visibleBlogs" :key="blog.id" class="bg-background-site rounded-3xl">
                     <router-link :to="{ name: 'Single-Blog', params: { id: blog.id }}">
@@ -43,7 +40,7 @@
                     </router-link>
                 </div>
             </div>
-        </div>
+        </div>  
         <!-- "Display More" Button -->
         <div class="flex justify-center mt-6" v-if="visibleBlogs?.length < blogDocuments?.length">
             <button @click="loadMoreBlogs" class="btn">
@@ -58,7 +55,9 @@
 
 import { ref, computed, defineProps, watchEffect} from 'vue';
 
-import BlogIcons from '@/components/BlogIcons.vue';
+import BlogCategoryIcons from '@/components/BlogCategoryIcons.vue';
+import TagsIcons from '@/components/TagsIcons.vue';
+import useBlogDataSorting from '@/composables/getSortedBlog';
 import getCollection from '@/composables/getCollection';
 import useImageMetadata from '@/composables/fetchImageMetadata'
 import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
@@ -68,24 +67,21 @@ const props = defineProps({
     language: String
 })
 
-const selectedLang = ref(props.language || "en")
+const selectedLang = ref(props.language || "he")
 
-const { imagesMetadata, error : errorImageMd, getImageUrl } = useImageMetadata();
-const { documents : blogDocuments , error : errorBlogDocs, subscribeToCollection } = getCollection("blog")
+const { imagesMetadata, error : errorImageMd, getMainImageUrl, getImageUrl } = useImageMetadata();
+const { sortedBlogData : blogDocuments, error : errorBlogDocs, setCategory, setTags } = useBlogDataSorting()
 const { documents : tagsDocuments , error : errorTagDocs, fetchCollectionOnce : fetchCollectionOnceTags } = getCollection("tags")
 
 const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
-
-
-subscribeToCollection()
 fetchCollectionOnceTags()
 
 // Pagination state
 const blogsToShow = ref(3); // Start with 9 blogs
 
 // Computed property to get visible blogs
-const visibleBlogs = computed(() => blogDocuments.value?.slice(0, blogsToShow.value));
+const visibleBlogs = computed(() => {console.log('computed', blogDocuments?.value); return blogDocuments?.value?.slice(0, blogsToShow.value)});
 
 
 // Function to load more blogs (adds 3 more)
@@ -99,22 +95,9 @@ const getMainImageSrc = (blog) => {
         return "";
     }
 
-    // Corrected filtering condition: Find image with role 'main'
-    let mainImages = blog.default.images_metadata.filter(image_md => image_md.role === 'main');
+    let mainImages = getMainImageUrl(blog.default?.images_metadata)
 
-    if (mainImages.length) {
-        let mainImageMt = imagesMetadata.value.find(item => item.id === mainImages[0].metadata_id);
-        
-        if (mainImageMt) {
-            return mainImageMt.image_url;
-        } else {
-            console.warn("Image metadata not found for ID", mainImages[0].metadata_id);
-        }
-    } else {
-        console.warn("No main images found");
-    }
-
-    return "";
+    return mainImages;
 };
 
 const blogCoverImage = computed(() => {
@@ -126,6 +109,21 @@ const blogCoverImage = computed(() => {
 
     return ""
 })
+
+const handleCategory = (id) => {
+    if (id === 0){
+        setCategory([])
+    }
+    else{
+        setCategory(id)
+    }
+}
+
+const handleToggledTags = (ids) => {
+    console.log('toggled tags ids', ids)
+
+    setTags(ids)
+}
 
 </script>
 
