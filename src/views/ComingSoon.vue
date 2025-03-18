@@ -1,10 +1,10 @@
 <template>
-    <div class="flex flex-col justify-center items-center gap-6 mx-auto w-1/3 my-10 ">
+    <div class="flex flex-col justify-center items-center gap-6 mx-auto w-2/3 md:w-1/3 my-10 ">
         <div class="rounded-3xl overflow-hidden">
           <img :src="imageSrc" alt="Loading" class="w-full object-cover">
         </div>
         <p class="header-title">משהו מתבשל פה</p>
-        <div class="flex flex-col justify-center items-center  gap-2">
+        <div class="flex flex-col justify-center items-center gap-2">
             <p class="section-title-main">העמוד הזה עדיין בתהליך התהוות ויצירה</p>
             <p class="section-title-main">מבטיחות שמשהו יחכה לך כאן ממש בקרוב</p>
         </div>
