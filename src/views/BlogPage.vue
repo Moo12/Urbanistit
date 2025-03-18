@@ -24,12 +24,12 @@
         <TagsIcons :tagsDocuments="tagsDocuments" @tagToggled="handleToggledTags"/>
     </div>
     <!-- thirs part blogs -->
-     <div class="bg-gray-background -mx-10 md:-mx-40">
+     <div class="bg-gray-background -mx-10 md:-mx-40"> <!-- apply negative margin for cover all screen with background -->
         <div class="my-10 mx-10 md:mx-40">
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-16">
                 <div v-for="blog in visibleBlogs" :key="blog.id" class="bg-background-site rounded-3xl">
                     <router-link :to="{ name: 'Single-Blog', params: { id: blog.id }}">
-                        <div class="flex flex-col">
+                        <div class="flex flex-col gap-5">
                             <div class="overflow-hidden square-frame">
                                 <img :src="getMainImageSrc(blog)" alt="" class="object-cover w-full h-full">
                             </div>

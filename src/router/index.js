@@ -10,6 +10,7 @@ import AdminLayout from '@/views/AdminLayout.vue'
 import ContentEditor from '@/components/admin/ContentEditor.vue'
 import AllContentPage from '@/components/admin/AllContentPage.vue'
 import ClientPage from '@/views/ClientPage.vue'
+import ComingSoon from '@/views/ComingSoon.vue'
 
 const { user } = getUser()
 
@@ -24,6 +25,11 @@ const routes = [
     path: '/uploadimage',
     name: 'uploadimage',
     component: UploadImageWrapper
+  },
+  {
+    path: '/store',
+    name: 'Store',
+    component: ComingSoon,
   },
   {
     path: '/blog',

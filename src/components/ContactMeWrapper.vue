@@ -8,13 +8,6 @@
          <div class="w-5/6 mx-auto">
             <ContactMe aligmentDirection="center"/>
          </div>
-
-        <!-- right part -->
-        <div class="absolute right-0 top-[-5%] md:top-[-20%] h-full hidden md:block">
-            <img :src="sideImgSrc" alt="Overlay Image"
-                    class="object-cover h-full md:h-[120%] w-auto ">
-
-        </div>
     </div>
 </template>
 

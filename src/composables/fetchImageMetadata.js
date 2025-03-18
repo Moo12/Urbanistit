@@ -42,7 +42,7 @@ const subscribeToImageMetadata = () => {
 const useImageMetadata = () => {
     const getImageUrl = (id) => {
       
-      let imgMetadata = imagesMetadata.value.filter(img => img.id === id);
+      let imgMetadata = imagesMetadata.value?.filter(img => img.id === id);
     
       // Check if imgMetadata has any results and return the image_url
       if (imgMetadata.length > 0) {

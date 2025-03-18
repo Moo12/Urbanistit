@@ -40,12 +40,12 @@ body {
 }
 
 .mega-title {
-    @apply font-bold text-main-title-small_sc md:text-mega-title
+    @apply font-black text-main-title-small_sc md:text-mega-title
 
 }
 
 .header-title {
-    @apply font-black text-main-title-small_sc md:text-main-title
+    @apply font-black text-main-title-small_sc md:text-main-title 
 }
 
 .header-title-sub {
@@ -57,7 +57,7 @@ body {
 }
 
 .padding-section {
-    @apply px-40 py-2.5;
+    @apply px-10 md:px-20 lg:px-40 py-2.5;
 }
 
 .admin-pannel input,

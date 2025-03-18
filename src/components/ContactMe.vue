@@ -1,12 +1,15 @@
 <template>
-    <div class="flex flex-row-reverse justify-around padding-section">
+    <div class="flex flex-row-reverse justify-between items-center gap-10 padding-section">
 
         <div class="flex flex-col items-center justify-center  text-right">
-            <p class="text-background-site header-title text-6xl">שניצור יחד</p>
-            <p class="text-background-site header-title text-6xl">משהו מיוחד?</p>
+            <p class="text-background-site mega-title whitespace-nowrap">שניצור יחד</p>
+            <div class="flex flex-row-reverse whitespace-nowrap">
+                <p class="text-background-site mega-title">משהו מיוחד</p>
+                <p class="text-background-site mega-title">?</p>
+            </div>
         </div>
-        <div class="h-full flex flex-col justify-center">
-            <form action="">
+        <div class="h-full flex flex-col justify-center ">
+            <form @submit.prevent="handleSend">
                 <div class="form-div">
                     <input 
                         type="text" 
@@ -41,7 +44,7 @@
                 <div class="form-div h-auto bg-menu-button rounded-xl justify-self-center">
                     <button 
                             type="submit"
-                            class="btn w-full h-full text-4xl font-bold p-3 text-center   text-background-site  transition duration-300"
+                            class="btn w-full h-full section-title-main p-3 text-center   text-background-site  transition duration-300"
                             >
                             שלח
                     </button>
@@ -114,7 +117,11 @@ export default {
     
         watch(() => props.aligmentDirection, setAlignmentClasses); // Update alignment when prop changes
 
-        return { columnDirectionClassName, rowDirectionClassName, displaySocialMediaIcons, name, email, message }
+        const handleSend = () => {
+            console.log("handlesend = to be done")
+        }
+
+        return { columnDirectionClassName, rowDirectionClassName, displaySocialMediaIcons, name, email, message, handleSend }
     }
 
 
