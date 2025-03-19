@@ -16,7 +16,7 @@
 את החולף, את החמקמק, את הפלא שבשינוי ובשגרה. בין כוס קפה בשוק קטן לרגעי שקט מול הים, אני משוטטת ומשאירה עקבות קלילים בסמטאות, לוגמת את רחשי הרחוב, משתהה אל מול היופי הרגעי ומניחה לשאלות להתקיים מסביבי.</p>
             </div>
             <div class="w-[40%] flex justify-center">
-                    <BlogCategoryIcons iconBg="beige" :vertical="true" class="max-w-full" @categoryClicked="handleCategory"/>
+                    <BlogCategoryIcons iconBg="beige" :vertical="true" class="max-w-full" @blogCategoryClicked="handleCategory"/>
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@
     </div>
     <!-- Projects --> 
     <div id="projects_section" class="mt-10">
-      <Projects/>
+      <Clients/>
     </div>
 
     <!-- blog posts contact me sections -->
@@ -29,7 +29,7 @@
 import {onMounted, watch, nextTick} from 'vue';
 import { useRoute } from 'vue-router';
 
-import Projects from '@/components/Projects.vue';
+import Clients from '@/components/Clients.vue';
 import Blog from '@/components/Blog.vue';
 import ContactMeWrapper from '@/components/ContactMeWrapper.vue'
 import AboutMe from '@/components/AboutMe.vue';
@@ -37,7 +37,7 @@ import AboutMe from '@/components/AboutMe.vue';
 export default {
   name: 'Home',
   components: {
-    Projects,
+    Clients,
     Blog,
     ContactMeWrapper,
     AboutMe,

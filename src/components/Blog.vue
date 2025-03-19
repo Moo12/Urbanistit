@@ -10,7 +10,7 @@
             </router-link>
             
             <div class="flex justify-center">
-                <BlogCategoryIcons class="w-full md:w-1/2" iconBg="black" :vertical="false" @categoryClicked="handleCategory"/>
+                <BlogCategoryIcons class="w-full md:w-1/2" iconBg="black" :vertical="false" @blogCategoryClicked="handleCategory"/>
             </div>
             <!--  images title gird -->
         </div>

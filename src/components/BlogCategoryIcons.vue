@@ -1,6 +1,6 @@
 <template>
     <div :class="layoutClasses">
-        <div v-for="topic in blogCategories" @click="handleClick(topic.id)" :key="topic.id" 
+        <div v-for="topic in blogCategories" @click="handleCategoryClick(topic.id)" :key="topic.id" 
                 :class="[
                 { 
                     'bg-menu-button': toggled[topic.id], 
@@ -24,6 +24,7 @@
 import { computed, onMounted, watchEffect, ref, emit } from 'vue';
 import useImageMetadata from '@/composables/fetchImageMetadata'
 import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
+import useSelectorToggle from '@/composables/useSelectorToggle';
 
 export default {
     props: {
@@ -37,13 +38,12 @@ export default {
             default: 'black'
         }
     },
-
-    emit: ["categoryClicked"],
-
+    
+    emit: ["blogCategoryClicked"],
+    
     setup(props, { emit }){
-
-        const toggled = ref({}); // Track toggled state for each category
-
+        const { toggled, initializeToggled, handleClick } = useSelectorToggle([], "blogCategoryClicked")
+        
         const bgClass = ref(null)
 
         const blogCategories = ref([]);
@@ -60,11 +60,11 @@ export default {
                     const docs = generalContentMetadata?.value?.get("blog").categories
 
                     blogCategories.value = []
+                    
+                    initializeToggled(blogCategories.value.map(category => category.id));
 
                     docs.forEach(category => {
                         let imageUrl = getImageUrl(category.default.images_metadata[0].metadata_id)
-
-                        toggled.value[category.id] = false
 
                         blogCategories.value.push(
                             {
@@ -84,27 +84,11 @@ export default {
             : 'grid grid-cols-3 gap-10 items-center justify-center';
         });
 
-        const handleClick = (id) => {
-            let clickedStatusButton = 0
+        const handleCategoryClick = (id) => {
+          handleClick(id, emit);
+        };
 
-            if (toggled.value[id]) {
-                // If the selected one is already toggled, untoggle it
-                toggled.value[id] = false;
-            } else {
-                // Untoggle all categories and then toggle the clicked one
-                Object.keys(toggled.value).forEach(key => {
-                    toggled.value[key] = false;
-                });
-                toggled.value[id] = true;
-                clickedStatusButton = id
-            }
-
-            console.log(`id ${id} toggled ${toggled.value[id]}`)
-
-            emit('categoryClicked', clickedStatusButton);  // Emit the event with the name 'categoryClicked' and the id as the payload
-        }
-
-        return { layoutClasses, bgClass, blogCategories, handleClick, toggled }
+        return { layoutClasses, bgClass, blogCategories, handleCategoryClick, toggled }
     }
 }
 </script>

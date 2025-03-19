@@ -1,24 +1,24 @@
 <template>
   <div class="my-10 mx-10 md:mx-40 flex flex-col gap-16">
-    <!-- first part -->
-    <div v-if="clientDoc && !errrorLoadClientDoc" class="grid grid-cols-[3fr_2fr]">
-
-        <!-- image -->
-         <div class="rounded-3xl overflow-hidden">
-            <img :src=clientMainImage class="h-full object-cover" alt="">
-         </div>
-         <!-- header and icons -->
-        <div class="flex flex-col items-center justify-between w-[60%] mx-auto">
-            <div class="flex flex-col  gap-10 justify-between text-center">
-                <p class="mega-title text-center leading-tight">{{ clientDoc.translations.he.title }}</p>
-                <p class="section-title-main">{{ clientDoc.translations.he.sub_title }}</p>
-            </div>
-            <div class="grid grid-cols-[1fr_3fr_1fr]">
-                <div class="col-start-2 col-span-1">
-                    <BlogIcons iconBg="beige" :vertical="true" class="max-w-full"/>
-                </div>
-            </div>
+    <!-- ALL CONTENT -->
+    <div v-if="clientDoc && !errrorLoadClientDoc" class="flex flex-col gap-10">
+      <!-- IMAGE AND TITLES -->
+      <div  class="grid grid-cols-[3fr_2fr] gap-10">
+        <!-- IMAGE-->
+        <div class="project-frame overflow-hidden">
+          <img :src=clientMainImage class="h-full object-cover" alt="">
         </div>
+        <!-- title and sub title -->
+        <div class="flex flex-col items-end justify-self-end text-right gap-6">
+          <p class="header-title  leading-tight border-b-4 border-contact-me-bg">{{ clientDoc.translations.he.title }}</p>
+          <p class="section-title-main ">{{ clientDoc.translations.he.sub_title }}</p>
+        </div>
+      </div>
+        <!-- projets -->
+      <ProjectSelector v-if="clientProjects" :projectDocs="clientProjects" :language="language"  @ProjectSelectorClicked="handleProjectSelect" />
+      <div v-if="selectedProject">
+        <Project :projectDoc="selectedProject" :language="language"/>
+      </div>
     </div>
     <div v-else-if="errrorLoadClientDoc">
       ERROR LOADING CLIENT
@@ -27,25 +27,33 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router';
 
 import getDocument from '@/composables/getDocument';
 import useImageMetadata from '@/composables/fetchImageMetadata'
 import getCollection from '@/composables/getCollection';
+import ProjectSelector from '@/components/ProjectSelector.vue';
+import Project from '@/components/Project.vue';
 
-const language = "he"
+const language = ref("he")
 
 const route = useRoute();
 const id = ref(route.params.id)
 
+const selectedProject = ref(null)
+
 const { error: errrorLoadClientDoc, document : clientDoc } = getDocument("clients", id.value)
 const { imagesMetadata, error: errorUseImageMetadata, getMainImageUrl } = useImageMetadata();
 
-const { documents : projects, error : errorGetProjects, fetchCollectionOnce } = getCollection('pojects')
+const { documents : all_projects , error : errorGetProjects, fetchCollectionOnce : fetchPrjectsCollectionOnce} = getCollection('projects')
 
-onMounted 
+fetchPrjectsCollectionOnce()
 
+const clientProjects = computed(() => {
+  console.log('all projects', all_projects.value)
+  return all_projects.value?.filter(project => project?.default?.clients === id.value)
+})
 
 const clientMainImage = computed(() => {
 
@@ -54,6 +62,28 @@ const clientMainImage = computed(() => {
   }
 
   return ""
+})
+
+const handleProjectSelect = ((id) => {
+  console.log("handleProjectSelect", id)
+
+  if (id === 0){
+    console.log("no project was seleced")
+    selectedProject.value = null
+    return
+  }
+
+  
+  const _selectedProject = clientProjects.value?.filter(item => item.id === id)
+  console.log("line 77")
+
+  if (_selectedProject.length){
+    selectedProject.value = _selectedProject[0]
+    console.log("selectedProject", selectedProject.value)
+  }
+  else{
+    console.error("project was not found")
+  }
 })
 
 </script>

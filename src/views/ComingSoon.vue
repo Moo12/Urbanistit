@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col justify-center items-center gap-6 mx-auto w-2/3 md:w-1/3 my-10 ">
+    <div class="flex flex-col justify-center items-center gap-6 mx-auto w-2/3 md:w-1/4 my-10 ">
         <div class="rounded-3xl overflow-hidden">
           <img :src="imageSrc" alt="Loading" class="w-full object-cover">
         </div>
