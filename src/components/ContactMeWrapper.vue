@@ -22,8 +22,6 @@ import { ref, watchEffect } from 'vue';
 import ContactMe from '@/components/ContactMe.vue'
 import useImageMetadata from '@/composables/fetchImageMetadata'
 import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
-import side_imgae from "@/../public/img/gur_cat_contat_me.png"
-
 
 export default {
     components: {
@@ -62,7 +60,7 @@ export default {
             }
         })
         
-        return { name, message, email, sideImgSrc, titleImgSrc, side_imgae, bgClass}
+        return { name, message, email, sideImgSrc, titleImgSrc, bgClass}
     }
 }
 </script>

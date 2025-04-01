@@ -22,9 +22,6 @@
     <div class="mt-16">
         <Scroller :items="projectsImages"/>
     </div>
-    <div v-if="currentClient">
-        <ClientFullDisplay :language="selectedLang" :client="currentClient" :all_projects="projectsDocuments"/>
-    </div>
   
 </template>
 
@@ -35,7 +32,6 @@ import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
 import getCollection from '@/composables/getCollection';
 import useSelectorToggle from '@/composables/useSelectorToggle';
 import Client from '@/components/Client.vue';
-import ClientFullDisplay from '@/components/ClientFullDisplay.vue';
 import Scroller from '@/components/Scroller.vue';
 
 const props = defineProps({
