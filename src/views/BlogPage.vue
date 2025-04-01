@@ -3,7 +3,7 @@
     <!-- first part -->
     <div class="grid grid-cols-[3fr_2fr] gap-10">
 
-        <!-- inage -->
+        <!-- image -->
          <div class="rounded-3xl overflow-hidden">
             <img :src=blogCoverImage class="h-full object-cover" alt="">
          </div>
@@ -42,10 +42,12 @@
             </div>
         </div>  
         <!-- "Display More" Button -->
-        <div class="flex justify-center mt-6" v-if="visibleBlogs?.length < blogDocuments?.length">
-            <button @click="loadMoreBlogs" class="btn">
-                Display More
-            </button>
+        <div class="w-full h-56" >
+            <div class="flex h-full  w-full justify-center mt-6" :style="ellipseStyle">
+                <button v-if="visibleBlogs?.length < blogDocuments?.length" @click="loadMoreBlogs" class="btn min-h-full">
+                    Display More
+                </button>
+            </div>
         </div>
      </div>
   </div>
@@ -76,6 +78,18 @@ const { documents : tagsDocuments , error : errorTagDocs, fetchCollectionOnce : 
 const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
 fetchCollectionOnceTags()
+
+const ellipseStyle = computed(() => { //to fix
+    return {
+        width: "100%",    // Full width
+        height: "100%",    // Half of the full oval height
+        borderTopLeftRadius: "100% 100%",  // Curved top-left
+        borderBottomLeftRadius: "100% 100%", // Curved bottom-left
+        borderTopRightRadius: "0 0", // Keep right side flat
+        borderBottomRightRadius: "0 0", // Keep right side flat
+        overflow: "hidden",
+    };
+});
 
 // Pagination state
 const blogsToShow = ref(3); // Start with 9 blogs

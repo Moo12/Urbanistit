@@ -4,11 +4,11 @@
         <!-- content -->
         <div class="w-5/6 mx-auto h-full overflow-hidden" >
             <!-- horizontal anchors-->
-            <ul class="flex  h-full flex-row justify-between items-center">
+            <ul class="flex  h-full flex-row justify-between items-start">
                 <li v-for="(item, index) in orderedMenuItems" :key="index" class="btn h-full">
                     <a :href="item.href" class="no-underline h-full flex items-center">
                         <img v-if="item.image" :src="item.image" alt="item.label" class="h-4/5 self-end object-cover" />
-                        <p v-else class="section-title-main text-contact-me-bg">{{ item.label }}</p>
+                        <p v-else class="section-title-main text-black-light">{{ item.label }}</p>
                     </a>
                 </li>
             </ul>

@@ -110,7 +110,7 @@
             {
                 "required": true,
                 "label": "Conetnt",
-                "type_item": "text",
+                "type_item": "textarea",
                 "type": null
             }
         }

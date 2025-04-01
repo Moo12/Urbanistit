@@ -1,5 +1,5 @@
 <template>
-    <div v-if="project.isMain" class="btn flex items-center justify-center  bg-contact-me-bg rounded-3xl aspect-square w-full h-full">
+    <div v-if="project.isMain" class="btn flex items-center justify-center  bg-black-light rounded-3xl aspect-square w-full h-full">
         <p class="header-title text-background-site">{{ project.name }}</p>
 
     </div>
@@ -9,14 +9,14 @@
         <div
             class="project-frame project-relative-layout overflow-hidden"
             :class="{
-                'md:invisible md:pointer-events-none': isHovered,
-                'md:visible': !isHovered,
+                'md:invisible md:pointer-events-none': isHovered && hoveEffect,
+                'md:visible': !isHovered && hoveEffect,
             }"
         >
             <img class="object-cover w-full h-full" :src="project.image_url" alt="">
         </div>
         <!-- second frame -->
-        <div class="project-frame bg-projects-cards md:project-absolute-layout flex flex-row-reverse items-center justify-center text-right"
+        <div v-if="hoveEffect" class="project-frame bg-brown-site md:project-absolute-layout flex flex-row-reverse items-center justify-center text-right"
             :class="{
                 'md:invisible md:pointer-events-none': !isHovered,
                 'md:visible': isHovered,
@@ -48,6 +48,11 @@ export default {
         project: {
             type: Object,
             required: true
+        },
+        hoveEffect: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     setup(props){

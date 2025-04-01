@@ -10,6 +10,7 @@ import AdminLayout from '@/views/AdminLayout.vue'
 import ContentEditor from '@/components/admin/ContentEditor.vue'
 import AllContentPage from '@/components/admin/AllContentPage.vue'
 import ClientPage from '@/views/ClientPage.vue'
+import ClientsPage from '@/views/ClientsPage.vue'
 import ComingSoon from '@/views/ComingSoon.vue'
 
 const { user } = getUser()
@@ -46,6 +47,12 @@ const routes = [
     path: '/client/:id',
     name: 'Client',
     component: ClientPage,
+    props: true
+  },
+  {
+    path: '/clients',
+    name: 'ClientsPage',
+    component: ClientsPage,
     props: true
   },
   {

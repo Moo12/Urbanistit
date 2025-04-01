@@ -7,16 +7,16 @@
 @tailwind utilities;
 
 body {
-    @apply font-helvetica;
+    @apply font-heebo;
 }
 
 
 .form-input {
-    @apply  bg-background-site border-background-site rounded-xl p-3 text-contact-me-bg focus:ring-2 focus:ring-blue-400 focus:outline-none text-center;
+    @apply   w-full p-3 bg-transparent border-b border-black-light text-black-light focus:ring-2 focus:ring-blue-400 focus:outline-none text-right placeholder-black-light;
 }
 
 .form-div{
-    @apply mt-6;
+    @apply mt-2;
 }
 
 .btn {
@@ -24,11 +24,11 @@ body {
 }
 
 .project-frame {
-    @apply rounded-3xl border-2 border-projects-cards cursor-pointer
+    @apply rounded-3xl border-2 border-brown-site cursor-pointer
 }
 
 .square-frame {
-    @apply rounded-3xl cursor-pointer h-full aspect-square
+    @apply rounded-3xl cursor-pointer w-full aspect-square
 }
 
 .project-absolute-layout {
@@ -42,6 +42,10 @@ body {
 .mega-title {
     @apply font-black text-main-title-small_sc md:text-mega-title
 
+}
+
+.header-fifty-four-px {
+    @apply font-black text-fifty-four-px
 }
 
 .header-title {
@@ -60,6 +64,10 @@ body {
     @apply px-10 md:px-20 lg:px-40 py-2.5;
 }
 
+.margin-half-section {
+    @apply mx-5 md:mx-10 lg:mx-20;
+}
+
 .admin-pannel input,
 .admin-pannel select {
     @apply block w-full my-5 mx-0;
@@ -70,4 +78,17 @@ body {
     @apply border-2 border-green-700;
 }
 
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 2s linear infinite;
+}
 
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+        

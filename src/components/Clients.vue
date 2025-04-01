@@ -7,7 +7,9 @@
                 </router-link>
             </div>
             <div v-else>
-                <Client :project="client"></Client>
+                <router-link :to="{ name: 'ClientsPage' }">
+                    <Client :project="client"></Client>
+                </router-link>
             </div>
         </div>
     </div>

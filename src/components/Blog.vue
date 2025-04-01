@@ -1,23 +1,35 @@
 <template>
-    <div class="padding-section">
-        <div class="w-full text-right flex flex-col items-center justify-center gap-6">
-            <router-link to="/blog">
-                <div class="btn">
-                    <p class="mega-title leading-tight text-contact-me-bg">
-                     יוצאים מהמגירה
-                    </p>
-                </div>
-            </router-link>
-            
-            <div class="flex justify-center">
-                <BlogCategoryIcons class="w-full md:w-1/2" iconBg="black" :vertical="false" @blogCategoryClicked="handleCategory"/>
+    <div>
+        <div class="grid grid-cols-8 w-full padding-section">
+            <div class="col-start-2 col-span-3 items-center">
+                <BlogCategoryIcons class="w-full" iconBg="white" :vertical="false" @blogCategoryClicked="handleCategory"/>
             </div>
-            <!--  images title gird -->
+            <!-- Left part (Cat Image) -->
+            <div class="col-start-6 col-span-3 items-end flex flex-col">
+                <div class="w-full text-right">
+                    <router-link to="/blog">
+                        <p class="text-fifty-four-px font-bold text-gray-background">יוצאים מהמגירה</p>
+                    </router-link>
+                </div>
+                <div>
+                    <p class="text-section font-bold text-gray-background">מילים ומחשבות על מסע החיים</p>
+                </div>
+            </div>
         </div>
-
-        <Scroller class="mt-32" :items="convertedItems"></Scroller>
+        <div v-if="convertedItems" class="my-16">
+            <Scroller :items="convertedItems">
+                <template v-slot:default="{ item }">
+                    <router-link :to="{ name: 'Single-Blog', params: { id: item.id }}" class="w-full h-full">
+                        <div class="absolute w-full h-1/4 top-[50%] flex items-center justify-center bg-gray-background">
+                            <div class="title-overlay">
+                            <p>{{ item.title }}</p>
+                            </div>
+                        </div>
+                    </router-link>
+                </template>
+            </Scroller>
+        </div>
     </div>
-
 </template>
     
 <script>
@@ -53,7 +65,6 @@ export default {
             documents.value.forEach(doc => {
                 convertedItems.value.push( { image: getMainImageUrl(doc.default.images_metadata), title: doc.translations.he?.title, id: doc.id })
             });
-    
         });
 
         const handleCategory = (id) => {
@@ -74,5 +85,16 @@ export default {
 </script>
 
 <style>
+
+.title-overlay {
+  justify-content: center;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  white-space: normal;  /* ✅ Allow text to wrap to multiple lines */
+  word-wrap: break-word; /* ✅ Ensure long words break if needed */
+  overflow-wrap: break-word; /* ✅ Alternative for compatibility */
+}
+
 
 </style>

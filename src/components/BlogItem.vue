@@ -34,6 +34,11 @@
         <div class="section-title-main">
            <p>{{ blogDoc.translations.he.content }}</p>
         </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+            <div v-for="image, index in subImagesUrls" :key="index">
+                <img :src="image" alt="">
+            </div>
+        </div>
     </div>
   </div>
   <div v-else-if="errrorLoadBlogDoc">
@@ -53,7 +58,7 @@ import { getSelectedOptionValue } from "@/composables/useOptions"
 import { useRoute } from 'vue-router';
 
 const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
-const { imagesMetadata, error, getImageUrl } = useImageMetadata();
+const { imagesMetadata, error, getMainImageUrl, getSubImagesUrls } = useImageMetadata();
 
 
 const route = useRoute();
@@ -68,6 +73,8 @@ const selectedTags = ref([])
 const language = "he"
 
 const mainImageUrl = ref("")
+
+const subImagesUrls = ref([])
 
 const { documents : tagsDocuments , error : errorTagDocs, fetchCollectionOnce : fetchTagsCollectionOnce } = getCollection("tags")
 
@@ -97,7 +104,8 @@ watchEffect(() => {
         }
 
         if (imagesMetadata?.value?.length){
-            mainImageUrl.value = getImageUrl(blogDoc.value.default.images_metadata[0].metadata_id)
+            mainImageUrl.value = getMainImageUrl(blogDoc.value.default.images_metadata)
+            subImagesUrls.value = getSubImagesUrls(blogDoc.value.default.images_metadata)
 
         }
     }

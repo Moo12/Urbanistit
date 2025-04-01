@@ -1,24 +1,19 @@
 <template>
-  <div class="mt-10">
+  <div class="mt-16">
     <div id="introduction">
       <AboutMe/>
     </div>
     <!-- Projects --> 
-    <div id="projects_section" class="mt-10">
+    <div id="projects_section" class="mt-16">
       <Clients/>
     </div>
 
     <!-- blog posts contact me sections -->
-    <div class="bg-gray-background mt-10">
-      <div id="blog_section" class="w-full py-20">
-        <Blog/>
-      </div>
-      <div class="">
-
-      </div>
-      <div id="contactme_section">
-        <ContactMeWrapper/>
-      </div>
+    <div id="blog_section" class="w-full py-20 bg-black mt-16">
+      <Blog/>
+    </div>
+    <div id="contactme_section" class="mt-16">
+      <ContactMeWrapper/>
     </div>
   </div>
   <!-- preview section -->

@@ -25,6 +25,11 @@ const uploadImageRef = ref(null);
 // Language selection
 const selectedLang = ref(props.lang || metadataRef.value.languages[0]);
 
+const inputComponent = (typeItem) => {
+    console.log("item type", typeItem )
+      return typeItem === "textarea" ? "textarea" : "input";
+}
+
 // Watch for language changes and emit updates if needed
 watch(selectedLang, (newLang) => {
   emit("update:lang", newLang);
@@ -156,7 +161,8 @@ const removeImage = (index) => {
                 </p>
     
                 <!-- Text & Textarea -->
-                <input
+                <component
+                :is="inputComponent(metadataRef?.[dataEntry]?.[field_name]?.type_item)"
                   v-if="metadataRef?.[dataEntry]?.[field_name].type_item === 'text' ||
                         metadataRef?.[dataEntry]?.[field_name].type_item === 'textarea'"
                   :value="getFieldValue(dataEntry, field_name, lang).value"

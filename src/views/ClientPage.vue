@@ -3,27 +3,30 @@
     <!-- ALL CONTENT -->
     <div v-if="clientDoc && !errrorLoadClientDoc" class="flex flex-col gap-10">
       <!-- IMAGE AND TITLES -->
-      <div  class="grid grid-cols-[3fr_2fr] gap-10">
+      <div  class="grid grid-cols-12 justify-start" :dir="directionClass">
+        <!-- title and sub title -->
+        <div class="flex flex-col col-span-5  justify-self-end text-right gap-6">
+          <p class="header-title  text-right leading-tight border-b-4 border-black-light">{{ clientDoc.translations.he.title }}</p>
+          <p class="section-title-main text-right">{{ clientDoc.translations.he.sub_title }}</p>
+          <ProjectSelector v-if="clientProjects" :projectDocs="clientProjects" :language="language"  @ProjectSelectorClicked="handleProjectSelect" />
+        </div>
         <!-- IMAGE-->
-        <div class="project-frame overflow-hidden">
+        <div class="project-frame col-start-7 col-span-6 overflow-hidden">
           <img :src=clientMainImage class="h-full object-cover" alt="">
         </div>
-        <!-- title and sub title -->
-        <div class="flex flex-col items-end justify-self-end text-right gap-6">
-          <p class="header-title  leading-tight border-b-4 border-contact-me-bg">{{ clientDoc.translations.he.title }}</p>
-          <p class="section-title-main ">{{ clientDoc.translations.he.sub_title }}</p>
+        <div>
         </div>
       </div>
         <!-- projets -->
-      <ProjectSelector v-if="clientProjects" :projectDocs="clientProjects" :language="language"  @ProjectSelectorClicked="handleProjectSelect" />
       <div v-if="selectedProject">
         <Project :projectDoc="selectedProject" :language="language"/>
       </div>
     </div>
-    <div v-else-if="errrorLoadClientDoc">
-      ERROR LOADING CLIENT
-    </div>
+    <router-link :to="{ name: 'ClientsPage' }">
+      <span class="text-section">חזרה לפרויקטים >></span>
+    </router-link>
   </div>
+  <ContactMeWrapper bgColor="brown"></ContactMeWrapper>
 </template>
 
 <script setup>
@@ -35,8 +38,13 @@ import useImageMetadata from '@/composables/fetchImageMetadata'
 import getCollection from '@/composables/getCollection';
 import ProjectSelector from '@/components/ProjectSelector.vue';
 import Project from '@/components/Project.vue';
+import ContactMeWrapper from '@/components/ContactMeWrapper.vue';
 
 const language = ref("he")
+
+const directionClass = ref('')
+directionClass.value = language.value === 'he' ? "rtl" : "lft"
+
 
 const route = useRoute();
 const id = ref(route.params.id)

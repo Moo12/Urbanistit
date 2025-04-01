@@ -85,6 +85,7 @@ const getCollection = (initialCollectionName = null) => {
       error.value = null;
     } catch (err) {
       console.error('Error fetching collection:', err.message);
+      console.error("collection name" ,finalCollectionName)
       error.value = "Failed to fetch data";
     }
   };

@@ -13,22 +13,26 @@ module.exports = {
     extend: {
       colors: {
         
-        "projects-cards": "#935727",
-        "menu-button": "#ffbd59",
+        "brown-site": "#935727",
+        "yellow-site": "#ffbd59",
         "background-site": "#f2f2f2",
-        "contact-me-bg": "#292929",
+        "black-light": "#292929",
         "blog-cards": "#107645",
-        "gray-background": "#f2f2f2"
+        "gray-background": "#f2f2f2",
+        "green-site": "#8f9c67"
       },
       fontFamily: {
         heebo: ["Heebo", "sans-serif"],
-        helvetica: ["Helvetica Neue", "Arial", "sans-serif"]
+        helvetica: ["Helvetica Neue", "Arial", "sans-serif"],
+        liebling: ["liebling"]
       },
       spacing: {
         '1/8': '12.5%', // Adds 'top-1/8' with 12.5% positioning
         '1/10': '10%'
       },
       fontSize: {
+        'fifty-four-px': '3.375rem',
+        'mega-title': '6.25rem',
         'main-title': '2.25rem',  // Extra small
         'sub-title': '1.7rem',   // Extra large
         'section': '1.125rem',     // Custom huge size

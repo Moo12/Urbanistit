@@ -54,19 +54,36 @@ const useImageMetadata = () => {
       }
     }
 
-    const getMainImageUrl = (imagesMetadata) => {
+    const getImageUrlByRole = (imagesMetadata, role) => {
       if (!Array.isArray(imagesMetadata)) {
         console.error("getMainImageUrl: Invalid input, expected an array");
         return null;
       }
     
-      const mainImageMd = imagesMetadata.find(imageMd => imageMd?.role === "main");
+      const mainImageMd = imagesMetadata.find(imageMd => imageMd?.role === role);
     
       if (!mainImageMd?.metadata_id) {
         return null; // Return null if no valid main image found
       }
 
       return getImageUrl(mainImageMd.metadata_id);
+
+    }
+
+    const getMainImageUrl = (imagesMetadata) => {
+      return getImageUrlByRole(imagesMetadata, "main")
+    };
+
+    const getSubImagesUrls = (imagesMetadata) => {
+      if (!Array.isArray(imagesMetadata)) {
+        console.error("getSubImagesUrls: Invalid input, expected an array");
+        return [];
+      }
+    
+      return imagesMetadata
+        .filter(imageMd => imageMd?.role === "sub")
+        .map(item => getImageUrl?.(item.metadata_id))  // Ensure `getImageUrl` exists
+        .filter(Boolean);  // Remove any undefined or null values
     };
 
     onMounted(() => {
@@ -82,7 +99,7 @@ const useImageMetadata = () => {
     });
   });
 
-  return { imagesMetadata, error, getImageUrl, getMainImageUrl };
+  return { imagesMetadata, error, getImageUrl, getMainImageUrl, getSubImagesUrls, getImageUrlByRole };
 };
 
 export default useImageMetadata;

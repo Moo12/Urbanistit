@@ -1,13 +1,19 @@
 <template>
-    <!-- <div class="w-full h-40 bg-contact-me-bg"
-         style="clip-path: polygon(0 85%, 50% 0, 100% 85%, 100% 100%, 0 100%);">
-    </div> -->
-
-    <div class="bg-contact-me-bg p-8 relative">
-        <!-- left part -->
-         <div class="w-5/6 mx-auto">
-            <ContactMe aligmentDirection="center"/>
-         </div>
+    <div class="relative margin-half-section rounded-3xl"
+        :class = "[bgClass]"
+    >
+        <div class="grid grid-cols-10 gap-2 items-center margin-half-section py-20">
+            <!-- Left part (Cat Image) -->
+            <div class="col-span-4">
+                <ContactMe />
+            </div>
+            <div class="col-span-5 justify-self-end">
+                <img :src="titleImgSrc" class="object-cover w-auto h-full" alt="Title Image">
+            </div>
+            <div class="col-span-1">
+                <img :src="sideImgSrc" class="object-cover w-full h-auto" alt="Cat Image">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -16,40 +22,48 @@ import { ref, watchEffect } from 'vue';
 import ContactMe from '@/components/ContactMe.vue'
 import useImageMetadata from '@/composables/fetchImageMetadata'
 import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
+import side_imgae from "@/../public/img/gur_cat_contat_me.png"
 
 
 export default {
     components: {
         ContactMe,
     },
-    setup(){
+    
+    props: {
+        bgColor: {
+            type: String,
+            required: false,
+            default: 'green'
+        }
+    },
+    setup(props){
         const name = ref('')
         const message = ref('')
         const email = ref('')
 
         const sideImgSrc = ref(null)
+        const titleImgSrc = ref(null)
 
-        const { imagesMetadata, error } = useImageMetadata();
+        const { imagesMetadata, error, getImageUrlByRole } = useImageMetadata();
         const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
+
+        const bgClass = ref(null)
+        bgClass.value = props.bgColor === 'green' ? 'bg-green-site' : props.bgColor === 'brown' ?  'bg-brown-site' : 'bg-green-site'
 
         watchEffect(() => {
             if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("contact_me")){
                 let generalContentItem = generalContentMetadata.value.get("contact_me")
-                        let sideImg = imagesMetadata.value.filter( item => item.id === generalContentItem.common_data?.images_metadata?.side)
-                        if (sideImg?.length){
+                sideImgSrc.value = getImageUrlByRole(generalContentItem.common_data?.images_metadata, "side")
+                titleImgSrc.value = getImageUrlByRole(generalContentItem.common_data?.images_metadata, "title")
 
-                            sideImgSrc.value = sideImg[0].image_url
-                            
-                        }
-                        else{
-                            console.error('contact me side  image  url was not found in general content')
-                        }
-                    }
-                })
+                console.log("sideImgSrc", sideImgSrc.value)
+                console.log("titleImgSrc", titleImgSrc.value)
+            }
+        })
         
-        return { name, message, email, sideImgSrc}
+        return { name, message, email, sideImgSrc, titleImgSrc, side_imgae, bgClass}
     }
-
 }
 </script>
 

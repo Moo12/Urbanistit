@@ -2,7 +2,7 @@
     <div v-if="isOpen" class="fixed top-0 right-0 w-[50vw] h-screen  shadow-lg z-[10001]">
 
         <!-- Right Rectangular Section (Green) -->
-        <div class="h-full w-full flex space-4 flex-col items-end bg-menu-button content-end" :style="ellipseStyle">
+        <div class="h-full w-full flex space-4 flex-col items-end bg-yellow-site content-end" :style="ellipseStyle">
             <div class="m-3">
 
                 <button class="btn self-end text-5xl font-bold" @click="$emit('close')"> 

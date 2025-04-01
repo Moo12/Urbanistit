@@ -32,6 +32,9 @@
           </p>
         </li>
       </ul>
+      <div v-if="fileSelectedError">
+        <p> {{ fileSelectedError }}</p>
+      </div>
     </div>
 </template>
 
@@ -60,12 +63,11 @@ const isPending = ref(false);
 const fileSelectedError = ref(null);
 const selectedOption = ref(props.dropdownOptions?.[0] || ""); // Default to first option
 
-const types = ["image/png", "image/jpeg"];
+const types = ["image/png", "image/jpeg",];
 const uploadStatus = ref(new Map()); // Tracks upload status of each file
 const uploadedFinalStatus = ref(new Map())
 
 const AreFileSelected = ref(false);
-
 
 const { filesUploadedInfo, error: fileError, uploadImages } = useStorage();
 const { addDocImp } = useCollection("images_metadata");

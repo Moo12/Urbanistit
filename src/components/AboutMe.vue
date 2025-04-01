@@ -5,10 +5,10 @@
       <div class="flex flex-row justify-center mx-auto gap-1 padding-section">
           <div class="flex-[1] flex flex-col justify-center items-center gap-3">
             <div>
-              <p  class="header-title text-center font-heebo contact-me-bg tracking-wide "> Don't be pushed by your problems</p>
-              <p  class="header-title text-center font-heebo contact-me-bg tracking-wide "> be led by your dreams</p>
+              <p  class="header-title text-center font-heebo black-light tracking-wide "> Don't be pushed by your problems</p>
+              <p  class="header-title text-center font-heebo black-light tracking-wide "> be led by your dreams</p>
             </div>
-              <p  class="section-title-main font-heebo contact-me-bg text-center">Ralph Waldo Emerson</p>
+              <p  class="section-title-main font-heebo black-light text-center">Ralph Waldo Emerson</p>
           </div>
           <!-- Quatations Image -->
           <div class="flex-[1] flex justify-center">

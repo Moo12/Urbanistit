@@ -3,13 +3,16 @@ import { ref } from 'vue';
 export default function useSelectorToggle(initialIds = [], _emitName) {
     const toggled = ref({});
     const emitName = _emitName
+    const currentToggledKey = ref(null)
 
     // Initialize all IDs as false
     const initializeToggled = (ids) => {
-        toggled.value = ids.reduce((acc, id) => {
-            acc[id] = false;
-            return acc;
-        }, {});
+        if (Object.keys(toggled.value).length === 0){
+            toggled.value = ids.reduce((acc, id) => {
+                acc[id] = false;
+                return acc;
+            }, {});
+        }
     };
 
     // Call this function when data is available
@@ -20,9 +23,15 @@ export default function useSelectorToggle(initialIds = [], _emitName) {
     const handleClick = (id, emit) => {
         let clickedStatusButton = 0;
 
+        console.log("handleClick id", id, toggled.value)
+
         if (toggled.value[id]) {
             // If already selected, untoggle it
             toggled.value[id] = false;
+            currentToggledKey.value = null
+
+            console.log("to false")
+
         } else {
             // Untoggle all and toggle the clicked one
             Object.keys(toggled.value).forEach(key => {
@@ -30,10 +39,15 @@ export default function useSelectorToggle(initialIds = [], _emitName) {
             });
             toggled.value[id] = true;
             clickedStatusButton = id;
+            currentToggledKey.value = id
+            console.log("to true. toggled", toggled.value)
         }
 
-        emit(emitName, clickedStatusButton);
+        if (emit){
+            emit(emitName, clickedStatusButton);
+        }
+
     };
 
-    return { toggled, initializeToggled, handleClick };
+    return { toggled, currentToggledKey, initializeToggled, handleClick };
 }

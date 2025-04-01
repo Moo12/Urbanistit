@@ -1,15 +1,8 @@
 <template>
-    <div class="flex flex-row-reverse justify-between items-center gap-10 padding-section">
-
-        <div class="flex flex-col items-center justify-center  text-right">
-            <p class="text-background-site mega-title whitespace-nowrap">שניצור יחד</p>
-            <div class="flex flex-row-reverse whitespace-nowrap">
-                <p class="text-background-site mega-title">משהו מיוחד</p>
-                <p class="text-background-site mega-title">?</p>
-            </div>
-        </div>
-        <div class="h-full flex flex-col justify-center ">
-            <form @submit.prevent="handleSend">
+    
+    <div class="flex flex-col justify-center h-full">
+        <form @submit.prevent="handleSend">
+            <div class="grid grid-cols-2  gap-2">
                 <div class="form-div">
                     <input 
                         type="text" 
@@ -17,11 +10,11 @@
                         class="form-input "
                         placeholder="שם מלא"
                         required
-                    />
-                </div>
-                <!-- Email Input -->
-                <div class="form-div">
-                    <input 
+                        />
+                    </div>
+                    <!-- Email Input -->
+                    <div class="form-div">
+                        <input 
                         type="email" 
                         v-model="email"
                         class="form-input"
@@ -29,27 +22,34 @@
                         required
                     />
                 </div>
-                <!-- Message Input -->
-                <div class="form-div">
-                    <textarea 
-                        v-model="message"
-                        rows="4"
-                        class="w-full form-input"
-                        placeholder="על מה נדבר?"
-                        required
-                    ></textarea>
-                </div>
-                <!-- Submit Button -->
-
-                <div class="form-div h-auto bg-menu-button rounded-xl justify-self-center">
+                <div class=" justify-self-center  flex items-end ">
                     <button 
-                            type="submit"
-                            class="btn w-full h-full section-title-main p-3 text-center   text-background-site  transition duration-300"
+                    type="submit"
+                    class="btn bg-yellow-site rounded-3xl  px-6 py-2 text-center transition duration-300"
                             >
-                            שלח
+                            <span class="text-black-light section-title-main font-black">שליחה</span>
                     </button>
                 </div>
+                <div class="form-div">
+                    <textarea 
+                    v-model="message"
+                    rows="1"
+                    class="form-input "
+                    placeholder="על מה נדבר?"
+                    required
+                    ></textarea>
+                </div>
+            </div>
             </form>
+            <div v-if="errorStatus">
+                <p>{{ errorStatus }}</p>
+            </div>
+            <div v-else-if="status && status === succesStr">
+                <p>הפרטים נשלחו בהצלחה</p>
+            </div>
+            <div v-else-if="status && status === pendingStr">
+                <span class="spinner"></span>
+            </div>
         </div>
         <div v-if="displaySocialMediaIcons" class="btn flex flex-row space-x-2"> <!-- social media icons -->
             <a href="https://facebook.com" target="_blank">
@@ -62,69 +62,79 @@
             <i class="btn fab fa-youtube text-black text-4xl md:text-6xl xl:text-7xl bg-white rounded-lg m-6"></i>
             </a>
         </div>
-    </div>
 
 </template>
 <script>
-import { ref, onMounted, watch } from 'vue';
-
+import { ref } from 'vue';
+import axios from "axios";
 
 export default {
-    props: {
-        aligmentDirection: {
-            type: String,
-            required: false,
-            default: 'center', // default alignment
-            validator(value) {
-                return ['left', 'center', 'right'].includes(value);
-            }
-        },
-    },
-    setup(props){
+    setup(){
         const displaySocialMediaIcons = ref(false)
-        const rowDirectionClassName = ref('')
-        
-        const columnDirectionClassName = ref('')
 
         const message = ref('')
         const name = ref('')
         const email = ref('')
+        const status = ref('')
+        const errorStatus = ref(null)
+        const succesStr = ref("success")
+        const failStr = "fail"
+        const pendingStr = "pending"
+        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-             // Set the appropriate alignment classes based on the prop value
-        const setAlignmentClasses = () => {
-            switch (props.aligmentDirection) {
-                case 'left':
-                    columnDirectionClassName.value = 'items-start'; // Align items to the start (left)
-                    rowDirectionClassName.value = 'justify-start'; // Align content to the start (left)
-                    break;
-                case 'center':
-                    columnDirectionClassName.value = 'items-center'; // Align items to the center
-                    rowDirectionClassName.value = 'justify-center'; // Align content to the center
-                    break;
-                case 'right':
-                    columnDirectionClassName.value = 'items-end'; // Align items to the end (right)
-                    rowDirectionClassName.value = 'justify-end'; // Align content to the end (right)
-                    break;
-                default:
-                    columnDirectionClassName.value = 'items-center'; // Default to center if something unexpected is passed
-                    rowDirectionClassName.value = 'justify-center'; // Default to center if something unexpected is passed
+        const handleSend = async () => {
+            errorStatus.value = null
+            status.value =  pendingStr
+            
+            await sleep(2000); // Wait for 2 secondsbg-green-site
+            
+            try {
+                const response = await axios.post(
+                    "https://urbanistit.com/api/contact",
+                    {
+                        name: name.value,
+                        email: email.value,
+                        message: message.value,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+
+                // Check if the response status indicates success
+                if (response.status === 200) {
+                    status.value = succesStr.value
+                } else {
+                    status.value = `Unexpected response status: ${response.status}`;
+                    error.value = 'Unexpected response. Please Try Again'
+                    errorStatus = error.value 
+                }
+            } catch (error) {
+                // Handle errors returned from the server
+                if (error.response) {
+                    // The request was made, and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.error('Server responded with:', error.response.data);
+                    status.value = `Error: ${error.response.data.message || 'An error occurred while sending the email.'}`;
+                    errorStatus.value = 'An error occurred while sending the email.'
+                } else if (error.request) {
+                    // The request was made, but no response was received
+                    console.error('No response received:', error.request);
+                    status.value = "Error: No response from the server. Please try again later.";
+                    errorStatus.value = status.value
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.error('Error setting up request:', error.message);
+                    status.value = "Error: Failed to send the request. Please check your network connection.";
+                    errorStatus.value = status.value 
+                }
             }
         };
 
-        onMounted(() => {
-            setAlignmentClasses(); // Set alignment on component mount
-        });
-    
-        watch(() => props.aligmentDirection, setAlignmentClasses); // Update alignment when prop changes
-
-        const handleSend = () => {
-            console.log("handlesend = to be done")
-        }
-
-        return { columnDirectionClassName, rowDirectionClassName, displaySocialMediaIcons, name, email, message, handleSend }
+        return { displaySocialMediaIcons, name, email, message, handleSend, succesStr, failStr, errorStatus, status, pendingStr  }
     }
-
-
 
 }
 

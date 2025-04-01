@@ -3,18 +3,19 @@
         <div v-for="topic in blogCategories" @click="handleCategoryClick(topic.id)" :key="topic.id" 
                 :class="[
                 { 
-                    'bg-menu-button': toggled[topic.id], 
-                    'shadow-[10px_10px_20px_0px_rgba(0,0,0,0.2)]': toggled[topic.id]
-                }
+                    'bg-yellow-site': toggled[topic.id], 
+                    'shadow-[10px_10px_20px_0px_rgba(0,0,0,0.2)]': toggled[topic.id],
+                },
+                bgClass
                 ]"
-                class=" bg-contact-me-bg btn aspect-square flex flex-col justify-center items-center rounded-2xl">
+                class="btn aspect-square flex flex-col justify-center items-center rounded-2xl pt-2">
             <!-- Image Wrapper -->
             <div class="md:w-1/2  w-1/2  flex justify-center items-center">
-                <img :src="topic.image" class="h-full w-full object-fill" :alt="topic.label">
+                <img :src="topic.image" class="w-full aspect-square  object-fill" :alt="topic.label">
             </div>
 
             <!-- Title -->
-            <p class="header-title text-background-site"> {{ topic.label }} </p>
+            <p class="text-section text-black-light font-black"> {{ topic.label }} </p>
         </div>
     </div>
 </template>
@@ -52,7 +53,7 @@ export default {
         const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
         onMounted(() =>{
-            bgClass.value = props.iconBg === 'black' ? 'bg-contact-me-bg' : 'bg-projects-cards'
+            bgClass.value = props.iconBg === 'black' ? 'bg-black-light' : 'bg-gray-background'
         })
 
         watchEffect(() => {

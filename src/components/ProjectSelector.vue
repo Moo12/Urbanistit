@@ -1,21 +1,19 @@
 <template>
-    <div v-if="projectDocs" class="flex justify-center items-center gap-6">
-        <div v-for="project in projectDocs" @click="handleProjectClick(project.id)" :key="project.id" 
-            class="rounded-3xl flex  justify-center items-center p-3 cursor-pointer bg-menu-button text-background-site"
+    <div v-if="projectDocs" class="grid grid-cols-5 items-center">
+        <div v-for="(project, index) in projectDocs" @click="handleProjectClick(project.id)" :key="project.id" 
+            class="btn bg-yellow-site col-span-2 aspect-[5/3] px-3 rounded-3xl flex items-center"
             :class="{
-            'opacity-70 border-2': toggled[project.id],  // Add selected class based on toggled status
-            'opacity-100': !toggled[project.id]   // Default background for untoggled tags
+            'bg-black-light': toggled[project.id],   // Default background for untoggled tags
+            'col-start-4': (index + 1) % 2 === 0,
             }">
-
-            <p class="header-title-sub text-background-site"> {{ project.translations[language].title }} </p>
+            <p class="text-section text-background-site text-center"> {{ project.translations[language].title }} </p>
         </div>
     </div>
 </template>
-
-
+            
 <script>
 import useSelectorToggle from '@/composables/useSelectorToggle';
-import { watchEffect } from 'vue';
+import { watchEffect, ref } from 'vue';
 
 export default {
     props: {
@@ -43,7 +41,6 @@ export default {
             if (props.projectDocs){
                 console.log("projectDocs", props.projectDocs)
                 initializeToggled(props.projectDocs)
-
             }
         })
 
