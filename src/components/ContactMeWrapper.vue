@@ -54,9 +54,6 @@ export default {
                 let generalContentItem = generalContentMetadata.value.get("contact_me")
                 sideImgSrc.value = getImageUrlByRole(generalContentItem.common_data?.images_metadata, "side")
                 titleImgSrc.value = getImageUrlByRole(generalContentItem.common_data?.images_metadata, "title")
-
-                console.log("sideImgSrc", sideImgSrc.value)
-                console.log("titleImgSrc", titleImgSrc.value)
             }
         })
         

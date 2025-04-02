@@ -1,41 +1,27 @@
 <template>
-  <div>   <!-- introduction --> 
-      <!-- Background Image -->
+  <div class="relative bg-black-light h-screen">
+    <!-- Background Image -->
+    <div class="w-full h-full bg-cover" :style="{  backgroundImage: `url(${backgroundImage})`, backgroundPosition: 'center 80%' }">
+      <div class="absolute inset-0 bg-black-light opacity-20"></div>
 
-      <div class="flex flex-row justify-center mx-auto gap-1 padding-section">
-          <div class="flex-[1] flex flex-col justify-center items-center gap-3">
-            <div>
-              <p  class="header-title text-center font-heebo black-light tracking-wide "> Don't be pushed by your problems</p>
-              <p  class="header-title text-center font-heebo black-light tracking-wide "> be led by your dreams</p>
-            </div>
-              <p  class="section-title-main font-heebo black-light text-center">Ralph Waldo Emerson</p>
-          </div>
+      <div class="relative padding-section">
+        <div class=" h-full grid grid-cols-12  items-center mx-auto gap-1  pt-[10%]">
           <!-- Quatations Image -->
-          <div class="flex-[1] flex justify-center">
-              <img :src="quotedImg" alt="Overlay Image"
+          <div class="col-span-2 col-start-2 aspect-[1.52] opacity-100">
+              <img :src="quotedImg" alt="quote Image"
                   class="object-cover h-full">
           </div>
+          <!-- Quote Text -->
+          <div class="col-span-4 flex flex-col text-white">
+              <p  class="text-twenty-seven-px font-black text-left font-heebo black-light tracking-wide  leading-tight">Don't be pushed</p> 
+              <p  class="text-twenty-seven-px font-black text-left font-heebo black-light tracking-wide  leading-tight">by your problems</p>
+              <p  class="text-twenty-seven-px font-black text-left font-heebo black-light tracking-wide leading-tight">be led by your dreams</p>
+              <p  class="section-title-main font-heebo black-light text-left">Ralph Waldo Emerson</p>
+          </div>
+        </div>
       </div>
-      <div class=" w-full h-full bg-cover bg-center aspect-[16/9]" :style="{ backgroundImage: `url(${backgroundImage})` }">
-    </div>
-    <!--paragracph about me -->
-    <div class="text-right mt-10 padding-section">
-      <p class="header-title-sub">היי! איזה כיף שהגעת. נעים להכיר, אני מאיה</p>
-      <p class="mt-7 section-title-main tracking-wide">
-        זאת אני, סיטי גירל בכל רמ״ח איברי. משוטטת ברחובות, לוגמת קפה או יין בכל פינה חדשה שנפתחת, צופה בעוברים ושבים וגומעת ספרים בכל רגע פנוי. במאי 2023 החלטתי לצעוד בנתיב חדש ויצאתי לחיי נוודות, להגשים חלום ישן לטייל בעולם, לטעום תרבויות שונות (תרתי משמע – אני חובבת אוכל מושבעת!), ולהתאהב שוב ושוב בערים המדהימות שהאנושות יצרה.<br/><br>
-חיי הנוודות שלי אינם רק הרפתקה אישית – כבוגרת תואר שני בעיצוב אורבני מ׳בצלאל׳, הם מהווים מעבדה חיה לחקר המרחב העירוני. בכל עיר אני מתעמקת בתרבות המקומית, בוחנת את המרקם העירוני, ולומדת כיצד תושבים מתנהלים במרחב. מהמטבח המקומי ועד לתשתיות העירוניות, כל פרט מספר סיפור על העיר ותושביה. <br/><br>
-
-
-
-את התובנות והחוויות האלה אני מביאה לכל פרויקט שאני לוקחת. אני מאמינה שכדי ליצור מקומות שטוב לחיות בהם, צריך קודם כל להקשיב, לחקור ולהבין לעומק. וזה בדיוק מה שאני עושה – משלבת את הידע המקצועי שלי עם הניסיון העשיר מהשטח כדי ליצור פתרונות שעובדים באמת. <br/><br>
-
-
-
-רוצה לראות עם מי ועל מה עבדתי עד עכשיו?
-      </p>
     </div>
   </div>
-
 </template>
 
 <script>

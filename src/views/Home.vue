@@ -1,8 +1,12 @@
 <template>
-  <div class="mt-16">
-    <div id="introduction">
+  <div>
+    <div>
       <AboutMe/>
     </div>
+    <div id="introduction">
+      <IntroductionParagraph/>
+    </div>
+    
     <!-- Projects --> 
     <div id="projects_section" class="mt-16">
       <Clients/>
@@ -28,6 +32,7 @@ import Clients from '@/components/Clients.vue';
 import Blog from '@/components/Blog.vue';
 import ContactMeWrapper from '@/components/ContactMeWrapper.vue'
 import AboutMe from '@/components/AboutMe.vue';
+import IntroductionParagraph from '@/components/IntroductionParagraph.vue';
 
 export default {
   name: 'Home',
@@ -36,6 +41,7 @@ export default {
     Blog,
     ContactMeWrapper,
     AboutMe,
+    IntroductionParagraph,
   },
   setup(){
       const route = useRoute()

@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="content">
     <Navbar @navbarHeightUpdate="updateNavbarHeight" class="navbar-fixed"/>
-      <div class="content-admin">
+      <!-- <div class="content-admin"> -->
+      <div>
         <router-view/>
-        <Footer />
       </div>
+      <Footer />
   </div>
 </template>
 
@@ -28,7 +29,6 @@ export default {
     const updateNavbarHeight = (height) => {
       navbarHeight.value = height;
       document.documentElement.style.setProperty("--navbar-height", `${height}px`);
-      console.log(`Updated navbar height: ${height}px`);
     };
 
     return { updateNavbarHeight };
@@ -39,12 +39,6 @@ export default {
 
 
 <style>
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden; /* Hide default body scrollbar */
-}
 
 .navbar-fixed {
   position: fixed;
@@ -56,13 +50,12 @@ html, body {
   z-index: 10000;
 }
 
-.content-admin {
+.content {
   margin: 0 0;
   position: relative; /* Ensures proper stacking */
+  max-width: 100%;
   top: var(--navbar-height, 60px); /* Dynamic height from JS */
   height: calc(100vh - var(--navbar-height, 60px)); /* Takes full viewport minus navbar */
-  overflow-y: auto; /* Enables vertical scrolling */
-  max-width: 100%;
 }
 
 

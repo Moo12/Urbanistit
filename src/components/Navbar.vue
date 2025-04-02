@@ -1,32 +1,37 @@
 <template>
   <div >
-    <nav class="shadow-md border-b border-gray-400 z-[10000]" ref="navbarRef">
-        <div class="relative mx-2 md:mx-8 flex justify-between items-center">
+    <nav class="z-[10000] relative" ref="navbarRef" >
+        <div class="absolute inset-0 z-[-1]" :class="[navClass]"></div>
+
+        <div class="relative">
             <!-- home button -->
-            <div v-if="homeAnchor" class="md:w-1/8 w-1/2 h-1/8-screen  overflow-hidden">
-              <router-link :to="homeAnchor.href">
-                <img :src="homeAnchor.image" class="w-full h-full object-cover" :alt="homeAnchor.label">
-              </router-link>
-            </div> 
+             <div class="flex mx-2 justify-between items-center">
 
-            <!-- drop down menu button -->
-            <button @click="isOpen = !isOpen" class="flex items-center justify-center px-4 w-20 h-30 cursor-pointer md:hidden  bg-yellow-site rounded-full" id="burger">
-                <svg class="w-5 py-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
-            </button>
-
-            <!-- horizontal anchors-->
-            <ul id="menu" class="hidden md:flex flex-row space-x-8 items-center">
-                <li v-for="(item, index) in sideMenuItems" :key="index" class="btn">
-									<router-link :to="item.href" class="section-title-main no-underline inline-flex">
-											{{ item.label }}
-									</router-link>
-                </li>
-            </ul>
-
-            <!-- dropdown manu-->
-            <DropdownMenu v-if="isOpen" :menuItems="localMenuItems" :isOpen="isOpen" class="md:hidden" @close="isOpen = !isOpen"/>
+               <div v-if="homeAnchor" class="md:w-1/8 w-1/2 h-1/8-screen  overflow-hidden">
+                 <router-link :to="homeAnchor.href">
+                   <img :src="homeAnchor.image" class="w-full h-full object-cover" :alt="homeAnchor.label">
+                 </router-link>
+               </div> 
+   
+               <!-- drop down menu button -->
+               <button @click="isOpen = !isOpen" class="flex items-center justify-center px-4 w-20 h-30 cursor-pointer md:hidden  bg-yellow-site rounded-full" id="burger">
+                   <svg class="w-5 py-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                       <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                   </svg>
+               </button>
+   
+               <!-- horizontal anchors-->
+               <ul id="menu" class="hidden md:flex flex-row space-x-8 items-center">
+                   <li v-for="(item, index) in sideMenuItems" :key="index" class="btn">
+                     <router-link :to="item.href" class="section-title-main no-underline inline-flex">
+                         {{ item.label }}
+                     </router-link>
+                   </li>
+               </ul>
+   
+               <!-- dropdown manu-->
+               <DropdownMenu v-if="isOpen" :menuItems="localMenuItems" :isOpen="isOpen" class="md:hidden" @close="isOpen = !isOpen"/>
+             </div>
         </div>
     </nav>
   </div>
@@ -58,6 +63,8 @@ export default {
     const { imagesMetadata, error } = useImageMetadata();
     const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
+    const isScrolled = ref(false);
+
     watchEffect(() => {
         if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("navbar")){
           let generalContentItem = generalContentMetadata.value.get("navbar")
@@ -79,7 +86,7 @@ export default {
                                 menuItem.image = imgMetadata[0].image_url;
                             }
                             else{
-                                console.error('did not match image for : ', menuItem.label)
+                              console.error('did not match image for : ', menuItem.label)
                             }
                         }
                     });
@@ -99,6 +106,10 @@ export default {
         const newHeight = navbarRef.value.getBoundingClientRect().height;
         emit('navbarHeightUpdate', newHeight); // Emit to App.vue
       }
+    };
+
+    const handleScroll = () => {
+      isScrolled.value = window.scrollY > 50; // Change when scrolled past 50px
     };
 
     onMounted(() => {
@@ -122,13 +133,27 @@ export default {
           mutationObserver.observe(navbarRef.value, { childList: true, subtree: true });
         }
       });
+
+      window.addEventListener("scroll", handleScroll);
+
     });
 
     onUnmounted(() => {
       if (resizeObserver) resizeObserver.disconnect();
+
+      window.removeEventListener("scroll", handleScroll);
     });
 
-    return { isOpen, homeAnchor, sideMenuItems, localMenuItems, navbarRef }
+
+
+    const navClass = computed(() =>
+        isScrolled.value
+          ? "bg-white text-black border-gray-400 shadow-md" // White background when scrolled
+          : "bg-black-light opacity-20 text-black-light" // Transparent when at the top
+    );
+
+
+    return { isOpen, homeAnchor, sideMenuItems, localMenuItems, navbarRef, navClass }
   }
 }
 
