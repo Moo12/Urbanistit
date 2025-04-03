@@ -1,15 +1,15 @@
 <template>
   <div >
-    <nav class="z-[10000] relative" ref="navbarRef" >
+    <nav class="z-[10000] relative padding-section pt-2" ref="navbarRef" >
         <div class="absolute inset-0 z-[-1]" :class="[navClass]"></div>
 
         <div class="relative">
             <!-- home button -->
-             <div class="flex mx-2 justify-between items-center">
+             <div class="flex justify-between items-center">
 
-               <div v-if="homeAnchor" class="md:w-1/8 w-1/2 h-1/8-screen  overflow-hidden">
+               <div v-if="homeAnchor" class="md:w-1/4 lg:w-1/8 w-1/2   overflow-hidden">
                  <router-link :to="homeAnchor.href">
-                   <img :src="homeAnchor.image" class="w-full h-full object-cover" :alt="homeAnchor.label">
+                   <img :src="homeAnchor.image" class="w-full object-cover" :alt="homeAnchor.label">
                  </router-link>
                </div> 
    
@@ -39,13 +39,17 @@
 
 <script>
 import { ref, watchEffect, computed, nextTick, onMounted, onUnmounted } from 'vue';
+import { useRoute } from 'vue-router';
 
 import DropdownMenu from './DropdownMenu.vue';
 
 import useImageMetadata from '@/composables/fetchImageMetadata'
 import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
+import { ReceiptEuroIcon } from 'lucide-vue-next';
 
- 
+
+
+
 export default {
   components: {
     DropdownMenu,
@@ -62,8 +66,10 @@ export default {
     const homeAnchor = ref(null);
     const { imagesMetadata, error } = useImageMetadata();
     const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
-
+    
     const isScrolled = ref(false);
+    
+    const route = useRoute();
 
     watchEffect(() => {
         if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("navbar")){
@@ -146,11 +152,14 @@ export default {
 
 
 
-    const navClass = computed(() =>
-        isScrolled.value
+    const navClass = computed(() => {
+
+      const notScrolledClasses = route.path === '/' ? "bg-black-light opacity-20" : "bg-transparent"
+
+      return  isScrolled.value
           ? "bg-white text-black border-gray-400 shadow-md" // White background when scrolled
-          : "bg-black-light opacity-20 text-black-light" // Transparent when at the top
-    );
+          :  `${notScrolledClasses} text-black-light` // Transparent when at the top
+    });
 
 
     return { isOpen, homeAnchor, sideMenuItems, localMenuItems, navbarRef, navClass }

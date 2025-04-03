@@ -38,7 +38,7 @@ const routes = [
     component: BlogPage,
   },
   {
-    path: '/blog/single-blog/:id',
+    path: '/blog/:id',
     name: 'Single-Blog',
     component: BlogItem,
     props: true // Allows passing `id` as a prop to `BlogItem`

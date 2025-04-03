@@ -1,19 +1,18 @@
 <template>
-    <div class="w-full bg-cover" :style="{ backgroundImage: `url(${backgroundImage})` }">
-        
-        <!-- content -->
-        <div class="w-5/6 mx-auto h-full overflow-hidden" >
+    <div class="w-full flex flex-col padding-section">
+        <div class="justify-center items-center" :class = "[containerClass]">
             <!-- horizontal anchors-->
-            <ul class="flex  h-full flex-row justify-between items-start">
-                <li v-for="(item, index) in orderedMenuItems" :key="index" class="btn h-full">
-                    <a :href="item.href" class="no-underline h-full flex items-center">
-                        <img v-if="item.image" :src="item.image" alt="item.label" class="h-4/5 self-end object-cover" />
-                        <p v-else class="section-title-main text-black-light">{{ item.label }}</p>
-                    </a>
-                </li>
-            </ul>
+            <div v-for="(item, index) in orderedMenuItems" :key="index" class="flex items-center justify-center btn h-full">
+                <a :href="item.href" class="no-underline flex justify-center items-center">
+                    <img v-if="item.image" :src="item.image" alt="item.label" class="w-1/3 aspect-square" />
+                    <p v-else class="section-title-main font-black text-black-light">{{ item.label }}</p>
+                </a>
+            </div>
         </div>
-
+        <div class="flex justify-center gap-5 items-center">
+            <p class="text-section">כל הזכויות שומרות. הצהרת נגישות</p>
+            <p class="text-section">האתר עוצב ונבנה באהבה ע"י מאיה ומעין</p>
+        </div>
     </div>
   
 </template>
@@ -31,6 +30,8 @@ export default {
         const { imagesMetadata, error } = useImageMetadata();
         const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
+        const containerClass = ref('')
+        
         onMounted(() => {
         })
 
@@ -59,7 +60,9 @@ export default {
                                 console.error('did not match image for : ', menuItem.label)
                             }
                         }
-                    });
+                    })
+
+                    containerClass.value =  `grid grid-cols-${localMenuItems.value?.length}`
                 }
             })
 
@@ -77,8 +80,7 @@ export default {
             return items;
         });
 
-
-        return { backgroundImage, orderedMenuItems }
+        return { backgroundImage, orderedMenuItems, containerClass }
     }
 }
 </script>

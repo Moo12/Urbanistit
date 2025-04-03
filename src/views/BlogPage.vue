@@ -1,56 +1,49 @@
 <template>
-  <div class="my-10 mx-10 md:mx-40 flex flex-col gap-16">
-    <!-- first part -->
-    <div class="grid grid-cols-[3fr_2fr] gap-10">
-
-        <!-- image -->
-         <div class="rounded-3xl overflow-hidden">
-            <img :src=blogCoverImage class="h-full object-cover" alt="">
-         </div>
-         <!-- header and icons -->
-        <div class="flex flex-col items-center justify-between  self-end place-self-end gap-10">
-            <div class="flex flex-col  gap-10 justify-center text-center">
-                <p class="mega-title text-center leading-tight">יוצאים מהמגירה</p>
-                <p class="section-title-main text-center justify-self-start">כאן, בין המילים, אני מנסה ללכוד רגעים -
-
-את החולף, את החמקמק, את הפלא שבשינוי ובשגרה. בין כוס קפה בשוק קטן לרגעי שקט מול הים, אני משוטטת ומשאירה עקבות קלילים בסמטאות, לוגמת את רחשי הרחוב, משתהה אל מול היופי הרגעי ומניחה לשאלות להתקיים מסביבי.</p>
+    <div class="flex flex-col gap-16">
+        <!-- first part -->
+        <div class="grid grid-cols-12 gap-3 padding-section ">
+              <!-- image -->
+               <div class="col-span-7  overflow-hidden -ml-10 md:-ml-20 lg:-ml-40">
+                  <img :src=blogCoverImage class="w-full  object-cover aspect-[0.8] object-[center_90%]" alt="">
+               </div>
+               <!-- header and icons -->
+              <div class="col-span-5 flex flex-col items-end justify-start gap-12 pt-16">
+                  <p class="text-fifty-four-px font-black text-right leading-tight">יוצאים מהמגירה</p>
+                  <p class="section-title-main text-right justify-self-start">כאן, בין המילים, אני מנסה ללכוד רגעים -
+      
+      את החולף, את החמקמק, את הפלא שבשינוי ובשגרה. בין כוס קפה בשוק קטן לרגעי שקט מול הים, אני משוטטת ומשאירה עקבות קלילים בסמטאות, לוגמת את רחשי הרחוב, משתהה אל מול היופי הרגעי ומניחה לשאלות להתקיים מסביבי.</p>
+                  <BlogCategoryIcons iconBg="brown-site" :vertical="false" class="max-w-full" @blogCategoryClicked="handleCategory"/>
+                  <div v-if="tagsDocuments">
+                      <TagsIcons :tagsDocuments="tagsDocuments" @tagToggled="handleToggledTags"/>
+                  </div>
+              </div>
             </div>
-            <div class="w-[40%] flex justify-center">
-                    <BlogCategoryIcons iconBg="beige" :vertical="true" class="max-w-full" @blogCategoryClicked="handleCategory"/>
-            </div>
-        </div>
-    </div>
-    <div v-if="tagsDocuments">
-        <TagsIcons :tagsDocuments="tagsDocuments" @tagToggled="handleToggledTags"/>
-    </div>
-    <!-- thirs part blogs -->
-     <div class="bg-gray-background -mx-10 md:-mx-40"> <!-- apply negative margin for cover all screen with background -->
-        <div class="my-10 mx-10 md:mx-40">
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-16">
-                <div v-for="blog in visibleBlogs" :key="blog.id" class="bg-background-site rounded-3xl">
-                    <router-link :to="{ name: 'Single-Blog', params: { id: blog.id }}">
-                        <div class="flex flex-col gap-5">
-                            <div class="overflow-hidden square-frame">
-                                <img :src="getMainImageSrc(blog)" alt="" class="object-cover w-full h-full">
+          <!-- second part part blogs -->
+           <div class="bg-gray-background padding-section py-16"> <!-- apply negative margin for cover all screen with background -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-[8.6%]">
+                    <div v-for="blog in visibleBlogs" :key="blog.id" class="bg-white rounded-3xl aspect-[0.8]">
+                        <router-link :to="{ name: 'Single-Blog', params: { id: blog.id }}">
+                            <div class="flex flex-col h-full w-full items-center justify-around">
+                                <div class="w-[86%] overflow-hidden rounded-3xl">
+                                    <img :src="getMainImageSrc(blog)" alt="" class="object-cover w-full aspect-square">
+                                </div>
+                                <div>
+                                    <p class="text-section font-black">{{blog?.translations[selectedLang]?.title}}</p>
+                                </div>
                             </div>
-                            <div class="self-center">
-                                <p class="header-title-sub">{{blog?.translations[selectedLang]?.title}}</p>
-                            </div>
-                        </div>
-                    </router-link>
+                        </router-link>
+                    </div>
                 </div>
-            </div>
-        </div>  
-        <!-- "Display More" Button -->
-        <div class="w-full h-56" >
-            <div class="flex h-full  w-full justify-center mt-6" :style="ellipseStyle">
-                <button v-if="visibleBlogs?.length < blogDocuments?.length" @click="loadMoreBlogs" class="btn min-h-full">
-                    Display More
-                </button>
-            </div>
+              <!-- "Display More" Button -->
+              <div class="w-full h-56" >
+                  <div class="flex h-full  w-full justify-center mt-6" :style="ellipseStyle">
+                      <button v-if="visibleBlogs?.length < blogDocuments?.length" @click="loadMoreBlogs" class="btn min-h-full">
+                          Display More
+                      </button>
+                  </div>
+              </div>
+           </div>
         </div>
-     </div>
-  </div>
 </template>
 
 <script setup>

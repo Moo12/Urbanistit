@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="grid grid-cols-8 w-full padding-section">
-            <div class="col-start-2 col-span-3 items-center">
+        <div class="grid grid-cols-12 w-full padding-section">
+            <div class="col-span-5 items-center">
                 <BlogCategoryIcons class="w-full" iconBg="white" :vertical="false" @blogCategoryClicked="handleCategory"/>
             </div>
             <!-- Left part (Cat Image) -->
-            <div class="col-start-6 col-span-3 items-end flex flex-col">
+            <div class="col-start-8 col-span-4 items-end flex flex-col">
                 <div class="w-full text-right">
                     <router-link to="/blog">
                         <p class="text-fifty-four-px font-bold text-gray-background">יוצאים מהמגירה</p>

@@ -1,16 +1,18 @@
 <template>
-  <div class="content">
+  <div class="content flex flex-col">
     <Navbar @navbarHeightUpdate="updateNavbarHeight" class="navbar-fixed"/>
       <!-- <div class="content-admin"> -->
-      <div>
+      <div :class="contentClass">
         <router-view/>
+        <Footer />
       </div>
-      <Footer />
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+
+import { useRoute } from 'vue-router';
 
 import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
@@ -24,14 +26,31 @@ export default {
   setup(){
     useGeneralContentMetadata({ blog: "categories"})
 
+    const routeHeightMap = {
+      "/blog": "0px", // Top of the page
+    };
+
     const navbarHeight = ref(null)
+
+    const route = useRoute()
 
     const updateNavbarHeight = (height) => {
       navbarHeight.value = height;
       document.documentElement.style.setProperty("--navbar-height", `${height}px`);
     };
 
-    return { updateNavbarHeight };
+    // Compute the class for dynamic positioning
+    const contentClass = computed(() => {
+      const topValue = routeHeightMap[route.path] || `${navbarHeight.value}px`
+
+      console.log("topValue class", topValue)
+      return {
+        'content-default': topValue !== "0px", // Normal positioning below navbar
+        'content-top': topValue === "0px" // Fully at the top
+      };
+    });
+
+    return { updateNavbarHeight, contentClass };
   }
 }
 
@@ -54,8 +73,16 @@ export default {
   margin: 0 0;
   position: relative; /* Ensures proper stacking */
   max-width: 100%;
-  top: var(--navbar-height, 60px); /* Dynamic height from JS */
-  height: calc(100vh - var(--navbar-height, 60px)); /* Takes full viewport minus navbar */
+}
+
+.content-default {
+  position: relative;
+  top: var(--navbar-height, 60px);
+}
+
+.content-top {
+  position: relative;
+  top: 0;
 }
 
 

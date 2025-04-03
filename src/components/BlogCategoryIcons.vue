@@ -8,14 +8,19 @@
                 },
                 bgClass
                 ]"
-                class="btn aspect-square flex flex-col justify-center items-center rounded-2xl pt-2">
+                class="btn aspect-square flex flex-col justify-center items-center rounded-full pt-2">
             <!-- Image Wrapper -->
             <div class="md:w-1/2  w-1/2  flex justify-center items-center">
                 <img :src="topic.image" class="w-full aspect-square  object-fill" :alt="topic.label">
             </div>
 
             <!-- Title -->
-            <p class="text-section text-black-light font-black"> {{ topic.label }} </p>
+            <p class="text-section font-black"
+            :class="{
+                'text-black-light' : isLightBg,
+                'text-white' : !isLightBg,
+
+            }"> {{ topic.label }} </p>
         </div>
     </div>
 </template>
@@ -46,15 +51,40 @@ export default {
         const { toggled, initializeToggled, handleClick } = useSelectorToggle([], "blogCategoryClicked")
         
         const bgClass = ref(null)
-
+        
         const blogCategories = ref([]);
 
         const { imagesMetadata, error, getImageUrl } = useImageMetadata();
         const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
-        onMounted(() =>{
-            bgClass.value = props.iconBg === 'black' ? 'bg-black-light' : 'bg-gray-background'
-        })
+        // Define colors considered dark & light
+        const darkColors = ["black", "black-light", "gray-900", "gray-800", "brown-site"];
+        const lightColors = ["white", "beige", "gray-100", "gray-200"];
+
+        const isLightBg = computed(() => {
+            const bg = props.iconBg.replace('bg-', ''); // Normalize input
+            return !darkColors.includes(bg); // True for light, False for dark
+        });
+
+        // **Function to select the best image based on background color**
+        const selectBestImage = (images) => {
+           if (!images || images.length === 0) return null;
+
+           // Try to find an image with the opposite color contrast
+           let suitableImage = images.find(img => 
+               (!isLightBg.value && img.color === 'white') || 
+               (isLightBg.value && img.color === 'black')
+           );
+           console.log("suitableImage", suitableImage)
+
+
+           // Fallback: If no match is found, return the first image
+           return suitableImage || images[0];
+       };
+
+       onMounted(() =>{
+            bgClass.value = props.iconBg === 'black' ? 'bg-black-light' : `bg-${props.iconBg}`
+        });
 
         watchEffect(() => {
             if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("blog")?.categories){
@@ -65,7 +95,10 @@ export default {
                     initializeToggled(blogCategories.value.map(category => category.id));
 
                     docs.forEach(category => {
-                        let imageUrl = getImageUrl(category.default.images_metadata[0].metadata_id)
+                        const selectedImage = selectBestImage(category.default.images_metadata);
+
+                        let imageUrl = getImageUrl(selectedImage?.metadata_id);
+
 
                         blogCategories.value.push(
                             {
@@ -75,8 +108,11 @@ export default {
                             }
                         )
                     })
+
                 }
-        });
+
+        });        
+
 
         // Computed property for layout class
         const layoutClasses = computed(() => {
@@ -89,7 +125,9 @@ export default {
           handleClick(id, emit);
         };
 
-        return { layoutClasses, bgClass, blogCategories, handleCategoryClick, toggled }
+
+
+        return { layoutClasses, bgClass, blogCategories, handleCategoryClick, toggled, isLightBg }
     }
 }
 </script>

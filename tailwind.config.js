@@ -23,8 +23,8 @@ module.exports = {
       },
       fontFamily: {
         heebo: ["Heebo", "sans-serif"],
-        helvetica: ["Helvetica Neue", "Arial", "sans-serif"],
-        liebling: ["liebling"]
+        helvetica: ["Helvetica Neue", "sans-serif"],
+        liebling: ["Liebling" ,"serif"]
       },
       spacing: {
         '1/8': '12.5%', // Adds 'top-1/8' with 12.5% positioning
@@ -32,6 +32,7 @@ module.exports = {
       },
       fontSize: {
         'fifty-four-px': '3.375rem',
+        'twenty-seven-px': '1.688rem',
         'mega-title': '6.25rem',
         'main-title': '2.25rem',  // Extra small
         'sub-title': '1.7rem',   // Extra large

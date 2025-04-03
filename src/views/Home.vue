@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="h-screen">
       <AboutMe/>
     </div>
     <div id="introduction">
@@ -13,7 +13,7 @@
     </div>
 
     <!-- blog posts contact me sections -->
-    <div id="blog_section" class="w-full py-20 bg-black mt-16">
+    <div id="blog_section" class="h-screen w-full py-20 bg-black mt-16">
       <Blog/>
     </div>
     <div id="contactme_section" class="mt-16">
