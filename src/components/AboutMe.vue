@@ -32,7 +32,6 @@
 import { watchEffect, onMounted, ref } from 'vue';
 import useImageMetadata from '@/composables/fetchImageMetadata'
 import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
-import gurCover from "@/../public/img/gur_cover_full.jpg"
 
 export default {
   setup(){
