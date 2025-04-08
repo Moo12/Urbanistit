@@ -64,7 +64,7 @@ const props = defineProps({
 
 const selectedLang = ref(props.language || "he")
 
-const { imagesMetadata, error : errorImageMd, getMainImageUrl, getImageUrl } = useImageMetadata();
+const { imagesMetadata, error: errorImagesMetadata, getImageUrlByRole, getMainImageUrl } = useImageMetadata();
 const { sortedBlogData : blogDocuments, error : errorBlogDocs, setCategory, setTags } = useBlogDataSorting()
 const { documents : tagsDocuments , error : errorTagDocs, fetchCollectionOnce : fetchCollectionOnceTags } = getCollection("tags")
 
@@ -111,7 +111,7 @@ const blogCoverImage = computed(() => {
 
     if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("blog")){
         let generalContentItem = generalContentMetadata.value.get("blog")
-        return  getImageUrl(generalContentItem.common_data?.images_metadata?.cover)
+        return getImageUrlByRole(generalContentItem.common_data?.images_metadata, "cover")
     }
 
     return ""
