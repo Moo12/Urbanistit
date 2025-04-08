@@ -5,7 +5,7 @@
             <div v-for="(item, index) in orderedMenuItems" :key="index" class="flex items-center justify-center btn h-full">
                 <a :href="item.href" class="no-underline flex justify-center items-center">
                     <img v-if="item.image" :src="item.image" alt="item.label" class="w-1/3 aspect-square" />
-                    <p v-else class="section-title-main font-black text-black-light">{{ item.label }}</p>
+                    <p v-else class="text-section font-black text-black-light">{{ item.label }}</p>
                 </a>
             </div>
         </div>

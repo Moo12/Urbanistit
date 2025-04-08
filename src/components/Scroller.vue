@@ -1,23 +1,22 @@
 <template>
   <div class="scroll-container">
-    <div class="scroll-wrapper relative" ref="scrollWrapper"
-    > 
+    <div
+      class="flex flex-nowrap overflow-x-auto scroll-smooth whitespace-nowrap w-full scroll-wrapper"
+      :style="{ gap: gapSize, minWidth: '100%' }"
+      ref="scrollWrapper"
+    >
       <div
       v-for="(item, index) in items" 
         :key="index" 
-        class="scroll-item"
-        :style="{ 
-          backgroundImage: `url(${item.image})`,
-          minWidth: scrollItemWidth + 'px',
-          maxWidth: scrollItemWidth + 'px',
-        }"
+        class="shrink-0 aspect-[0.8] bg-cover bg-center flex items-center justify-center relative rounded-[30px] overflow-hidden cursor-pointer" ref=""
+        :style="{ backgroundImage: `url(${item.image})`, width:  scrollItemWidth}"
       >
          <!-- Default slot for custom content -->
          <slot :item="item"></slot>
         </div>
     </div>
 
-    <button class="scroll-btn right" @click="scrollRight">
+    <button class="scroll-btn right z-[1000] absolute top-1/2 right-2 -translate-y-1/2" @click="scrollRight">
       <ChevronRight />
     </button>
   </div>
@@ -37,33 +36,46 @@ export default {
     itemWidth: {
       type: Number,
       required: false,
-      default: 350
+      default: 25
     },
     itemGap: {
       type: Number,
       required: false,
-      default: 40
+      default: 2
     }
   },
   setup(props) {
     const scrollWrapper = ref(null);
-    const scrollItemWidth = ref(props.itemWidth); // Width of each scroll item
-    const gapSize = ref(props.itemGap); // Gap between scroll items in px
+    const scrollItemWidth = ref(`${props.itemWidth}%`);// Width of each scroll item
+    const gapSize = ref(`${props.itemGap}%`); // Gap between scroll items in px
 
-    // Compute scroll step (item width + gap)
-    const scrollStep = computed(() => scrollItemWidth.value + gapSize.value);
 
-    const scrollLeft = () => {
-      if (scrollWrapper.value) {
-        scrollWrapper.value.scrollBy({ left: -scrollStep.value, behavior: "smooth" });
-      }
-    };
+    console.log(`item percentage ${scrollItemWidth.value} gap percentage ${gapSize.value}`)
 
-    const scrollRight = () => {
-      if (scrollWrapper.value) {
-        scrollWrapper.value.scrollBy({ left: scrollStep.value, behavior: "smooth" });
-      }
-    };
+  // Compute scroll step (item width + gap)
+  const parsePercentage = (percentStr) => parseFloat(percentStr) / 100;
+
+  const scrollStep = computed(() => {
+    if (!scrollWrapper.value) return 0;
+    const containerWidth = scrollWrapper.value.getBoundingClientRect().width;
+    const itemW = containerWidth * parsePercentage(props.itemWidth);
+    const gap = containerWidth * parsePercentage(props.itemGap);
+
+    console.log(`itemW ${itemW} gap ${gap}`)
+    return itemW + gap;
+  });
+
+  const scrollLeft = () => {
+    if (scrollWrapper.value) {
+      scrollWrapper.value.scrollBy({ left: -scrollStep.value, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollWrapper.value) {
+      scrollWrapper.value.scrollBy({ left: scrollStep.value, behavior: "smooth" });
+    }
+  };
 
     return { scrollWrapper, scrollLeft, scrollRight, scrollItemWidth, gapSize };
   }
@@ -82,36 +94,9 @@ export default {
   margin: auto;
 }
 
-.scroll-wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: v-bind(gapSize + 'px'); /* Use the dynamic gap */
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  padding: 0 0;
-  max-width: 100% ;
-  white-space: nowrap;
-}
-
 .scroll-wrapper::-webkit-scrollbar {
   display: none;
 }
-
-.scroll-item {
-  aspect-ratio: 0.8;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  border-radius: 30px;
-  overflow: hidden;
-  cursor: pointer;
-}
-
 
 .scroll-btn {
   background: rgba(0, 0, 0, 0.5);

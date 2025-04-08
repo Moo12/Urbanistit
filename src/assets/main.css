@@ -2,6 +2,7 @@
 @import url('https://fonts.cdnfonts.com/css/helvetica-neue-5');
 @import url('https://use.typekit.net/urq5wbb.css');
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -47,20 +48,21 @@ body {
     @apply font-black text-fifty-four-px
 }
 
-.header-title {
-    @apply font-black text-main-title-small_sc md:text-main-title 
+
+.sub-title {
+    @apply text-twenty-seven-px font-black
 }
 
-.header-title-sub {
-    @apply font-bold text-sub-title-small-sc md:text-sub-title
-}
-
-.section-title-main {
-    @apply font-medium text-section-small_sc md:text-section
+.section-content {
+    @apply text-section-small_sc md:text-section font-light 
 }
 
 .padding-section {
     @apply px-10 md:px-20 lg:px-40;
+}
+
+.padding-half-section {
+    @apply px-5 md:px-10 lg:px-20;
 }
 
 .margin-half-section {

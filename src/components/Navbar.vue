@@ -1,8 +1,6 @@
 <template>
   <div >
-    <nav class="z-[10000] relative padding-section pt-2" ref="navbarRef" >
-        <div class="absolute inset-0 z-[-1]" :class="[navClass]"></div>
-
+    <nav class="z-[10000] relative padding-section" :class="navClass" ref="navbarRef" >
         <div class="relative">
             <!-- home button -->
              <div class="flex justify-between items-center">
@@ -23,7 +21,7 @@
                <!-- horizontal anchors-->
                <ul id="menu" class="hidden md:flex flex-row space-x-8 items-center">
                    <li v-for="(item, index) in sideMenuItems" :key="index" class="btn">
-                     <router-link :to="item.href" class="section-title-main no-underline inline-flex">
+                     <router-link :to="item.href" class="text-section font-black no-underline inline-flex">
                          {{ item.label }}
                      </router-link>
                    </li>
@@ -77,7 +75,7 @@ export default {
 
                     localMenuItems.value = generalContentItem.translations?.he?.nav_links?.value
 
-                    
+                    localMenuItems.value = localMenuItems.value.reverse()
 
                     if (!localMenuItems.value?.length){
                       console.error('nav items is empty')
@@ -153,12 +151,9 @@ export default {
 
 
     const navClass = computed(() => {
-
-      const notScrolledClasses = route.path === '/' ? "bg-black-light opacity-20" : "bg-transparent"
-
       return  isScrolled.value
           ? "bg-white text-black border-gray-400 shadow-md" // White background when scrolled
-          :  `${notScrolledClasses} text-black-light` // Transparent when at the top
+          :  `bg-transparent text-black-light` // Transparent when at the top
     });
 
 

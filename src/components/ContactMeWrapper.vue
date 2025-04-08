@@ -11,7 +11,7 @@
                 <img :src="titleImgSrc" class="object-cover w-auto h-full" alt="Title Image">
             </div>
             <div class="col-span-1">
-                <img :src="sideImgSrc" class="object-cover w-full h-auto" alt="Cat Image">
+                <img :src="sideImgSrc" class="pb-[30%] object-cover w-full h-auto" alt="Cat Image">
             </div>
         </div>
     </div>

@@ -27,7 +27,7 @@ export default {
     useGeneralContentMetadata({ blog: "categories"})
 
     const routeHeightMap = {
-      "/blog": "0px", // Top of the page
+      "/store": "12px"
     };
 
     const navbarHeight = ref(null)
@@ -41,7 +41,7 @@ export default {
 
     // Compute the class for dynamic positioning
     const contentClass = computed(() => {
-      const topValue = routeHeightMap[route.path] || `${navbarHeight.value}px`
+      const topValue = routeHeightMap[route.path] ? `${navbarHeight.value}px` : "0px" 
 
       console.log("topValue class", topValue)
       return {

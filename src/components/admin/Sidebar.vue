@@ -5,7 +5,7 @@
         <li v-for="section in sections" :key="section.id">
           <button 
             @click="toggleChild(section._id)" 
-            class="w-full text-left p-2 hover:bg-gray-600 font-semibold flex justify-between items-center">
+            class="w-full text-left p-2 hover:bg-gray-600 flex justify-between items-center">
             {{ section.name }}
             <span
               class="transition-transform duration-200" 

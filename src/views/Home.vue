@@ -3,20 +3,20 @@
     <div class="h-screen">
       <AboutMe/>
     </div>
-    <div id="introduction">
+    <div id="introduction" class="mt-[7.3%]">
       <IntroductionParagraph/>
     </div>
     
     <!-- Projects --> 
-    <div id="projects_section" class="mt-16">
+    <div id="projects_section" class="mt-[7.3%]">
       <Clients/>
     </div>
 
     <!-- blog posts contact me sections -->
-    <div id="blog_section" class="h-screen w-full py-20 bg-black mt-16">
+    <div id="blog_section" class="min-h-screen w-full py-[7.3%] bg-black mt-[3.7%]">
       <Blog/>
     </div>
-    <div id="contactme_section" class="mt-16">
+    <div id="contactme_section" class="my-[3.7%]">
       <ContactMeWrapper/>
     </div>
   </div>

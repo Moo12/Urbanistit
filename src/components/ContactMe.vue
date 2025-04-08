@@ -27,7 +27,7 @@
                     type="submit"
                     class="btn bg-yellow-site rounded-3xl  px-6 py-2 text-center transition duration-300"
                             >
-                            <span class="text-black-light section-title-main font-black">שליחה</span>
+                            <span class="text-black-light section-content font-black">שליחה</span>
                     </button>
                 </div>
                 <div class="form-div">

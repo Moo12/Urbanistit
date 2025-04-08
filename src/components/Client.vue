@@ -1,6 +1,6 @@
 <template>
     <div v-if="project.isMain" class="btn flex items-center justify-center  bg-black-light rounded-3xl aspect-square w-full h-full">
-        <p class="header-title text-background-site">{{ project.name }}</p>
+        <p class="text-thirty-six-px font-black text-background-site">{{ project.name }}</p>
 
     </div>
     <div v-else class="md:relative  grid grid-cols-2 gap-4 w-full h-full md:flex md:items-center md:justify-center overflow-hidden"
@@ -24,13 +24,11 @@
                 'project-absolute-layout' : screenWidth >= 768,
  
             }">
-            <div class="flex flex-col justify-center items-center content-center">
-
-                <p class="header-title-sub pb-4 border-background-site border-b-4  text-background-site px-2 text-center">{{ project.translations?.he?.title }}</p>
-                <div class="flex flex-col mt-4 justify-center content-center">
-
-                    <p class="section-title-main text-center text-background-site"> {{ project.translations?.he?.sub_title }}</p>
-                </div>
+            <div class="px-20 flex flex-row-reverse flex-wrap justify-center items-center content-center">
+                <p dir="rtl" class="text-center mx-auto">
+                    <span class="text-section font-black  text-background-site">{{ project.translations?.he?.title }} </span>
+                    <span class="section-content  text-background-site before:content-['|'] before:px-2"> {{ project.translations?.he?.sub_title }}</span>
+                </p>
             </div>
         </div>
     </div>

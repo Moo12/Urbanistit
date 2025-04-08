@@ -5,7 +5,7 @@
         <div class="grid grid-cols-4 gap-10" :dir="directionClass">
             <p class="col-span-2 header-fifty-four-px">פרויקטים שיצאו לאור</p>
             <div class="col-start-1 col-span-2">
-                <p class="section-title-main">כאן, בין הרעיונות, אני טווה חוטים דקים של מחשבה והופכת אותם למציאות. משלב האסטרטגיה הראשוני ועד הנגיעה האחרונה בעיצוב - כל פרויקט הוא מסע, מפגש בין חלום למציאות, בין מילים לתמונה.</p>
+                <p class="section-content">כאן, בין הרעיונות, אני טווה חוטים דקים של מחשבה והופכת אותם למציאות. משלב האסטרטגיה הראשוני ועד הנגיעה האחרונה בעיצוב - כל פרויקט הוא מסע, מפגש בין חלום למציאות, בין מילים לתמונה.</p>
             </div>
             <div v-for="client in clientssDocuments" :key="client.id" class="col-span-1"
                 :class="[

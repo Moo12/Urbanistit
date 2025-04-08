@@ -6,9 +6,9 @@
          </p>
       <!-- Dropdown Selector -->
        <div v-if="hasDropdown" class="flex flex-col gap-1 items-center">
-          <p class="section-title-main font-semibold">Choose Images Role:</p>
+          <p class="section-content">Choose Images Role:</p>
          <label>
-           <select v-model="selectedOption" class="section-title-main p-2 self-center">
+           <select v-model="selectedOption" class="section-content p-2 self-center">
              <option v-for="option in dropdownOptions" :key="option" :value="option">
                {{ option }}
              </option>

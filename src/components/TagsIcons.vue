@@ -10,7 +10,7 @@
         }"
         @click="handleTagClick(tag.id)"
       >
-        <p class="text-center section-title-main">{{ tag.translations.en.title }}</p>
+        <p class="text-center section-content">{{ tag.translations.en.title }}</p>
       </div>
     </div>
   </template>

@@ -9,11 +9,11 @@
                <!-- header and icons -->
               <div class="col-span-5 flex flex-col items-end justify-start gap-12 pt-16">
                   <p class="text-fifty-four-px font-black text-right leading-tight">יוצאים מהמגירה</p>
-                  <p class="section-title-main text-right justify-self-start">כאן, בין המילים, אני מנסה ללכוד רגעים -
+                  <p class="section-content text-right justify-self-start">כאן, בין המילים, אני מנסה ללכוד רגעים -
       
       את החולף, את החמקמק, את הפלא שבשינוי ובשגרה. בין כוס קפה בשוק קטן לרגעי שקט מול הים, אני משוטטת ומשאירה עקבות קלילים בסמטאות, לוגמת את רחשי הרחוב, משתהה אל מול היופי הרגעי ומניחה לשאלות להתקיים מסביבי.</p>
                   <BlogCategoryIcons iconBg="brown-site" :vertical="false" class="max-w-full" @blogCategoryClicked="handleCategory"/>
-                  <div v-if="tagsDocuments">
+                  <div v-if="tagsDocuments" class="mt-auto">
                       <TagsIcons :tagsDocuments="tagsDocuments" @tagToggled="handleToggledTags"/>
                   </div>
               </div>

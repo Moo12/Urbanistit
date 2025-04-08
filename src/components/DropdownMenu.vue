@@ -13,7 +13,7 @@
 
             <ul class="space-y-4 m-1/10">
                 <li v-for="(item, index) in menuItems" :key="index" class="btn">
-                    <a :href="item.href" class="text-right block px-4 py-2 section-title-main  text-background-site">{{ item.label }}</a>
+                    <a :href="item.href" class="text-right block px-4 py-2 text-content font-light  text-background-site">{{ item.label }}</a>
                 </li>
             </ul>
         </div>

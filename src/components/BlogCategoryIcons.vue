@@ -118,7 +118,7 @@ export default {
         const layoutClasses = computed(() => {
         return props.vertical 
             ? 'flex flex-col gap-6 items-center justify-center'
-            : 'grid grid-cols-3 gap-10 items-center justify-center';
+            : 'grid grid-cols-3 gap-[12%] items-center justify-center';
         });
 
         const handleCategoryClick = (id) => {

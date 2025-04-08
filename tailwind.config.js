@@ -33,6 +33,8 @@ module.exports = {
       fontSize: {
         'fifty-four-px': '3.375rem',
         'twenty-seven-px': '1.688rem',
+
+        'thirty-six-px': '2.25rem',
         'mega-title': '6.25rem',
         'main-title': '2.25rem',  // Extra small
         'sub-title': '1.7rem',   // Extra large

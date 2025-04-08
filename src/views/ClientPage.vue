@@ -7,7 +7,7 @@
         <!-- title and sub title -->
         <div class="flex flex-col col-span-5  justify-self-end text-right gap-6">
           <p class="header-title  text-right leading-tight border-b-4 border-black-light">{{ clientDoc.translations.he.title }}</p>
-          <p class="section-title-main text-right">{{ clientDoc.translations.he.sub_title }}</p>
+          <p class="section-content text-right">{{ clientDoc.translations.he.sub_title }}</p>
           <ProjectSelector v-if="clientProjects" :projectDocs="clientProjects" :language="language"  @ProjectSelectorClicked="handleProjectSelect" />
         </div>
         <!-- IMAGE-->

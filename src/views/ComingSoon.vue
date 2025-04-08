@@ -1,12 +1,11 @@
 <template>
-    <div class="flex flex-col justify-center items-center gap-6 mx-auto w-2/3 md:w-1/4 my-10 ">
-        <div class="rounded-3xl overflow-hidden">
-          <img :src="imageSrc" alt="Loading" class="w-full object-cover">
-        </div>
-        <p class="header-title">משהו מתבשל פה</p>
-        <div class="flex flex-col justify-center items-center gap-2">
-            <p class="section-title-main">העמוד הזה עדיין בתהליך התהוות ויצירה</p>
-            <p class="section-title-main">מבטיחות שמשהו יחכה לך כאן ממש בקרוב</p>
+    <div class="h-screen w-full bg-cover flex flex-col justify-center items-center" :style="{  backgroundImage: `url(${imageSrc})`, backgroundPosition: 'center 80%' }">
+        <div class="bg-black-light flex flex-col justify-between items-center rounded-3xl py-[2%] px-[3%] gap-[3%]  mt-[28%]">
+            <p class="text-white text-fifty-four-px font-black">...משהו מתבשל פה</p>
+            <p class="section-content text-white">
+                העמוד הזה עדיין בתהליך התהוות ויצירה<br>
+                מבטיחות שמשהו יחכה לך כאן ממש בקרוב
+            </p>
         </div>
     </div>
 </template>
