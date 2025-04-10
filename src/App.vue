@@ -27,7 +27,8 @@ export default {
     useGeneralContentMetadata({ blog: "categories"})
 
     const routeHeightMap = {
-      "/store": "12px"
+      "/store": "12px",
+      "/clients": "12px"
     };
 
     const navbarHeight = ref(null)

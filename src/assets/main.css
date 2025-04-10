@@ -65,9 +65,15 @@ body {
     @apply px-5 md:px-10 lg:px-20;
 }
 
+
 .margin-half-section {
     @apply mx-5 md:mx-10 lg:mx-20;
 }
+
+.margin-half-section-top{
+    @apply mt-5 md:mt-10 lg:mt-20;
+}
+
 
 .admin-pannel input,
 .admin-pannel select {
