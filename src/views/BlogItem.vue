@@ -1,20 +1,22 @@
 <template>
-  <div v-if="!errrorLoadBlogDoc && blogDoc" class="flex flex-col mt-5">
-    <!-- category title image -->
-    <div class="flex flex-col justify-center items-center gap-5">
-        <div>
-            <p class="section-content">-------- {{ selectedCategory }} --------</p>
-        </div>
-        <div>
-            <p class="header-title"> {{ blogDoc.translations.he.title }}</p>
-        </div>
-
-        <!-- main image -->
-        <div class="relative w-[80%] mx-auto rounded-t-[50%] overflow-hidden">
-            <img :src="mainImageUrl" class="w-full h-[50vh] object-cover " alt="main image">
+  <div v-if="!errrorLoadBlogDoc && blogDoc" class="flex flex-col">
+    <!-- layout -->
+    <div class="bg-background-site">
+        <div v-if="isLandscape !== null" class="bg-white margin-half-section-top margin-half-section" :class="mainImgAndTitleLayoutClass">
+            <!-- image -->
+            <div class=""
+                    :class="[mainImgAdujtmentsLayoutClass]" :style="`aspect-ratio: ${ratio}`">
+                <BlogItemMainLayuot  :imageSrc="mainImageUrl" :isLandscape="isLandscape" :aspectRatio="ratio"/>
+            </div>
+            <!-- category title -->
+            <div class="flex flex-col items-center gap-5 flex-wrap">
+                <p class="section-content">-------- {{ selectedCategory }} --------</p>
+                <p class="text-fifty-four-px font-black "> {{ blogDoc.translations.he.title }}</p>
+            </div>
         </div>
     </div>
-    <!-- navigate -->
+    
+        <!-- navigate -->
     <div class="mt-10 mx-5 flex justify-between">
         <div class="btn">
             תאריך עלייה לאתר
@@ -25,6 +27,8 @@
             </div>
         </router-link>
     </div>
+
+
 
     <!-- sub title -->
     <div class="flex flex-col justify-center items-center gap-5">
@@ -47,7 +51,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watchEffect } from 'vue';
+import { onMounted, ref, watchEffect, computed } from 'vue';
+import BlogItemMainLayuot from '@/components/BlogItemMainLayuot.vue'; 
 
 import getCollection from '@/composables/getCollection'
 import getDocument from '@/composables/getDocument';
@@ -72,7 +77,7 @@ const selectedTags = ref([])
 
 const language = "he"
 
-const mainImageUrl = ref("")
+const mainImageUrl = ref(null)
 
 const subImagesUrls = ref([])
 
@@ -80,12 +85,31 @@ const { documents : tagsDocuments , error : errorTagDocs, fetchCollectionOnce : 
 
 const { error: errrorLoadBlogDoc, document : blogDoc} = getDocument("blog", id.value)
 
+const isLandscape = ref(null); // To determine layout
+const ratio = ref(null)
+
+  // Function to calculate image aspect ratio
+const getImageAspectRatio = (src) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => { 
+        console.log("on image load")
+      const ratio = img.width / img.height;
+      resolve(ratio);
+    };
+    img.src = src;
+  });
+};
+
+// On component mount, check the image's aspect ratio
+
 onMounted(async () => {
+    
     await fetchTagsCollectionOnce()
 })
 
 
-watchEffect(() => {
+watchEffect(async () => {
     const categories = generalContentMetadata?.value?.get("blog")?.categories
     if (blogDoc.value){
 
@@ -107,11 +131,33 @@ watchEffect(() => {
             mainImageUrl.value = getMainImageUrl(blogDoc.value.default.images_metadata)
             subImagesUrls.value = getSubImagesUrls(blogDoc.value.default.images_metadata)
 
+            if ( isLandscape.value === null){
+                ratio.value = await getImageAspectRatio(mainImageUrl.value);
+                
+                isLandscape.value = ratio.value > 1;
+                
+                console.log("ratio", ratio.value)
+                console.log("isLandscape", isLandscape.value)
+            }
+
         }
     }
-
-
 })
+
+const mainImgAndTitleLayoutClass = computed(() => {
+    if (isLandscape.value !== null){
+        return isLandscape.value ? "flex flex-col-reverse" :  "grid grid-cols-[2fr_2fr]"
+    }
+})
+
+const mainImgAdujtmentsLayoutClass = computed(() => {
+    if (isLandscape.value !== null){
+        return isLandscape.value ? "ml-[calc(-50vw+50%)] mr-[calc(-50vw+50%)]" :  "ml-[calc(-50vw+50%)]"
+    }
+})
+
+
+
 
 </script>
 

@@ -19,9 +19,14 @@
             </div>
         </div>
     </div>    
-    <div class="mt-16">
-        <Scroller :items="projectsImages"/>
+    <div class="mt-[7.3%]">
+        <Scroller :items="projectsImages" :itemWidth="16" :itemGap="2"/>
     </div>
+
+    <div id="contactme_section" class="mt-[7.3%] mb-[3.7%]">
+      <ContactMeWrapper bgColor="brown"/>
+    </div>
+
   
 </template>
 
@@ -33,6 +38,7 @@ import getCollection from '@/composables/getCollection';
 import useSelectorToggle from '@/composables/useSelectorToggle';
 import Client from '@/components/Client.vue';
 import Scroller from '@/components/Scroller.vue';
+import ContactMeWrapper from '@/components/ContactMeWrapper.vue';
 
 const props = defineProps({
     language: String
