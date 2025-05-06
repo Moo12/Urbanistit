@@ -1317,10 +1317,6 @@ video {
   --tw-bg-opacity: 0.5;
 }
 
-.bg-\[url\(img\/gur_blog_background\.png\)\]{
-  background-image: url(img/gur_blog_background.png);
-}
-
 .bg-cover{
   background-size: cover;
 }
