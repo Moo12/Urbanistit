@@ -10,10 +10,11 @@
             </div>
         </div>
         <div class="flex flex-col md:flex-row justify-center md:gap-5 items-center" dir="rtl">
-            <p class="text-section">
-  האתר עוצב ונבנה ב<span class="text-red-500 mx-1">❤️</span> ע"י מאיה ומעין
-</p>
-            <p class="text-section">כל הזכויות שמורות. הצהרת נגישות</p>
+            <p class="text-[12px]">
+  האתר עוצב ונבנה ב<i class="fas fa-heart text-black-light mx-1"></i>
+  .ע"י מאיה ומעין
+    </p>
+    <p class="text-[12px]">כל הזכויות שמורות. הצהרת נגישות</p>
         </div>
     </div>
   

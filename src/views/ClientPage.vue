@@ -6,7 +6,7 @@
       <div  class="grid grid-cols-12 justify-start" :dir="directionClass">
         <!-- title and sub title -->
         <div class="flex flex-col col-span-5  justify-self-end text-right gap-6">
-          <p class="header-title  text-right leading-tight border-b-4 border-black-light">{{ clientDoc.translations.he.title }}</p>
+          <p class="text-twenty-seven-px md:text-[54px] text-black-light leading-none font-black  text-right ">{{ clientDoc.translations.he.title }}</p>
           <p class="section-content text-right">{{ clientDoc.translations.he.sub_title }}</p>
           <ProjectSelector v-if="clientProjects" :projectDocs="clientProjects" :language="language"  @ProjectSelectorClicked="handleProjectSelect" />
         </div>

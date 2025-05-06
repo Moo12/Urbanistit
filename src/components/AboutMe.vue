@@ -1,7 +1,7 @@
 <template>
   <div class="relative bg-black-light h-full">
     <!-- Background Image -->
-    <div class="w-full h-full bg-cover" :style="{  backgroundImage: `url(${backgroundImage})`, backgroundPosition: '60% 0%' }">
+    <div class="w-full h-full bg-cover" :style="{  backgroundImage: `url(${backgroundImage})`, backgroundPosition: '60% 60%' }">
       <div class="absolute inset-0 bg-black-light opacity-20"></div>
 
       <div class="relative padding-section">

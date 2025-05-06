@@ -7,12 +7,12 @@
                 <!-- Left part (Cat Image) -->
                 <div class="col-start-2 col-span-10">
                     <router-link to="/blog">
-                        <p class="text-twenty-seven-px md:text-fifty-four-px leading-none font-black">יוצאים <br> מהמגירה</p>
+                        <p class="text-twenty-seven-px md:text-[54px] text-black-light leading-none font-black">יוצאים <br> מהמגירה</p>
                     </router-link>
                     
                 </div>
                 <div class="col-start-2 col-span-12">
-                    <p class="text-section">מילים ומחשבות על מסע החיים</p>
+                    <p class="text-section text-black-light">מילים ומחשבות על מסע החיים</p>
                 </div>
                 <div class="col-span-10 col-start-2 md:col-start-4 pt-[5%] md:col-span-6">
                     <BlogCategoryIcons class="w-full" iconBg="white" hoverBgColor="yellow-site" :vertical="false" @blogCategoryClicked="handleCategory"/>

@@ -2,7 +2,7 @@
     
     <div class="flex flex-col justify-center h-full">
         <form @submit.prevent="handleSend">
-            <div class="grid grid-cols-2  gap-2">
+            <div class="grid grid-cols-2 gap-x-8 gap-y-4">
                 <div class="form-div">
                     <input 
                         type="text" 
@@ -11,10 +11,10 @@
                         placeholder="שם מלא"
                         required
                         />
-                    </div>
+                </div>
                     <!-- Email Input -->
-                    <div class="form-div">
-                        <input 
+                <div class="form-div">
+                    <input 
                         type="email" 
                         v-model="email"
                         class="form-input"
@@ -31,10 +31,10 @@
                     required
                     ></textarea>
                 </div>
-                <div class="flex items-end justify-start mb-2">
+                <div class="flex items-end  justify-start mb-2">
                     <button 
                     type="submit"
-                    class="btn bg-yellow-site rounded-md px-6 text-center transition duration-300"
+                    class="btn bg-yellow-site rounded-full px-6 text-center transition duration-300"
                             >
                             <span class="text-black-light section-content font-black">שליחה</span>
                     </button>

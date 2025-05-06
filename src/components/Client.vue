@@ -24,7 +24,7 @@
                 'project-absolute-layout' : screenWidth >= 768,
  
             }">
-            <div class="px-20 flex flex-row-reverse flex-wrap justify-center items-center content-center">
+            <div class="px-10 flex flex-row-reverse flex-wrap justify-center items-center content-center">
                 <p dir="rtl" class="text-center mx-auto">
                     <span class="text-section font-black  text-background-site">{{ project.translations?.he?.title }} </span>
                     <span class="section-content  text-background-site before:content-['|'] before:px-2"> {{ project.translations?.he?.sub_title }}</span>

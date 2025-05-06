@@ -1,5 +1,5 @@
 <template>
-    <div class="relative margin-half-section rounded-3xl"
+    <div class="relative margin-half-section rounded-[60px]"
         :class = "[bgClass]"
     >
         <div class="grid grid-cols-6 md:grid-cols-10  gap-2 items-center margin-half-section py-20" dir="rtl">
@@ -8,7 +8,7 @@
                 <img :src="sideImgSrc" class="pb-[30%] object-cover w-full h-auto" alt="Cat Image">
             </div>
             <div class="col-span-5 flex flex-wrap justify-start items-center">
-                <p class="text-twenty-seven-px md:text-[60px] font-black text-right m-0 leading-0">שניצור יחד<br> משהו מיוחד?</p>
+                <p class="text-twenty-seven-px md:text-[54px] text-black-light font-black text-right m-0 leading-none">שניצור יחד<br> משהו מיוחד?</p>
             </div>
             <div class="col-span-6 md:col-span-4">
                 <ContactMe />

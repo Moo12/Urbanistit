@@ -8,7 +8,7 @@
       <div
       v-for="(item, index) in items" 
         :key="index" 
-        class="shrink-0 aspect-[0.8] bg-cover bg-center flex items-center justify-center relative rounded-[30px] overflow-hidden cursor-pointer" ref=""
+        class="shrink-0 aspect-[0.8] bg-cover bg-center flex items-center justify-center relative rounded-md overflow-hidden cursor-pointer" ref=""
         :style="{ backgroundImage: `url(${item.image})`, width:  scrollItemWidth}"
       >
          <!-- Default slot for custom content -->
