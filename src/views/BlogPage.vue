@@ -1,18 +1,23 @@
 <template>
     <div class="flex flex-col gap-16">
         <!-- first part -->
-        <div class="grid grid-cols-12 gap-8 padding-section ">
+        <div class="grid grid-cols-12 gap-2 md:gap-8 padding-section">
             <!-- image -->
-            <div class="col-span-7  overflow-hidden -ml-10 md:-ml-20 lg:-ml-40">
+            <div v-if="!isMobile" class="col-span-12 md:col-span-7 overflow-hidden md:-ml-20 lg:-ml-40">
                 <img :src=blogCoverImage class="w-full  object-cover aspect-[0.8] object-[center_90%]" alt="">
             </div>
                <!-- header and icons -->
-            <div class="col-span-5 flex flex-col items-end justify-start gap-12 pt-16">
-                <p class="text-fifty-four-px font-black text-right leading-tight">יוצאים מהמגירה</p>
+            <div class="col-span-12 md:col-span-5 flex flex-col items-end justify-start gap-12 pt-20  md:pt-16">
+                <p class="text-[27px] md:text-fifty-four-px font-black w-full text-center md:text-right leading-tight">יוצאים מהמגירה</p>
                 <p class="section-content text-right justify-self-start">כאן, בין המילים, אני מנסה ללכוד רגעים -
     
     את החולף, את החמקמק, את הפלא שבשינוי ובשגרה. בין כוס קפה בשוק קטן לרגעי שקט מול הים, אני משוטטת ומשאירה עקבות קלילים בסמטאות, לוגמת את רחשי הרחוב, משתהה אל מול היופי הרגעי ומניחה לשאלות להתקיים מסביבי.</p>
+                <!-- image -->
+                <div v-if="isMobile" class="overflow-hidden -mx-20">
+                    <img :src=blogCoverImage class="w-full  object-cover aspect-[0.8] object-[center_90%]" alt="">
+                </div>
                 <BlogCategoryIcons iconBg="brown-site" :vertical="false" class="max-w-full" @blogCategoryClicked="handleCategory"/>
+
                 <div v-if="tagsDocuments" class="mt-auto">
                     <TagsIcons :tagsDocuments="tagsDocuments" @tagToggled="handleToggledTags"/>
                 </div>
@@ -20,15 +25,15 @@
         </div>
         <!-- second part part blogs -->
         <div class="bg-gray-background padding-section py-16"> <!-- apply negative margin for cover all screen with background -->
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-16">
-                <div v-for="blog in visibleBlogs" :key="blog.id" class="bg-white rounded-3xl aspect-[0.8]">
+            <div class="grid grid-cols-3 gap-4 md:gap-16">
+                <div v-for="blog in visibleBlogs" :key="blog.id" class="bg-white rounded-md aspect-[0.8]">
                     <router-link :to="{ name: 'Single-Blog', params: { id: blog.id }}">
                         <div class="flex flex-col h-full w-full items-center justify-around">
-                            <div class="w-[86%] overflow-hidden rounded-3xl">
+                            <div class="w-[86%] overflow-hidden rounded-md">
                                 <img :src="getMainImageSrc(blog)" alt="" class="object-cover w-full aspect-square">
                             </div>
                             <div class="flex flex-wrap justify-center">
-                                <p class="text-section font-black">{{blog?.translations[selectedLang]?.title}}</p>
+                                <p class="text-[14px] md:text-section text-center font-black leading-1">{{blog?.translations[selectedLang]?.title}}</p>
                             </div>
                         </div>
                     </router-link>
@@ -54,7 +59,7 @@
 
 <script setup>
 
-import { ref, computed, defineProps, watchEffect} from 'vue';
+import { ref, computed, defineProps, onMounted} from 'vue';
 
 import BlogCategoryIcons from '@/components/BlogCategoryIcons.vue';
 import TagsIcons from '@/components/TagsIcons.vue';
@@ -77,7 +82,13 @@ const { documents : tagsDocuments , error : errorTagDocs, fetchCollectionOnce : 
 
 const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
+const isMobile = ref(null)
+
 fetchCollectionOnceTags()
+
+onMounted(() => {
+    isMobile.value = window.innerWidth > 768 ? false : true
+})
 
 const ellipseStyle = computed(() => { //to fix
     return {

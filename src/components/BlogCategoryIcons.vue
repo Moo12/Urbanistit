@@ -6,16 +6,17 @@
                     'bg-yellow-site': toggled[topic.id], 
                     'shadow-[10px_10px_20px_0px_rgba(0,0,0,0.2)]': toggled[topic.id],
                 },
-                bgClass
+                bgClass,
+                `hover:bg-${hoverBgColor}`
                 ]"
-                class="btn aspect-square flex flex-col justify-center items-center rounded-full pt-2">
+                class="cursor-pointer aspect-square flex flex-col justify-center items-center rounded-full pt-2">
             <!-- Image Wrapper -->
             <div class="md:w-1/2  w-1/2  flex justify-center items-center">
                 <img :src="topic.image" class="w-full aspect-square  object-fill" :alt="topic.label">
             </div>
 
             <!-- Title -->
-            <p class="text-section font-black"
+            <p class="text-[12px] md:text-section font-black"
             :class="{
                 'text-black-light' : isLightBg,
                 'text-white' : !isLightBg,
@@ -42,7 +43,12 @@ export default {
             type: String,
             required: false,
             default: 'black'
-        }
+        },
+        hoverBgColor: {
+            type: String,
+            required: false,
+            default: 'transparent'
+        },
     },
     
     emit: ["blogCategoryClicked"],

@@ -3,7 +3,7 @@
       <div
         v-for="(tag, index) in tagsDocuments"
         :key="index"
-        class="btn rounded-3xl tag-item flex items-center justify-center p-3 cursor-pointer bg-yellow-site text-background-site"
+        class="btn rounded-md tag-item flex items-center justify-center p-3 cursor-pointer bg-yellow-site text-background-site"
         :class="{
           'opacity-70 border-2 border-gray-500': toggledTags[tag.id],  // Add selected class based on toggled status
           'opacity-100': !toggledTags[tag.id]   // Default background for untoggled tags

@@ -11,19 +11,19 @@
             <!-- category title -->
             <div class="flex flex-col items-center gap-5 flex-wrap">
                 <p class="section-content">-------- {{ selectedCategory }} --------</p>
-                <p class="text-fifty-four-px font-black "> {{ blogDoc.translations.he.title }}</p>
+                <p class="text-[27px] md:text-fifty-four-px font-black text-center"> {{ blogDoc.translations.he.title }}</p>
             </div>
         </div>
     </div>
     
         <!-- navigate -->
-    <div class="mt-10 mx-5 flex justify-between">
+    <div class="mt-10 padding-half-section flex justify-between">
         <div class="btn">
-            תאריך עלייה לאתר
+            <p class="font-light">תאריך עלייה לאתר</p>
         </div>
-        <router-link :to="{ name: 'Blog'}">> 
-            <div class="btn">
-                חזרה לעמוד הקודם
+        <router-link :to="{ name: 'Blog'}">
+            <div class="btn font-light">
+                <p class="font-light">חזרה לעמוד הקודם</p>
             </div>
         </router-link>
     </div>
@@ -31,12 +31,12 @@
 
 
     <!-- sub title -->
-    <div class="flex flex-col justify-center items-center gap-5">
+    <div class="mt-10 padding-half-section flex flex-col justify-center items-center gap-5">
         <div class="header-title-sub">
-           <p>{{ blogDoc.translations.he.sub_title }}</p>
+           <p class="text-right">{{ blogDoc.translations.he.sub_title }}</p>
         </div>
         <div class="section-content">
-           <p>{{ blogDoc.translations.he.content }}</p>
+           <p class="text-right">{{ blogDoc.translations.he.content }}</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
             <div v-for="image, index in subImagesUrls" :key="index">
@@ -52,7 +52,7 @@
 
 <script setup>
 import { onMounted, ref, watchEffect, computed } from 'vue';
-import BlogItemMainLayuot from '@/components/BlogItemMainLayuot.vue'; 
+import BlogItemMainLayuot from '@/components/BlogItemMainLayuot.vue';
 
 import getCollection from '@/composables/getCollection'
 import getDocument from '@/composables/getDocument';

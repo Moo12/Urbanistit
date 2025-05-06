@@ -4,7 +4,9 @@
       <!-- <div class="content-admin"> -->
       <div :class="contentClass">
         <router-view/>
-        <Footer />
+        <div class="margin-half-section-top">
+          <Footer/>
+        </div>
       </div>
   </div>
 </template>

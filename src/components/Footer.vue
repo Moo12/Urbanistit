@@ -1,17 +1,19 @@
 <template>
-    <div class="w-full flex flex-col padding-section">
+    <div class="w-full flex flex-col gap-4 padding-section">
         <div class="justify-center items-center" :class = "[containerClass]">
             <!-- horizontal anchors-->
             <div v-for="(item, index) in orderedMenuItems" :key="index" class="flex items-center justify-center btn h-full">
                 <a :href="item.href" class="no-underline flex justify-center items-center">
-                    <img v-if="item.image" :src="item.image" alt="item.label" class="w-1/3 aspect-square" />
-                    <p v-else class="text-section font-black text-black-light">{{ item.label }}</p>
+                    <img v-if="item.image" :src="item.image" alt="item.label" class="w-full md:w-1/3 aspect-square" />
+                    <p v-else class="text-[14px] md:text-section font-black text-center text-black-light">{{ item.label }}</p>
                 </a>
             </div>
         </div>
-        <div class="flex justify-center gap-5 items-center">
-            <p class="text-section">כל הזכויות שומרות. הצהרת נגישות</p>
-            <p class="text-section">האתר עוצב ונבנה באהבה ע"י מאיה ומעין</p>
+        <div class="flex flex-col md:flex-row justify-center md:gap-5 items-center" dir="rtl">
+            <p class="text-section">
+  האתר עוצב ונבנה ב<span class="text-red-500 mx-1">❤️</span> ע"י מאיה ומעין
+</p>
+            <p class="text-section">כל הזכויות שמורות. הצהרת נגישות</p>
         </div>
     </div>
   

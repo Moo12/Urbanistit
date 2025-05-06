@@ -1,20 +1,25 @@
 <template>
     <div>
-        <div class="grid grid-cols-12 w-full gap-[1%] padding-half-section" dir="rtl">
-            <!-- Left part (Cat Image) -->
-            <div class="col-start-2 col-span-4  items-end">
-                <router-link to="/blog">
-                    <img :src="titleImgSrc" class="object-cover w-full h-auto" alt="Title Image">
-                </router-link>
-                
-            </div>
-            <div class="col-start-8 col-span-5 items-center ">
-                <BlogCategoryIcons class="w-full" iconBg="white" :vertical="false" @blogCategoryClicked="handleCategory"/>
-            </div>
-            <div class="col-start-2 col-span-3 mt-[10%]">
-                <p class="text-section  text-gray-background">מילים ומחשבות על מסע החיים</p>
+
+        <div class="w-full bg-cover bg-top" dir="rtl"
+            :style="{ backgroundImage: `url(${backgroundSrc})` }">
+            <div class="padding-half-section grid grid-cols-12 w-full h-auto pt-[30%] md:pt-[25%] pb-[5%]"> 
+                <!-- Left part (Cat Image) -->
+                <div class="col-start-2 col-span-10">
+                    <router-link to="/blog">
+                        <p class="text-twenty-seven-px md:text-fifty-four-px leading-none font-black">יוצאים <br> מהמגירה</p>
+                    </router-link>
+                    
+                </div>
+                <div class="col-start-2 col-span-12">
+                    <p class="text-section">מילים ומחשבות על מסע החיים</p>
+                </div>
+                <div class="col-span-10 col-start-2 md:col-start-4 pt-[5%] md:col-span-6">
+                    <BlogCategoryIcons class="w-full" iconBg="white" hoverBgColor="yellow-site" :vertical="false" @blogCategoryClicked="handleCategory"/>
+                </div>
             </div>
         </div>
+        <!-- blog scroller -->
         <div v-if="convertedItems" class="my-[6%]">
             <Scroller :items="convertedItems" :itemWidth="18" :itemGap="2">
                 <template v-slot:default="{ item }">
@@ -23,7 +28,7 @@
                             <p class="text-center break-words whitespace-normal ">{{ item.title }}</p>
                         </div>
                     </router-link>
-                </template>
+            </template>
             </Scroller>
         </div>
     </div>
@@ -54,6 +59,7 @@ export default {
         const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
         const titleImgSrc = ref(null)
+        const backgroundSrc = ref(null)
 
         const convertedItems = ref(null)
 
@@ -73,6 +79,7 @@ export default {
             if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("blog")){
                 let generalContentItem = generalContentMetadata.value.get("blog")
                 titleImgSrc.value = getImageUrlByRole(generalContentItem.common_data?.images_metadata, "title")
+                backgroundSrc.value = getImageUrlByRole(generalContentItem.common_data?.images_metadata, "background")
             }
 
         });
@@ -82,7 +89,7 @@ export default {
             router.push( { name: "Blog" } )
         }
 
-        return { convertedItems, handleCategory, titleImgSrc }
+        return { convertedItems, handleCategory, titleImgSrc, backgroundSrc }
     }
     
 

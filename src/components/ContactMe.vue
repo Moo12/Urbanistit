@@ -22,14 +22,6 @@
                         required
                     />
                 </div>
-                <div class=" justify-self-center  flex items-end ">
-                    <button 
-                    type="submit"
-                    class="btn bg-yellow-site rounded-3xl  px-6 py-2 text-center transition duration-300"
-                            >
-                            <span class="text-black-light section-content font-black">שליחה</span>
-                    </button>
-                </div>
                 <div class="form-div">
                     <textarea 
                     v-model="message"
@@ -38,6 +30,14 @@
                     placeholder="על מה נדבר?"
                     required
                     ></textarea>
+                </div>
+                <div class="flex items-end justify-start mb-2">
+                    <button 
+                    type="submit"
+                    class="btn bg-yellow-site rounded-md px-6 text-center transition duration-300"
+                            >
+                            <span class="text-black-light section-content font-black">שליחה</span>
+                    </button>
                 </div>
             </div>
             </form>

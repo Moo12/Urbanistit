@@ -1,14 +1,15 @@
 <template>
   <div class="relative bg-black-light h-full">
     <!-- Background Image -->
-    <div class="w-full h-full bg-cover" :style="{  backgroundImage: `url(${backgroundImage})`, backgroundPosition: 'center 100%' }">
+    <div class="w-full h-full bg-cover" :style="{  backgroundImage: `url(${backgroundImage})`, backgroundPosition: '60% 0%' }">
       <div class="absolute inset-0 bg-black-light opacity-20"></div>
 
       <div class="relative padding-section">
-        <div class=" h-full grid grid-cols-12  gap-[0.5%]"
+        <div class=" h-full grid md:grid-cols-12 grid-cols-6  gap-[0.5%]"
         :class="{
-          'pt-[14%]' : aspectRatio <= 1.8,
-          'pt-[9%]' : aspectRatio > 1.8
+          'pt-[14%]' : aspectRatio <= 1.8 && aspectRatio > 1,
+          'pt-[9%]' : aspectRatio > 1.8,
+          'pt-[25%]' : aspectRatio < 1
         }">
           <!-- Quatations Image -->
           <div class="col-span-3 col-start-1 aspect-[1.52] ">
@@ -16,7 +17,7 @@
                   class="object-cover h-full scale-110">
           </div>
           <!-- Quote Text -->
-          <div class="col-span-4 flex flex-col text-white ">
+          <div class="md:col-span-4 md:col-start-4 col-start-1 col-span-3 flex flex-col text-white ">
               <p  class="sub-title text-left font-heebo black-light tracking-wide  leading-tight">Don't be pushed</p> 
               <p  class="sub-title text-left font-heebo black-light tracking-wide  leading-tight">by your problems</p>
               <p  class="sub-title text-left font-heebo black-light tracking-wide leading-tight">be led by your dreams</p>

@@ -2,16 +2,16 @@
     <div class="relative margin-half-section rounded-3xl"
         :class = "[bgClass]"
     >
-        <div class="grid grid-cols-10 gap-2 items-center margin-half-section py-20">
+        <div class="grid grid-cols-6 md:grid-cols-10  gap-2 items-center margin-half-section py-20" dir="rtl">
             <!-- Left part (Cat Image) -->
-            <div class="col-span-4">
-                <ContactMe />
-            </div>
-            <div class="col-span-5 justify-self-end">
-                <img :src="titleImgSrc" class="object-cover w-auto h-full" alt="Title Image">
-            </div>
             <div class="col-span-1">
                 <img :src="sideImgSrc" class="pb-[30%] object-cover w-full h-auto" alt="Cat Image">
+            </div>
+            <div class="col-span-5 flex flex-wrap justify-start items-center">
+                <p class="text-twenty-seven-px md:text-[60px] font-black text-right m-0 leading-0">שניצור יחד<br> משהו מיוחד?</p>
+            </div>
+            <div class="col-span-6 md:col-span-4">
+                <ContactMe />
             </div>
         </div>
     </div>
@@ -36,6 +36,14 @@ export default {
         }
     },
     setup(props){
+        const colorClassMap = {
+            green: 'bg-green-site',
+            brown: 'bg-brown-site',
+            yellow: 'bg-yellow-site',
+            blue: 'bg-blue-site',
+            gray: 'bg-gray-background'
+            // Add more if needed
+        }
         const name = ref('')
         const message = ref('')
         const email = ref('')
@@ -47,7 +55,8 @@ export default {
         const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
         const bgClass = ref(null)
-        bgClass.value = props.bgColor === 'green' ? 'bg-green-site' : props.bgColor === 'brown' ?  'bg-brown-site' : 'bg-green-site'
+
+        bgClass.value = colorClassMap[props.bgColor] || 'bg-green-site'  // default to green
 
         watchEffect(() => {
             if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("contact_me")){

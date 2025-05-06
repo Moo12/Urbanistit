@@ -1,9 +1,9 @@
 <template>
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 padding-section">
+    <div class="grid grid-cols-2 xl:grid-cols-3 gap-1 md:gap-6 padding-section">
         <div v-for="client in insertSquareMain" :key="client.id">
             <div v-if="!client.isMain">
                 <router-link :to="{ name: 'Client', params: { id: client.id }}">
-                    <Client :project="client"></Client>
+                    <Client :project="client" :hoveEffect="hoverEffect"></Client>
                 </router-link>
             </div>
             <div v-else>
@@ -49,10 +49,7 @@ export default {
                 return [];
             }
 
-            if (screenWidth.value < 768) {
-                // Smaller than md
-                index = 0;
-            } else if (screenWidth.value < 1280) {
+            if (screenWidth.value < 1280) {
                 // Between md and lg
                 index = 1;
             } else {
@@ -67,6 +64,14 @@ export default {
 
             return newClients;
         });
+
+        const hoverEffect = computed(() => {
+            if (screenWidth.value < 768){
+                return false;
+            }
+
+            return true;
+        })
 
         const updateScreenWidth = () => {
             screenWidth.value = window.innerWidth;
@@ -86,7 +91,7 @@ export default {
         });
 
 
-        return { insertSquareMain, clients_db, screenWidth }
+        return { insertSquareMain, clients_db, screenWidth, hoverEffect }
     }
 }
 </script>

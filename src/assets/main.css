@@ -24,11 +24,11 @@ body {
 }
 
 .project-frame {
-    @apply rounded-3xl border-2 border-brown-site cursor-pointer
+    @apply rounded-md  md:border-2 border border-brown-site cursor-pointer
 }
 
 .square-frame {
-    @apply rounded-3xl cursor-pointer w-full aspect-square
+    @apply rounded-md cursor-pointer w-full aspect-square
 }
 
 .project-absolute-layout {
@@ -41,7 +41,6 @@ body {
 
 .mega-title {
     @apply font-black text-main-title-small_sc md:text-mega-title
-
 }
 
 .header-fifty-four-px {
@@ -71,11 +70,15 @@ body {
 }
 
 .margin-half-section-top{
-    @apply mt-5 md:mt-10 lg:mt-20;
+    @apply mt-20 md:mt-20 lg:mt-20;
+}
+
+.margin-half-section-bottom{
+    @apply mb-5 md:mb-10 lg:mb-20;
 }
 
 
-.admin-pannel input,
+.admin-pannel input
 .admin-pannel select {
     @apply block w-full my-5 mx-0;
 }

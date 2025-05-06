@@ -13,7 +13,7 @@
     </div>
 
     <!-- blog posts contact me sections -->
-    <div id="blog_section" class="min-h-screen w-full py-[7.3%] bg-black mt-[3.7%]">
+    <div id="blog_section" class="min-h-screen w-full py-[7.3%] mt-[3.7%]">
       <Blog/>
     </div>
     <div id="contactme_section" class="my-[3.7%]">

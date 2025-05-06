@@ -1,9 +1,9 @@
 <template>
-    <div v-if="project.isMain" class="btn flex items-center justify-center  bg-black-light rounded-3xl aspect-square w-full h-full">
-        <p class="text-thirty-six-px font-black text-background-site">{{ project.name }}</p>
+    <div v-if="project.isMain" class="btn flex items-center justify-center  bg-black-light rounded-md aspect-square w-full h-full">
+        <p class="text-[20px] md:text-twenty-seven-px font-black text-background-site">{{ project.name }}</p>
 
     </div>
-    <div v-else class="md:relative  grid grid-cols-2 gap-4 w-full h-full md:flex md:items-center md:justify-center overflow-hidden"
+    <div v-else class="md:relative md:gap-4 w-full h-full md:flex md:items-center md:justify-center overflow-hidden"
         @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
         <!-- first square -->
         <div
