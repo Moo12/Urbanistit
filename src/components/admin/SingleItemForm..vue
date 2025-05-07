@@ -26,7 +26,6 @@ const uploadImageRef = ref(null);
 const selectedLang = ref(props.lang || metadataRef.value.languages[0]);
 
 const inputComponent = (typeItem) => {
-    console.log("item type", typeItem )
       return typeItem === "textarea" ? "textarea" : "input";
 }
 
@@ -72,6 +71,10 @@ const setModelBinding = (dataEntry, fieldName, value, lang) => {
       } else if (dataEntry === "common_data") {
         // If the field is in default, update it
         itemRef.value.default[fieldName] = value;
+      }
+      else if (dataEntry === "metadata") {
+        // If the field is in default, update it
+        itemRef.value.metadata[fieldName] = value;
       }
     }
   }
@@ -131,6 +134,36 @@ const removeImage = (index) => {
   console.log(`Removed image with metadata_id: ${imageMetadataId}`);
 };
 
+const getFieldType = (entry, field) => {
+    return metadataRef.value?.[entry]?.[field]?.type_item
+
+}
+
+const isTextType = (entry, field) => {
+    const type = metadataRef.value?.[entry]?.[field]?.type_item;
+    return type === 'text' || type === 'textarea';
+}
+
+// Save Draft
+function saveDraft() {
+  emit('save', itemRef.value, { val: props.save_states?.PROCESS, message: "Saving Draft" });
+}
+
+// Publish
+function onPublish() {
+  itemRef.value.metadata.is_published = true;
+  itemRef.value.metadata.publish_date = new Date().toISOString();
+  itemRef.value.metadata.unpublish_date = null;
+  emit('save', itemRef.value, { val: props.save_states?.PROCESS, message: "Publish Item" });
+}
+
+// Unpublish
+function onUnpublish() {
+  itemRef.value.metadata.is_published = false;
+  itemRef.value.metadata.unpublish_date = new Date().toISOString();
+  emit('save', itemRef.value, { val: props.save_states?.PROCESS, message: "Unpublish Item" });
+}
+
 </script>
 
 <template>
@@ -159,23 +192,22 @@ const removeImage = (index) => {
                 <p class="font-bold">
                   {{ metadataRef?.[dataEntry]?.[field_name]?.label || "no label" }}
                 </p>
-    
                 <!-- Text & Textarea -->
-                <component
-                :is="inputComponent(metadataRef?.[dataEntry]?.[field_name]?.type_item)"
-                  v-if="metadataRef?.[dataEntry]?.[field_name].type_item === 'text' ||
-                        metadataRef?.[dataEntry]?.[field_name].type_item === 'textarea'"
-                  :value="getFieldValue(dataEntry, field_name, lang).value"
-                  @input="setModelBinding(dataEntry, field_name, $event.target.value, lang)"
+                <div v-if="isTextType(dataEntry, field_name)">
+                  <component
                   class="border p-2 w-full"
-                />
-      
+                  :is="inputComponent(getFieldType(dataEntry, field_name))"
+                  :value="getFieldValue(dataEntry, field_name, lang)"
+                  @input="setModelBinding(dataEntry, field_name, $event.target.value, lang)"
+                  ></component>
+                </div>
+
                 <!-- Select -->
                 <select
                   v-else-if="metadataRef?.[dataEntry]?.[field_name].type === 'select'"
-                  :value="getFieldValue(dataEntry, field_name, lang).value"
-                  @change="setModelBinding(dataEntry, field_name, $event.target.value, lang)"
                   class="border p-2 w-full"
+                  :value="getFieldValue(dataEntry, field_name, lang)"
+                  @change="setModelBinding(dataEntry, field_name, $event.target.value, lang)"
                 >
                   <option v-for="option in getOptions(dataEntry, field_name, selectedLang).value.all_items" :key="option.id" :value="option.id">
                     {{ option.title }}
@@ -188,24 +220,34 @@ const removeImage = (index) => {
                     <input
                       type="checkbox"
                       :value="option.id"
-                      :checked="getFieldValue(dataEntry, field_name, lang).value?.includes(option.id)"
-                      @change="setModelBinding(dataEntry, field_name, 
+                      :checked="getFieldValue(dataEntry, field_name, lang).includes(option.id)"
+                      @change="setModelBinding(dataEntry, field_name,
                         $event.target.checked 
-                        ? [...(getFieldValue(dataEntry, field_name, lang).value || []), option.id] 
-                        : getFieldValue(dataEntry, field_name, lang).value.filter(id => id !== option.id), lang)"
+                        ? [...(getFieldValue(dataEntry, field_name, lang) || []), option.id] 
+                        : getFieldValue(dataEntry, field_name, lang).filter(id => id !== option.id), lang)"
                     />
                     <label>{{ option?.title || "Unnamed" }}</label>
                   </div>
-                </div>  
+                </div> 
+                
+                <!-- Boolean (Checkbox) -->
+                <div v-else-if="getFieldType(dataEntry, field_name) === 'boolean'">
+                  <label class="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      :checked="getFieldValue(dataEntry, field_name, lang) === true"
+                      @change="setModelBinding(dataEntry, field_name, $event.target.checked, lang)"
+                    />
+                  </label>
+                </div>
               </div>
             </div>
           </div>
             <!-- IMAGE UPLOAD SECTION -->
           <div v-if="metadataRef?.common_data?.images_metadata">
-            <h3 class="text-lg font-bold mt-4">Images</h3>
+            <h3 class="text-lg font-bold my-4">Images</h3>
     
             <div v-if=" itemRef?.default?.images_metadata">
-              images
               <div v-for="(image, index) in itemRef.default.images_metadata" :key="index" class="border p-2 mb-2">
                 <img :src="getImageUrl(image.metadata_id)" class="w-32 h-32 object-fill bg-gray-700" alt="Uploaded Image"/>
                 <p>Role: {{ image.role }}</p>
@@ -225,11 +267,16 @@ const removeImage = (index) => {
               </div>
             </div>
     
-            <UploadImagess ref="uploadImageRef" :collectionName=collection_name :dropdownOptions="metadataRef.common_data.images_metadata.role.options"  @file-submitted="onFileSubmission" />
+            <UploadImagess class="mt-4" ref="uploadImageRef" :collectionName=collection_name :dropdownOptions="metadataRef.common_data.images_metadata.role.options"  @file-submitted="onFileSubmission" />
           </div>
-          <div class="grid justify-center mt-3">
-            <button type="submit" class="btn border-5">Save</button>
+          <div class="actions flex justify-center gap-8 mt-3">
+            <!-- Always show a Save (Draft) button -->
+            <button type="button" class="btn-submit" @click="saveDraft">Save Draft</button>
+            <!-- Show Publish button only if not published -->
+            <button type="button" class="btn-submit" v-if="!itemRef.metadata.is_published" @click="onPublish">Publish</button>
+            <!-- Show Unpublish button only if already published -->
+            <button type="button" class="btn-submit" v-if="itemRef.metadata.is_published" @click="onUnpublish">Unpublish</button>
           </div>
-          </form>
+        </form>
   </div>
 </template>

@@ -4,6 +4,7 @@ const useSingleItem = (props) => {
   const itemRef = ref(null);
   const metadataRef = ref(null);
   const databaseFieldOptionsRef = ref(null);
+  const defaultInputLanguage = "he"
 
   onMounted(() => {
     metadataRef.value = props.metadata;
@@ -29,12 +30,19 @@ const useSingleItem = (props) => {
   const createNewDForm = () => {
     itemRef.value = {}; // Initialize a new empty object for creation
     itemRef.value.default = {}
+    itemRef.value.metadata = {}
     
     if (metadataRef?.value.common_data) {
         for (const [fieldId, field] of Object.entries(metadataRef.value.common_data)) {
           itemRef.value.default[fieldId] = field.type === "multi_select" || field.type === "array" ? [] : "";
         }
     }
+    if (metadataRef?.value.metadata) {
+      for (const [fieldId, field] of Object.entries(metadataRef.value.metadata)) {
+        itemRef.value.metadata[fieldId] = field.type === "multi_select" || field.type === "array" ? [] : "";
+      }
+  }
+
 
     
     // Initialize translations as an object with language keys directly
@@ -54,20 +62,28 @@ const useSingleItem = (props) => {
   }
 
   const getFieldValue = (dataEntry, fieldPath, lang = props.lang) => {
-    return computed(() => {
-      if (!itemRef.value) return "";
-  
-      let baseObj;
-      if (dataEntry === "data") {
-        baseObj = itemRef.value?.translations?.[lang];
-      } else if (dataEntry === "common_data") {
-        baseObj = itemRef.value?.default;
-      } else {
-        return "";
-      }
-  
-      return fieldPath.split('.').reduce((acc, key) => acc?.[key], baseObj) || "";
-    });
+    if (!itemRef.value) return "";
+
+    let baseObj;
+    if (dataEntry === "data") {
+      baseObj = itemRef.value?.translations?.[lang];
+    } else if (dataEntry === "common_data") {
+      baseObj = itemRef.value?.default;
+    }
+    else if (dataEntry === "metadata") {
+      baseObj = itemRef.value?.metadata;
+    } 
+    else {
+      return "";
+    }
+
+    let fieldVal = fieldPath.split('.').reduce((acc, key) => acc?.[key], baseObj)
+
+    // if field value is empty check default language content
+    if (!fieldVal && dataEntry === "data"){
+      baseObj = itemRef.value?.translations?.[defaultInputLanguage];
+    }
+    return fieldPath.split('.').reduce((acc, key) => acc?.[key], baseObj) || "";
   };
 
   const getOptions = (dataEntry, field_name, lang = props.lang) => {
@@ -86,10 +102,15 @@ const useSingleItem = (props) => {
         if (fieldMt.options_source === "database") {
           const dbOptions = getNestedValue(databaseFieldOptionsRef.value, field_name);
           return {
-            all_items: dbOptions?.all_items?.map((option) => ({
-              id: option.id,
-              title: getNestedValue(option.data?.translations, `${lang}.${dbOptions?.display_field}`),
-            })),
+            all_items: dbOptions?.all_items?.map((option) => {
+              const title = getNestedValue(option.data?.translations, `${lang}.${dbOptions?.display_field}`)
+              const title_display = title !== "" ? title : 
+                              getNestedValue(option.data?.translations, `en.${dbOptions?.display_field}`)
+              return {
+                id: option.id,
+                title: title_display,
+              };
+            })
           };
         } else if (fieldMt.options_source === "static") {
           return {
@@ -107,11 +128,13 @@ const useSingleItem = (props) => {
   
   function getSelectedOptionsValue(dataEntry, option_id) {
     return computed(() => {
+
+      console.log("option_id", option_id)
       if (!databaseFieldOptionsRef.value) return [];
   
       let options = getOptions(dataEntry, option_id).value;
-      let selectedIds = getFieldValue(dataEntry, option_id).value;
-  
+      let selectedIds = getFieldValue(dataEntry, option_id);
+
       if (!options.all_items) return [];
   
       // Ensure selectedIds is always an array, keeping the original reference intact

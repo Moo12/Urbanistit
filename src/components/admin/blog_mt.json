@@ -5,8 +5,23 @@
             "updated_by": "",
             "created_at": "",
             "created_by": "",       
-            "user_opener": "",     
-            "status": "active",
+            "user_opener": "",
+            "publish_date": {
+                "label": "Publish Date",
+                "type_item": "datetime", 
+                "type": null
+            },
+            "is_published":{
+                "label": "Published",
+                "type_item": "boolean", 
+                "type": null
+            },
+            "unpublish_date":{
+                "label": "Unpublish Date",
+                "type_item": "datetime", 
+                "type": null
+            },
+            "status": "inactive",
             "readonly": false
         },
         "languages":[
@@ -20,6 +35,7 @@
             },
             "short_view":
             {
+                "metadata": ["is_published"],
                 "common_data": ["tags", "category"],
                 "data": ["title", "sub_title", "content"]
             }
@@ -36,7 +52,7 @@
                 "role": {
                     "type": "select",
                     "options_source": "static",
-                    "options": ["main", "sub"]
+                    "options": ["main", "gallery", "post"]
 
                 }
             },
@@ -123,7 +139,22 @@
             "created_by": "",       
             "user_opener": "",     
             "status": "active",
-            "readonly": false
+            "readonly": false,
+            "publish_date": {
+                "label": "Publish Date",
+                "type_item": "datetime", 
+                "type": null
+            },
+            "is_published":{
+                "label": "Published",
+                "type_item": "boolean", 
+                "type": null
+            },
+            "unpublish_date":{
+                "label": "Unpublish Date",
+                "type_item": "datetime", 
+                "type": null
+            }
         },
         "languages":[
             "en", "he"
@@ -198,7 +229,22 @@
             "created_by": "",       
             "user_opener": "",     
             "status": "active",
-            "readonly": false
+            "readonly": false,
+            "publish_date": {
+                "label": "Publish Date",
+                "type_item": "datetime", 
+                "type": null
+            },
+            "is_published":{
+                "label": "Published",
+                "type_item": "boolean", 
+                "type": null
+            },
+            "unpublish_date":{
+                "label": "Unpublish Date",
+                "type_item": "datetime", 
+                "type": null
+            }
         },
         "languages":[
             "en", "he"
@@ -265,7 +311,22 @@
             "created_by": "",
             "user_opener": "",
             "status": "active",
-            "readonly": false
+            "readonly": false,
+            "publish_date": {
+                "label": "Publish Date",
+                "type_item": "datetime", 
+                "type": null
+            },
+            "is_published":{
+                "label": "Published",
+                "type_item": "boolean", 
+                "type": null
+            },
+            "unpublish_date":{
+                "label": "Unpublish Date",
+                "type_item": "datetime", 
+                "type": null
+            }
         },
         "languages":[
             "en", "he"

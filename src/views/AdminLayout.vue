@@ -1,5 +1,5 @@
 <template>
-<div class="flex h-full     ">
+<div class="flex h-full mt-[4%]">
     <!-- Sidebar (Always Visible) -->
     <Sidebar class="w-1/4 bg-gray-800 text-white" />
 

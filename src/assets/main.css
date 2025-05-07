@@ -23,6 +23,10 @@ body {
     @apply font-bold cursor-pointer hover:opacity-70;
 }
 
+.btn-submit{
+    @apply btn bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded
+}
+
 .project-frame {
     @apply rounded-md  md:border-2 border border-brown-site cursor-pointer
 }

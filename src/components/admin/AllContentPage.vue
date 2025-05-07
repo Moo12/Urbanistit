@@ -1,11 +1,16 @@
 <template>
     <div v-if="!loading">
         <div class="flex justify-center">
-          <p class="header-title"> {{ collectionName }}</p>
+          <p class="text-[36px] font-black leading-none"> {{ collectionName }}</p>
         </div>  
+        <div class="flex justify-center my-4">
+            <button @click="handleCreateItem" class="btn bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 shadow-md">
+                  <span>Create Item</span>
+            </button>
+        </div>
         <div v-if="items" class="grid grid-cols-3 gap-3">
-          <div v-for="item in items" :key="item.id" class="border-4 flex flex-col justify-between">
-            <SingleItem  :item="item" :metadata="metadataCollection" lang="en" :databaseFieldOptions="dynamicOptions"/>
+          <div v-for="item in items" :key="item.id" class="border-4 border-gray-600 rounded flex flex-col p-6 justify-between">
+            <SingleItem  :item="item" :metadata="metadataCollection" lang="he" :databaseFieldOptions="dynamicOptions"/>
             <div class="flex justify-center gap-3">
               <div v-if="status.action === 'delete' && item.id === activeItem?.id">
                 <div v-if="status.result === 'pending'"  class="flex flex-col justify-center items-center mt-2 gap-2">
@@ -17,28 +22,23 @@
                   <button @click="setInitStatus">X</button>
                 </div>
               </div>
-              <div v-else class="flex justify-center gap-3">
-                <button @click="handleEditItem(item)" class="btn border-4">
-                  <span>Edit</span>
+              <div v-else class="flex justify-center mt-4 gap-3">
+                <button @click="handleEditItem(item)" class="btn">
+                  <Pencil class="w-5 h-5" />
                 </button>
-                <button @click="handleDeleteItem(item)" class="btn border-4">
-                  <span>Delete</span>
+                <button @click="handleDeleteItem(item)" class="btn">
+                  <Trash2 class="w-5 h-5" />
                 </button>
               </div>
             </div>
           </div>
-        </div>
-        <div class="flex justify-center mt-7">
-            <button @click="handleCreateItem" class="btn border-4">
-                  <span>Create Item</span>
-            </button>
         </div>
 
          <!-- Modal for Create/Edit --> 
         <div v-if="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-100">
           <div class="bg-white p-6 rounded-lg  h-[90vh] overflow-y-auto">
             <!-- Show status information -->
-            <SingleItemForm :item="activeItem" :metadata="metadataCollection" lang="en" 
+            <SingleItemForm :item="activeItem" :metadata="metadataCollection" lang="he" 
             :databaseFieldOptions="dynamicOptions" :action=currentAction  
             :collection_name="collectionId" @save="handleSaveItem"
             :save_states="SAVE_STAGES"/>
@@ -56,7 +56,9 @@
             <div v-else-if="status.result === 'failure'" class="flex justify-center items-center mt-4 text-red-500">
               <p>{{ status.message }}</p>
             </div>
-            <button @click="handleCloseEditModal" class="btn border-4">Close</button>
+            <div class="w-full flex justify-center">
+              <button @click="handleCloseEditModal" class="btn mx-auto mt-4 px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded">Close</button>
+            </div>
           </div>
         </div>
     </div>
@@ -71,6 +73,8 @@
 <script setup>
 import { ref, onMounted, defineProps } from 'vue';
 import { useRoute, onBeforeRouteUpdate } from 'vue-router';
+import { Pencil, Trash2 } from 'lucide-vue-next'
+
 import getCollection from '@/composables/getCollection';
 import useCollectionOptions from '@/composables/useCollectionOptions.js';
 import useDocument from '@/composables/useDocument';
