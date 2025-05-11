@@ -83,6 +83,7 @@ const useSingleItem = (props) => {
     if (!fieldVal && dataEntry === "data"){
       baseObj = itemRef.value?.translations?.[defaultInputLanguage];
     }
+
     return fieldPath.split('.').reduce((acc, key) => acc?.[key], baseObj) || "";
   };
 
@@ -129,7 +130,6 @@ const useSingleItem = (props) => {
   function getSelectedOptionsValue(dataEntry, option_id) {
     return computed(() => {
 
-      console.log("option_id", option_id)
       if (!databaseFieldOptionsRef.value) return [];
   
       let options = getOptions(dataEntry, option_id).value;

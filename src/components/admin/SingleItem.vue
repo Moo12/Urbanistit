@@ -21,7 +21,7 @@ const { itemRef, metadataRef, getFieldValue, getSelectedOptionsValue } = useSing
           {{ metadataRef?.[dataEntry]?.[field_name]?.label || "no label" }}
         </p>
         <div v-if="metadataRef?.[dataEntry]?.[field_name].type === null" class="ml-3">
-          <div v-if="['text', 'textarea', 'boolean'].includes(metadataRef?.[dataEntry]?.[field_name].type_item)">
+          <div v-if="['text', 'textarea', 'boolean', 'int'].includes(metadataRef?.[dataEntry]?.[field_name].type_item)">
             <div class="text-sm text-gray-800 bg-gray-50 p-2">
               <div v-if="metadataRef?.[dataEntry]?.[field_name].type_item === 'boolean'">
                 <span v-if="getFieldValue(dataEntry, field_name) == true">

@@ -244,6 +244,11 @@
                 "label": "Unpublish Date",
                 "type_item": "datetime", 
                 "type": null
+            },
+            "index": {
+                "label": "Index",
+                "type_item": "int", 
+                "type": null
             }
         },
         "languages":[
@@ -258,7 +263,8 @@
             "short_view":
             {
                 "common_data": [],
-                "data": ["title", "sub_title"]
+                "data": ["title", "sub_title"],
+                "metadata": ["index"]
             }
         },
         "common_data": {

@@ -21,14 +21,14 @@
         </div>
         <!-- blog scroller -->
         <div v-if="convertedItems" class="my-[6%]">
-            <Scroller :items="convertedItems" :itemWidth="18" :itemGap="2">
+            <Scroller :items="convertedItems" :itemWidth="25" :itemGap="1.4">
                 <template v-slot:default="{ item }">
                     <router-link :to="{ name: 'Single-Blog', params: { id: item.id }}" class="w-full h-full">
-                        <div class="absolute max-w-full w-full max-h-1/4 h-1/4 top-[67%] px-[10%] mx-auto flex flex-wrap items-center justify-center bg-white">
+                        <div dir="rtl" class="absolute max-w-full w-full max-h-1/4 h-1/4 top-[67%] px-[10%] mx-auto flex flex-wrap items-center justify-center bg-white">
                             <p class="text-center break-words whitespace-normal ">{{ item.title }}</p>
                         </div>
                     </router-link>
-            </template>
+                </template>
             </Scroller>
         </div>
     </div>
@@ -58,7 +58,6 @@ export default {
         const { imagesMetadata, error: errorImagesMetadata, getImageUrlByRole, getMainImageUrl } = useImageMetadata();
         const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
-        const titleImgSrc = ref(null)
         const backgroundSrc = ref(null)
 
         const convertedItems = ref(null)
@@ -73,12 +72,17 @@ export default {
             }
 
             documents.value.forEach(doc => {
+                if (doc.id === '1rijVQxZGtP33ECHuOf1'){
+                    console.log("getMainImageUrl(doc.default.images_metadata)", getMainImageUrl(doc.default.images_metadata))
+                }
                 convertedItems.value.push( { image: getMainImageUrl(doc.default.images_metadata), title: doc.translations.he?.title, id: doc.id })
+
             });
+
+            console.log("convertedItems", convertedItems.value)
 
             if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("blog")){
                 let generalContentItem = generalContentMetadata.value.get("blog")
-                titleImgSrc.value = getImageUrlByRole(generalContentItem.common_data?.images_metadata, "title")
                 backgroundSrc.value = getImageUrlByRole(generalContentItem.common_data?.images_metadata, "background")
             }
 
@@ -89,11 +93,8 @@ export default {
             router.push( { name: "Blog" } )
         }
 
-        return { convertedItems, handleCategory, titleImgSrc, backgroundSrc }
+        return { convertedItems, handleCategory, backgroundSrc }
     }
-    
-
-
 }
 </script>
 

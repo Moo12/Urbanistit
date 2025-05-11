@@ -1,33 +1,36 @@
 <template>
-  <div class="scroll-container">
+  <div class="flex relative overflow-hidden w-full w-min-full  justify-center">
     <div
-      class="flex flex-nowrap overflow-x-auto scroll-smooth whitespace-nowrap w-full scroll-wrapper"
-      :style="{ gap: gapSize, minWidth: '100%' }"
+      class="flex flex-nowrap overflow-x-auto scroll-smooth w-[95%]  whitespace-nowrap scroll-wrapper"
+      :class="[`w-[${scrollContainerWidthPercantage}%]`]"
+      :style="{ gap: `${gapSize}px`, paddingRight: `${gapSize}px`}"
       ref="scrollWrapper"
     >
       <div
       v-for="(item, index) in items" 
         :key="index" 
         class="shrink-0 aspect-[0.8] bg-cover bg-center flex items-center justify-center relative rounded-md overflow-hidden cursor-pointer" ref=""
-        :style="{ backgroundImage: `url(${item.image})`, width:  scrollItemWidth}"
+        :style="{backgroundImage: `url(${item.image})`, width:  scrollItemWidth}"
       >
          <!-- Default slot for custom content -->
          <slot :item="item"></slot>
-        </div>
+        
+      </div>
     </div>
-
-    <button class="scroll-btn right z-[1000] absolute top-1/2 right-2 -translate-y-1/2" @click="scrollRight">
-      <ChevronRight />
+    <button
+      class="btn rounded-full aspect-square mr-[1.25%] w-[2.5%] z-[1000] absolute top-1/2 right-0 bg-white flex items-center justify-center"
+      @click="scrollRight">
+      <ArrowRight :stroke-width="4" class="w-[90%] text-black-light" />
     </button>
   </div>
 </template>
 
 <script>
 import { ref, computed } from "vue";
-import { ChevronLeft, ChevronRight } from "lucide-vue-next";
+import { ArrowRight } from "lucide-vue-next";
 
 export default {
-  components: { ChevronLeft, ChevronRight },
+  components: { ArrowRight },
   props: {
     items: {
       type: Array,
@@ -47,10 +50,14 @@ export default {
   setup(props) {
     const scrollWrapper = ref(null);
     const scrollItemWidth = ref(`${props.itemWidth}%`);// Width of each scroll item
-    const gapSize = ref(`${props.itemGap}%`); // Gap between scroll items in px
+
+    const scrollContainerWidthPercantage = 95
+
+    const radiusPercent = `${(100 - scrollContainerWidthPercantage) / 2}%`;
+    const offsetRight = radiusPercent; // same as radius
 
 
-    console.log(`item percentage ${scrollItemWidth.value} gap percentage ${gapSize.value}`)
+    console.log(`item percentage ${scrollItemWidth.value} gap percentage ${props.itemGap}`)
 
   // Compute scroll step (item width + gap)
   const parsePercentage = (percentStr) => parseFloat(percentStr) / 100;
@@ -65,6 +72,12 @@ export default {
     return itemW + gap;
   });
 
+  const gapSize = computed(() =>{
+    if (!scrollWrapper.value) return 0;
+    const containerWidth = scrollWrapper.value.getBoundingClientRect().width;
+    return containerWidth * parsePercentage(props.itemGap);
+  })
+
   const scrollLeft = () => {
     if (scrollWrapper.value) {
       scrollWrapper.value.scrollBy({ left: -scrollStep.value, behavior: "smooth" });
@@ -77,46 +90,19 @@ export default {
     }
   };
 
-    return { scrollWrapper, scrollLeft, scrollRight, scrollItemWidth, gapSize };
+    return { scrollWrapper, scrollLeft, scrollRight, scrollItemWidth, gapSize, scrollContainerWidthPercantage, radiusPercent, offsetRight };
   }
 };
 </script>
 
 <style scoped>
-.scroll-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  max-width: 100%; /* Adjust as needed */
-  margin: auto;
-}
 
 .scroll-wrapper::-webkit-scrollbar {
   display: none;
 }
 
 .scroll-btn {
-  background: rgba(0, 0, 0, 0.5);
-  border: none;
-  color: white;
-  padding: 8px;
-  cursor: pointer;
-  border-radius: 50%;
   transition: background 0.2s ease;
 }
 
-.scroll-btn:hover {
-  background: rgba(0, 0, 0, 0.7);
-}
-
-.left {
-  margin-left: 5px;
-}
-
-.right {
-  margin-right: 5px;
-}
 </style>

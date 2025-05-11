@@ -22,6 +22,7 @@ const useStorage = () => {
                 ? `images/${category}/${subcategory}/${file.name}`
                 : `images/${category}/${file.name}`;
 
+            console.log(`upload to path: ${path}`)
 
             const fileRef = storageRef(storage, path);
 
@@ -30,7 +31,9 @@ const useStorage = () => {
                 const fileUrl = await getDownloadURL(fileRef);
                 console.log("file url",fileUrl)
 
-                filesUploadedInfo.value = [...filesUploadedInfo.value, {url: fileUrl, name:  file.name}];
+                const item = {url: fileUrl, name:  file.name}
+                filesUploadedInfo.value = [...filesUploadedInfo.value, item];
+
             } catch (err) {
                 console.error(`Error uploading ${file.name}:`, err.message);
                 errors.value.push({ file: file.name, message: err.message });

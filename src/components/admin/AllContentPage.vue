@@ -36,29 +36,40 @@
 
          <!-- Modal for Create/Edit --> 
         <div v-if="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-100">
-          <div class="bg-white p-6 rounded-lg  h-[90vh] overflow-y-auto">
-            <!-- Show status information -->
-            <SingleItemForm :item="activeItem" :metadata="metadataCollection" lang="he" 
-            :databaseFieldOptions="dynamicOptions" :action=currentAction  
-            :collection_name="collectionId" @save="handleSaveItem"
-            :save_states="SAVE_STAGES"/>
+          <div class="bg-white p-6 rounded-lg  h-[90vh] overflow-y-auto relative">
+            <div class="absolute left-4 top-4">
+              <button class="btn" @click="handleCloseEditModal">
+                <X class="w-5 h-5 text-gray-500 hover:text-black" />
+              </button>
+            </div>
+            <div class="flex flex-col justify-center items-center mb-8">
 
+              <!-- Show status information -->
+              <div v-if="status.result === 'pending'" class="flex justify-center items-center mt-4">
+                <span class="spinner"></span> <!-- Add a spinner for pending state -->
+                <p class="ml-2">{{ status.message }}</p>
+              </div>
+              
+              <div v-else-if="status.result === 'success'" class="flex justify-center items-center mt-4 text-green-500">
+                <p>{{ status.message }}</p>
+              </div>
+              
+              <div v-else-if="status.result === 'failure'" class="flex justify-center items-center mt-4 text-red-500">
+                <p>{{ status.message }}</p>
+              </div>
+            </div>
+            
             <!-- Show status information -->
-            <div v-if="status.result === 'pending'" class="flex justify-center items-center mt-4">
-              <span class="spinner"></span> <!-- Add a spinner for pending state -->
-              <p class="ml-2">{{ status.message }}</p>
-            </div>
+            <SingleItemForm :class="[{'opacity-50': status.action === 'save' }]"
+            :item="activeItem" :metadata="metadataCollection" lang="he" 
+            :databaseFieldOptions="dynamicOptions" :action=currentAction  
+            :collection_name="collectionName" @save="handleSaveItem"
+            :save_states="SAVE_STAGES"/>
             
-            <div v-else-if="status.result === 'success'" class="flex justify-center items-center mt-4 text-green-500">
-              <p>{{ status.message }}</p>
-            </div>
-            
-            <div v-else-if="status.result === 'failure'" class="flex justify-center items-center mt-4 text-red-500">
-              <p>{{ status.message }}</p>
-            </div>
             <div class="w-full flex justify-center">
               <button @click="handleCloseEditModal" class="btn mx-auto mt-4 px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded">Close</button>
             </div>
+
           </div>
         </div>
     </div>
@@ -73,7 +84,7 @@
 <script setup>
 import { ref, onMounted, defineProps } from 'vue';
 import { useRoute, onBeforeRouteUpdate } from 'vue-router';
-import { Pencil, Trash2 } from 'lucide-vue-next'
+import { Pencil, Trash2, X} from 'lucide-vue-next'
 
 import getCollection from '@/composables/getCollection';
 import useCollectionOptions from '@/composables/useCollectionOptions.js';
@@ -202,7 +213,6 @@ onBeforeRouteUpdate((to) => {
 });
 
 const fetchMetadataCollection = async (id) => {
-  console.log("metadata ", blog_metadata[id])
   return blog_metadata[id]
 }
 
@@ -218,8 +228,6 @@ const handleDeleteItem = async (item) => {
   currentAction.value = "delete"
   activeItem.value = item
 
-  console.log('active item id ', activeItem.value.id)
-  console.log('original item id ', item.id)
 
   status.value = { action: 'delete', result: 'pending', message: 'Deleting the item...' }; // Set status to 'pending'
 
@@ -267,8 +275,6 @@ const handleCloseEditModal = () => {
 const handleSaveItem = async (item, state) => {
   try {
     
-    console.log("handleSaveItem ", item)
-    
     setCollectionNameOfDOoc(collectionId.value)
     
     status.value = { action: 'save', result: 'pending', message: state.message || 'saving the item...' };
@@ -295,6 +301,8 @@ const handleSaveItem = async (item, state) => {
     status.value = { action: 'save', result: 'failure', message: 'Error saving the item. Please try again.' }; // Error
 
   }
+
+  status.value.action = ''
 }
 
 const handleCreateItem = () => {

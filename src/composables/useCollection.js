@@ -29,6 +29,8 @@ const useCollection = (defaultCollectionName = null) => {
     docData.metadata.created_at = docData.metadata.created_at ?? timestamp();
     docData.metadata.last_update = timestamp();
 
+    console.log("add doc collection", finalCollection)
+
     try {
       if (id) {
         const docRef = doc(projectFireStore, finalCollection, id);

@@ -1,6 +1,6 @@
 <template>
     <!--paragracph about me -->
-    <div class="text-right mt-10 padding-section">
+    <div class="text-right mt-10 padding-section" dir="rtl">
       <p class="sub-title leading-[1]">
       היי! איזה כיף שהגעת<br>
       נעים להכיר, אני מאיה

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, defineProps, defineEmits, watch, computed} from 'vue';
 import useSingleItem from "@/composables/useSingleItem.js"
-import UploadImagess from '../UploadImages.vue';
+import UploadImages from '../UploadImages.vue';
 import useImageMetadata from '@/composables/fetchImageMetadata'
 
 const props = defineProps({
@@ -25,9 +25,22 @@ const uploadImageRef = ref(null);
 // Language selection
 const selectedLang = ref(props.lang || metadataRef.value.languages[0]);
 
+const collectionName = ref(props.collection_name)
+
 const inputComponent = (typeItem) => {
-      return typeItem === "textarea" ? "textarea" : "input";
-}
+  if (typeItem === "textarea") return { tag: "textarea" };
+  if (typeItem === "int") return { tag: "input", type: "number" };
+  return { tag: "input", type: "text" };
+};
+
+const inputComponentTag = (typeItem) => {
+  return inputComponent(typeItem).tag
+};
+
+const inputComponentType = (typeItem) => {
+  return inputComponent(typeItem).type
+};
+
 
 // Watch for language changes and emit updates if needed
 watch(selectedLang, (newLang) => {
@@ -59,30 +72,33 @@ const setModelBinding = (dataEntry, fieldName, value, lang) => {
     ? itemRef.value?.translations?.[lang]?.[fieldName]
     : itemRef.value?.default?.[fieldName];
 
-    if (fieldValue !== undefined) {
-      if (Array.isArray(fieldValue)) {
-        fieldValue.length = 0;  // Clear the array (this is a reference to the same array)
-        fieldValue.push(...value);  // Push the new value into the array
-      } else {
-      if (dataEntry === "data") {
-        // If the field is in translations[props.lang], update it
-        itemRef.value.translations[lang][fieldName] = value;
+    const type = metadataRef.value?.[dataEntry]?.[fieldName]?.type_item;
+    if (type === 'int') {
+      value = parseInt(value, 10);
+    }
 
-      } else if (dataEntry === "common_data") {
-        // If the field is in default, update it
-        itemRef.value.default[fieldName] = value;
-      }
-      else if (dataEntry === "metadata") {
-        // If the field is in default, update it
-        itemRef.value.metadata[fieldName] = value;
-      }
+    if (Array.isArray(fieldValue)) {
+      fieldValue.length = 0;  // Clear the array (this is a reference to the same array)
+      fieldValue.push(...value);  // Push the new value into the array
+    } else {
+    if (dataEntry === "data") {
+      // If the field is in translations[props.lang], update it
+      itemRef.value.translations[lang][fieldName] = value;
+
+    } else if (dataEntry === "common_data") {
+      // If the field is in default, update it
+      itemRef.value.default[fieldName] = value;
+    }
+    else if (dataEntry === "metadata") {
+      // If the field is in default, update it
+      itemRef.value.metadata[fieldName] = value;
     }
   }
 };
 
 const triggerUpload = () => {
     if (uploadImageRef.value) {
-      uploadImageRef.value.triggerSubmit(); // Calls the child's method
+      uploadImageRef.value.triggerSubmit(collectionName.value.toLowerCase()); // Calls the child's method
     }
   };
   
@@ -102,6 +118,7 @@ const onFileSubmission = ({ role, files }) => {
       itemRef.value.default.images_metadata.push(newImage);
     }
   })
+
   emit("save", itemRef.value, { val: props.save_states?.PROCESS, message: "Saving Item" });
 };
 
@@ -141,12 +158,13 @@ const getFieldType = (entry, field) => {
 
 const isTextType = (entry, field) => {
     const type = metadataRef.value?.[entry]?.[field]?.type_item;
-    return type === 'text' || type === 'textarea';
+    return type === 'text' || type === 'textarea' || type === 'int';
 }
 
 // Save Draft
 function saveDraft() {
-  emit('save', itemRef.value, { val: props.save_states?.PROCESS, message: "Saving Draft" });
+
+  saveChanges()
 }
 
 // Publish
@@ -154,14 +172,16 @@ function onPublish() {
   itemRef.value.metadata.is_published = true;
   itemRef.value.metadata.publish_date = new Date().toISOString();
   itemRef.value.metadata.unpublish_date = null;
-  emit('save', itemRef.value, { val: props.save_states?.PROCESS, message: "Publish Item" });
+  
+  saveChanges()
 }
 
 // Unpublish
 function onUnpublish() {
   itemRef.value.metadata.is_published = false;
   itemRef.value.metadata.unpublish_date = new Date().toISOString();
-  emit('save', itemRef.value, { val: props.save_states?.PROCESS, message: "Unpublish Item" });
+
+  saveChanges()
 }
 
 </script>
@@ -196,7 +216,8 @@ function onUnpublish() {
                 <div v-if="isTextType(dataEntry, field_name)">
                   <component
                   class="border p-2 w-full"
-                  :is="inputComponent(getFieldType(dataEntry, field_name))"
+                  :is="inputComponentTag(getFieldType(dataEntry, field_name))"
+                  :type="inputComponentType(getFieldType(dataEntry, field_name))"
                   :value="getFieldValue(dataEntry, field_name, lang)"
                   @input="setModelBinding(dataEntry, field_name, $event.target.value, lang)"
                   ></component>
@@ -266,8 +287,7 @@ function onUnpublish() {
                 <button @click.prevent="removeImage(index)" class="text-red-500">Remove</button>
               </div>
             </div>
-    
-            <UploadImagess class="mt-4" ref="uploadImageRef" :collectionName=collection_name :dropdownOptions="metadataRef.common_data.images_metadata.role.options"  @file-submitted="onFileSubmission" />
+            <UploadImages class="mt-4" ref="uploadImageRef" :collectionName=collectionName :dropdownOptions="metadataRef.common_data.images_metadata.role.options"  @file-submitted="onFileSubmission" />
           </div>
           <div class="actions flex justify-center gap-8 mt-3">
             <!-- Always show a Save (Draft) button -->

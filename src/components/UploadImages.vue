@@ -54,6 +54,8 @@ const STATUS_STRING = {
       PENDING: 'Pending',
 }
 
+const collectionName = ref(props.collection_name || "general")
+
 const emit = defineEmits(["file-submitted"]);
 
 // File state
@@ -69,7 +71,7 @@ const uploadedFinalStatus = ref(new Map())
 
 const AreFileSelected = ref(false);
 
-const { filesUploadedInfo, error: fileError, uploadImages } = useStorage();
+const { filesUploadedInfo, errors: fileError, uploadImages } = useStorage();
 const { addDocImp } = useCollection("images_metadata");
 
 const hasDropdown = computed(() => Array.isArray(props.dropdownOptions) && props.dropdownOptions.length > 0);
@@ -94,7 +96,10 @@ const handleChange = (e) => {
   }
 };
 
-const triggerSubmit = () => {
+const triggerSubmit = (_collectionName) => {
+  console.log("submit was triggered. collection name", _collectionName)
+
+  collectionName.value = _collectionName
   handleSubmit()
 }
 
@@ -113,20 +118,23 @@ const handleSubmit = async () => {
 
   uploadedFinalStatus.value = new Map();
 
-  uploadImages(files.value, props.collection_name);
+  uploadImages(files.value, collectionName.value);
 }
 
 // Wait for URL and save metadata
-watch( filesUploadedInfo, async () => {
+watch(filesUploadedInfo, async () => {
   if (files.value.length) {
     const promises = [];
 
     for (const fileUploaded of filesUploadedInfo.value) {
+      console.log("iterating file ", fileUploaded.name);
 
-      console.log("iterating file ", fileUploaded.name )
       const promise = (async () => {
         if (!uploadedFinalStatus.value.has(fileUploaded.name)) {
-          uploadedFinalStatus.value.set(fileUploaded.name, { status: STATUS_STRING.PENDING, id: "" });
+          uploadedFinalStatus.value.set(fileUploaded.name, {
+            status: STATUS_STRING.PENDING,
+            id: ""
+          });
 
           const imageMetaData = {
             role: "main",
@@ -137,20 +145,27 @@ watch( filesUploadedInfo, async () => {
             category: props.collection_name || "general",
           };
 
-          try{
-            const docId = (await addDocImp(imageMetaData)).id;
+          try {
+            const doc = await addDocImp(imageMetaData);
 
-            console.log("image metadata was added: ",  docId.id)
+            console.log("image metadata was added: ", doc?.id);
 
+            uploadedFinalStatus.value.set(fileUploaded.name, {
+              id: doc?.id,
+              status: doc ? "success" : "failure"
+            });
 
-            uploadedFinalStatus.value.set(fileUploaded.name, { id: docId, status: docId ? "success" : "failure"})
-            
-            uploadStatus.value.set(fileUploaded.name , docId ? STATUS_STRING.UPLOADED : STATUS_STRING.FAILURE);
-          }
-          catch{
-            console.error("Error uploading file:", fileUploaded.name, error);
-            uploadedFinalStatus.set( fileUploaded.name,  { status: "failure"});
-            uploadStatus.value.set(fileUploaded.name,  STATUS_STRING.FAILURE);
+            uploadStatus.value.set(fileUploaded.name,
+            doc ? STATUS_STRING.UPLOADED : STATUS_STRING.FAILURE
+            );
+          } catch (err) {
+            console.error("Error uploading file:", fileUploaded.name, err.message);
+
+            uploadedFinalStatus.value.set(fileUploaded.name, {
+              status: "failure"
+            });
+
+            uploadStatus.value.set(fileUploaded.name, STATUS_STRING.FAILURE);
           }
         }
       })();

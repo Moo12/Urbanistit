@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-2 xl:grid-cols-3 gap-1 md:gap-6 padding-section">
+    <div class="grid grid-cols-2 xl:grid-cols-3 gap-1 md:gap-6 padding-section" dir="rtl">
         <div v-for="client in insertSquareMain" :key="client.id">
             <div v-if="!client.isMain">
                 <router-link :to="{ name: 'Client', params: { id: client.id }}">
@@ -49,18 +49,24 @@ export default {
                 return [];
             }
 
-            if (screenWidth.value < 1280) {
-                // Between md and lg
-                index = 1;
-            } else {
-                // Greater than lg
-                index = 2;
-            }
+            clients_db.value.sort((a, b) =>{
+                const aIndex = a.metadata?.index;
+                const bIndex = b.metadata?.index;
+
+                const aHasIndex = typeof aIndex === 'number';
+                const bHasIndex = typeof bIndex === 'number';
+
+                if (aHasIndex && bHasIndex) return aIndex - bIndex;
+                if (aHasIndex) return -1;
+                if (bHasIndex) return 1;
+                return 0;
+            })
+
 
 
 
             const newClients = [...clients_db.value];
-            newClients.splice(index, 0, squareMain);
+            newClients.splice(0, 0, squareMain);
 
             return newClients;
         });
