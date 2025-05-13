@@ -30,7 +30,7 @@ export default {
 
     const routeHeightMap = {
       "/store": "12px",
-      "/clients": "12px"
+      "/blog": "0px"
     };
 
     const navbarHeight = ref(null)
@@ -44,7 +44,7 @@ export default {
 
     // Compute the class for dynamic positioning
     const contentClass = computed(() => {
-      const topValue = routeHeightMap[route.path] ? `${navbarHeight.value}px` : "0px" 
+      const topValue = !routeHeightMap[route.path] ? `${navbarHeight.value}px` : "0px" 
 
       console.log("topValue class", topValue)
       return {
@@ -69,7 +69,7 @@ export default {
   left: 0;
   width: 100%;
   align-items: center;
-  z-index: 10000;
+  z-index: 100;
 }
 
 .content {

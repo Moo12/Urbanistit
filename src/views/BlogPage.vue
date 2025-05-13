@@ -42,11 +42,12 @@
               <!-- "Display More" Button -->
             <div class="w-full" >
                 <div class="flex w-full justify-center mt-6">
-                    <button v-if="visibleBlogs?.length < blogDocuments?.length" @click="loadMoreBlogs" class="btn min-h-full">
+                    <button v-if="visibleBlogs?.length < blogDocuments?.length" @click="loadMoreBlogs" class="btn min-h-full flex justify-center">
                         <!-- Full arrow with shaft (Heroicons) -->
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 48" stroke-width="3" stroke="currentColor" class="w-5 h-20">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 25l-7 7m0 0l-7-7m7 7V0" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 28" stroke-width="4" stroke="currentColor" class="size-8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 21.25 12 25m0 0-3.75-3.75M12 25V2" />
                         </svg>
+
                     </button>
                 </div>
             </div>
@@ -60,6 +61,7 @@
 <script setup>
 
 import { ref, computed, defineProps, onMounted} from 'vue';
+import { ArrowDown } from 'lucide-vue-next'
 
 import BlogCategoryIcons from '@/components/BlogCategoryIcons.vue';
 import TagsIcons from '@/components/TagsIcons.vue';

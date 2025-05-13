@@ -1,7 +1,7 @@
 <template>
     <!-- Layout 1: Symmetric Arc and Rectangle -->
-    <div v-if="isLandscape" class="relative  w-full h-full">
-      <svg class="w-full" :style="`aspect-ratio: ${aspectRatio}`"  :viewBox="landscapeViewBox" xmlns="http://www.w3.org/2000/svg">
+    <div v-if="isLandscape" class="object-contain h-auto w-full max-w-full" id="image-curve-container">
+      <svg class=""  :viewBox="landscapeViewBox" xmlns="http://www.w3.org/2000/svg">
         <!-- Define the clipPath to create the shape -->
         <defs>
           <clipPath id="landscapeClip">
@@ -13,16 +13,14 @@
         <image
           :href="imageSrc"
           width="100%"
-          height="100%"
           clip-path="url(#landscapeClip)"
-          preserveAspectRatio="xMidYMid slice"
         />
       </svg>
     </div>
 
     <!-- Layout 2: Rectangle Left with Curve -->
-    <div v-else class="relative w-full h-full">
-      <svg class="w-full h-full" :viewBox="landscapeViewBox" xmlns="http://www.w3.org/2000/svg">
+    <div v-else class="relative max-h-full h-full object-contain" id="image-curve-container">
+      <svg class=" h-full" :viewBox="landscapeViewBox" xmlns="http://www.w3.org/2000/svg">
         <!-- Define the clipPath to create the shape -->
         <defs>
           <clipPath id="portraitClip">
@@ -37,7 +35,6 @@
         <!-- Image inside the defined clipPath -->
         <image
           :href="imageSrc"
-          width="100%"
           height="100%"
           preserveAspectRatio="xMidYMid slice"
           clip-path="url(#portraitClip)"
@@ -68,10 +65,13 @@ const landscapePath = ref(null)
 const landscapeViewBox = ref(null)
 
 const updatePaths = () => {
-  let relHeight = 100 / props.aspectRatio
+  
+  const relWidth = 100;
+  const relHeight = 100 / props.aspectRatio;
+  
   landscapeViewBox.value = `0 0 100 ${relHeight}`;
 
-  console.log("relHeight", relHeight)
+  console.log(`rel height ${relHeight} rel width ${relWidth}`)
 
   if (props.isLandscape) {
     let relHeighStartCurve = relHeight * 0.35
@@ -82,6 +82,10 @@ const updatePaths = () => {
     let relXStartCurve = 100 * 0.7
     let relXMiddleCurve = 100 * 0.95
     let relYMiddleCurve = relHeight * 0.8
+
+    let relXMiddleCurve2 = 92
+    let relYMiddleCurve2 = relHeight * 0.4
+
 
     // Adjust for portrait orientation
     landscapePath.value = `M 0 0 L 0 ${relHeight} L ${relXStartCurve} ${relHeight} C ${relXStartCurve} ${relHeight}, ${relXMiddleCurve} ${relYMiddleCurve}, 100 0 L 0 0`;

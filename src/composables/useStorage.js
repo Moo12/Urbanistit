@@ -31,7 +31,7 @@ const useStorage = () => {
                 const fileUrl = await getDownloadURL(fileRef);
                 console.log("file url",fileUrl)
 
-                const item = {url: fileUrl, name:  file.name}
+                const item = {url: fileUrl, name: file.name, type: file.type}
                 filesUploadedInfo.value = [...filesUploadedInfo.value, item];
 
             } catch (err) {

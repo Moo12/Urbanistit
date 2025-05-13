@@ -22,7 +22,12 @@
       <!-- File Upload Progress -->
       <ul v-if="uploadStatus.size">
         <li v-for="[fileName] in uploadStatus.entries()" :key="fileName" class="flex flex-row justify-between gap-2">
-          <p>{{ fileName }}</p>
+          <p>
+            <span v-if="fileName.endsWith('.mp4') || fileName.endsWith('.webm')">🎞️</span>
+            <span v-else>🖼️</span>
+            {{ fileName }}
+          </p>
+
           <p
             :class="{
             'text-green-500': uploadStatus.get(fileName) === STATUS_STRING.UPLOADED,
@@ -65,7 +70,8 @@ const isPending = ref(false);
 const fileSelectedError = ref(null);
 const selectedOption = ref(props.dropdownOptions?.[0] || ""); // Default to first option
 
-const types = ["image/png", "image/jpeg",];
+const types = ["image/png", "image/jpeg", "video/mp4", "video/webm"];
+
 const uploadStatus = ref(new Map()); // Tracks upload status of each file
 const uploadedFinalStatus = ref(new Map())
 
@@ -117,7 +123,7 @@ const handleSubmit = async () => {
   });
 
   uploadedFinalStatus.value = new Map();
-
+  
   uploadImages(files.value, collectionName.value);
 }
 
@@ -125,23 +131,26 @@ const handleSubmit = async () => {
 watch(filesUploadedInfo, async () => {
   if (files.value.length) {
     const promises = [];
-
+    
     for (const fileUploaded of filesUploadedInfo.value) {
       console.log("iterating file ", fileUploaded.name);
-
+      
       const promise = (async () => {
         if (!uploadedFinalStatus.value.has(fileUploaded.name)) {
           uploadedFinalStatus.value.set(fileUploaded.name, {
             status: STATUS_STRING.PENDING,
             id: ""
           });
-
+          
+          const fileType = getFileType(fileUploaded);
+          
           const imageMetaData = {
             role: "main",
             identifier_id: "",
             updated_by: "admin",
             tags: [],
             image_url: fileUploaded.url,
+            file_type: fileType,                // image or video
             category: props.collection_name || "general",
           };
 
@@ -199,6 +208,13 @@ const cleanForm = () => {
   files.value = []
   uploadedFinalStatus.value = new Map()
   AreFileSelected.value = files.value.length > 0;
+};
+
+const getFileType = (file) => {
+  console.log("file ", file)
+  if (file.type.startsWith("image/")) return "image";
+  if (file.type.startsWith("video/")) return "video";
+  return null;
 };
 
 // Expose function to parent

@@ -1,6 +1,6 @@
 <template>
   <div >
-    <nav class="z-[10000] relative padding-section" :class="navClass" ref="navbarRef" >
+    <nav class="z-[100] relative padding-section" :class="navClass" ref="navbarRef" >
         <div class="relative">
             <!-- home button -->
              <div class="flex justify-between items-center">

@@ -54,6 +54,30 @@ const useImageMetadata = () => {
       }
     }
 
+    const getImageType = (id) => {
+      const imageMd = imagesMetadata.value.find(item => item.id === id);
+      if (imageMd){
+        return imageMd?.file_type || "image"
+      }
+
+      return null;
+    }
+
+    const getImagesUrlByRole = (imagesMetadata, role) => {
+      if (!Array.isArray(imagesMetadata)) {
+        console.error("getMainImageUrl: Invalid input, expected an array");
+        return null;
+      }
+    
+      const mainImageMd = imagesMetadata.filter(imageMd => imageMd?.role === role);
+    
+      if (!mainImageMd || !mainImageMd.length ) {
+        return null; // Return null if no valid main image found
+      }
+
+      return mainImageMd.map(item => {return  { url: getImageUrl(item.metadata_id), type: getImageType(item.metadata_id)}} )
+    } 
+
     const getImageUrlByRole = (imagesMetadata, role) => {
       if (!Array.isArray(imagesMetadata)) {
         console.error("getMainImageUrl: Invalid input, expected an array");
@@ -99,7 +123,7 @@ const useImageMetadata = () => {
     });
   });
 
-  return { imagesMetadata, error, getImageUrl, getMainImageUrl, getSubImagesUrls, getImageUrlByRole };
+  return { imagesMetadata, error, getImageUrl, getMainImageUrl, getSubImagesUrls, getImageUrlByRole, getImagesUrlByRole };
 };
 
 export default useImageMetadata;

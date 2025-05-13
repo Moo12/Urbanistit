@@ -11,6 +11,7 @@
         :key="index" 
         class="shrink-0 aspect-[0.8] bg-cover bg-center flex items-center justify-center relative rounded-md overflow-hidden cursor-pointer" ref=""
         :style="{backgroundImage: `url(${item.image})`, width:  scrollItemWidth}"
+        @click="$emit('click', item)"
       >
          <!-- Default slot for custom content -->
          <slot :item="item"></slot>
@@ -47,7 +48,8 @@ export default {
       default: 2
     }
   },
-  setup(props) {
+  emits: ['click'],
+  setup(props, { emits } ) {
     const scrollWrapper = ref(null);
     const scrollItemWidth = ref(`${props.itemWidth}%`);// Width of each scroll item
 
@@ -90,7 +92,11 @@ export default {
     }
   };
 
-    return { scrollWrapper, scrollLeft, scrollRight, scrollItemWidth, gapSize, scrollContainerWidthPercantage, radiusPercent, offsetRight };
+  const onItemClick = (item) => {
+      emit('click', item)
+    }
+
+    return { scrollWrapper, scrollLeft, scrollRight, scrollItemWidth, gapSize, scrollContainerWidthPercantage, radiusPercent, offsetRight, onItemClick };
   }
 };
 </script>
