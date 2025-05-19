@@ -47,7 +47,6 @@ const routes = [
     path: '/client/:id',
     name: 'Client',
     component: ClientPage,
-    props: true
   },
   {
     path: '/clients',

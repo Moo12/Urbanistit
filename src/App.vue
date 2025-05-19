@@ -30,7 +30,8 @@ export default {
 
     const routeHeightMap = {
       "/store": "12px",
-      "/blog": "0px"
+      "/blog": "0px",
+      "/": "0px"
     };
 
     const navbarHeight = ref(null)

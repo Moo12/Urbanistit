@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const hoverColors = ['yellow-site']
 module.exports = {
   mode: "jit",
   content: [
@@ -6,7 +7,13 @@ module.exports = {
     "./src/**/*.{vue,js,ts,jsx,tsx}",  // Adjust this line to ensure it picks up all Vue components
     "./src/components/**/*.{vue,js,ts,jsx,tsx}"  // Specifically add the components folder
   ],
-
+  safelist: [
+    'aspect-[0.8]',
+    'aspect-[1]',
+    'aspect-[1.5]',
+    'aspect-[2]', // add all possible aspect ratios you use
+    ...hoverColors.map(color => `hover:bg-${color}`)
+  ],
   presets: [],
   darkMode: 'media', // or 'class'
   theme: {

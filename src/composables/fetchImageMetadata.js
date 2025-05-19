@@ -79,8 +79,12 @@ const useImageMetadata = () => {
     } 
 
     const getImageUrlByRole = (imagesMetadata, role) => {
+      if (!imagesMetadata){
+        return null
+      }
+
       if (!Array.isArray(imagesMetadata)) {
-        console.error("getMainImageUrl: Invalid input, expected an array");
+        console.error("getMainImageUrl: Invalid input, expected an array", imagesMetadata);
         return null;
       }
     
@@ -111,9 +115,9 @@ const useImageMetadata = () => {
     };
 
     onMounted(() => {
-    if (!isLoaded.value) {
-      fetchImageMetadata();  // Only fetch if not already loaded
-    }
+      if (!isLoaded.value) {
+        fetchImageMetadata();  // Only fetch if not already loaded
+      }
     
     const unsubscribe = subscribeToImageMetadata(); // Subscribe to real-time updates
 

@@ -1,6 +1,6 @@
 <template>
     <div class="w-full flex flex-col gap-4 padding-section">
-        <div class="justify-center items-center" :class = "[containerClass]">
+        <div class="justify-center items-center grid grid-cols-5">
             <!-- horizontal anchors-->
             <div v-for="(item, index) in orderedMenuItems" :key="index" class="flex items-center justify-center btn h-full">
                 <a :href="item.href" class="no-underline flex justify-center items-center">
@@ -64,8 +64,6 @@ export default {
                             }
                         }
                     })
-
-                    containerClass.value =  `grid grid-cols-${localMenuItems.value?.length}`
                 }
             })
 
@@ -83,7 +81,7 @@ export default {
             return items;
         });
 
-        return { backgroundImage, orderedMenuItems, containerClass }
+        return { backgroundImage, orderedMenuItems }
     }
 }
 </script>
