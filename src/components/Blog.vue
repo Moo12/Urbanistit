@@ -37,7 +37,7 @@
 <script>
 
 import { watchEffect, ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+    import { useRouter } from 'vue-router';
 
 import BlogCategoryIcons from './BlogCategoryIcons.vue';
 import Scroller from './Scroller.vue';
@@ -49,7 +49,7 @@ import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
 export default {
     components: {
         BlogCategoryIcons,
-        Scroller
+        Scroller,
     },
     setup(){
         const { documents, error, fetchCollectionOnce } = getCollection("blog");

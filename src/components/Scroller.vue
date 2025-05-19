@@ -9,8 +9,9 @@
       <div
       v-for="(item, index) in items" 
         :key="index" 
-        class="shrink-0 aspect-[0.8] bg-cover bg-center flex items-center justify-center relative rounded-md overflow-hidden cursor-pointer" ref=""
+        class="shrink-0 bg-cover bg-center flex items-center justify-center relative rounded-md overflow-hidden cursor-pointer" ref=""
         :style="{backgroundImage: `url(${item.image})`, width:  scrollItemWidth}"
+        :class="[`aspect-[${aspect}]`]"
         @click="$emit('click', item)"
       >
          <!-- Default slot for custom content -->
@@ -46,10 +47,15 @@ export default {
       type: Number,
       required: false,
       default: 2
+    },
+    aspect: {
+      type: Number,
+      required: false,
+      default: 0.8
     }
   },
   emits: ['click'],
-  setup(props, { emits } ) {
+  setup(props) {
     const scrollWrapper = ref(null);
     const scrollItemWidth = ref(`${props.itemWidth}%`);// Width of each scroll item
 
@@ -92,11 +98,7 @@ export default {
     }
   };
 
-  const onItemClick = (item) => {
-      emit('click', item)
-    }
-
-    return { scrollWrapper, scrollLeft, scrollRight, scrollItemWidth, gapSize, scrollContainerWidthPercantage, radiusPercent, offsetRight, onItemClick };
+    return { scrollWrapper, scrollLeft, scrollRight, scrollItemWidth, gapSize, scrollContainerWidthPercantage, radiusPercent, offsetRight };
   }
 };
 </script>

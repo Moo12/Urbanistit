@@ -1,30 +1,39 @@
 <template>
-  <div class="my-10 mx-10 md:mx-40 flex flex-col gap-16">
+  <div class="my-10 mx-10 md:mx-40 flex flex-col">
     <!-- ALL CONTENT -->
-    <div v-if="clientDoc && !errrorLoadClientDoc" class="flex flex-col gap-10">
-      <!-- IMAGE AND TITLES -->
-      <div  class="grid grid-cols-12 justify-start" :dir="directionClass">
-        <!-- title and sub title -->
-        <div class="flex flex-col col-span-5  justify-self-end text-right gap-6">
-          <p class="text-twenty-seven-px md:text-[54px] text-black-light leading-none font-black  text-right ">{{ clientDoc.translations.he.title }}</p>
-          <p class="section-content text-right">{{ clientDoc.translations.he.sub_title }}</p>
-          <ProjectSelector v-if="clientProjects" :projectDocs="clientProjects" :language="language"  @ProjectSelectorClicked="handleProjectSelect" />
-        </div>
-        <!-- IMAGE-->
-        <div class="project-frame col-start-7 col-span-6 overflow-hidden">
-          <img :src=clientMainImage class="h-full object-cover" alt="">
-        </div>
-        <div>
-        </div>
-      </div>
-        <!-- projets -->
-      <div v-if="selectedProject">
-        <Project :projectDoc="selectedProject" :language="language"/>
-      </div>
+     <div class="flex flex-col gap-16"
+     :class="{
+      'h-full' : selectedProject,
+      'h-[80vh]': !selectedProject
+     }">
+
+       <div v-if="clientDoc && !errrorLoadClientDoc">
+         <!-- IMAGE AND TITLES -->
+         <div  class="grid grid-cols-12 justify-start" :dir="directionClass">
+           <!-- IMAGE-->
+           <div class="square-frame project-frame md:col-span-5 lg:col-span-4 col-span-10 overflow-hidden">
+             <img :src=clientMainImage class="h-full object-cover" alt="">
+           </div>
+           <!-- title and sub title -->
+           <div class="flex flex-col col-span-6 lg:col-start-6 lg:col-span-7 justify-between text-right gap-6">
+             <div class="flex flex-col gap-8">
+               <p class="w-[70%] text-twenty-seven-px md:text-[54px] text-black-light leading-none font-black  text-right ">{{ clientDoc.translations.he.title }}</p>
+               <p class="section-content text-right">{{ clientDoc.translations.he.sub_title }}</p>
+             </div>
+             <ProjectSelector v-if="clientProjects" :projectDocs="clientProjects" :language="language"  @ProjectSelectorClicked="handleProjectSelect" />
+           </div>
+           <div>
+           </div>
+         </div>
+       </div>
+       <!-- projets -->
+       <div v-if="selectedProject">
+         <Project :projectDoc="selectedProject" :language="language"/>
+       </div>
+       <router-link :to="{ name: 'ClientsPage' }">
+         <span class="text-section">חזרה לפרויקטים >></span>
+       </router-link>
     </div>
-    <router-link :to="{ name: 'ClientsPage' }">
-      <span class="text-section">חזרה לפרויקטים >></span>
-    </router-link>
   </div>
   <ContactMeWrapper bgColor="brown"></ContactMeWrapper>
 </template>
@@ -49,7 +58,7 @@ directionClass.value = language.value === 'he' ? "rtl" : "lft"
 const route = useRoute();
 const id = ref(route.params.id)
 
-const selectedProject = ref(null)
+const selectedProject = ref(route.params.project_id)
 
 const { error: errrorLoadClientDoc, document : clientDoc } = getDocument("clients", id.value)
 const { imagesMetadata, error: errorUseImageMetadata, getMainImageUrl } = useImageMetadata();

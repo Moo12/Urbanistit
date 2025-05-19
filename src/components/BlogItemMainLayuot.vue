@@ -19,7 +19,7 @@
     </div>
 
     <!-- Layout 2: Rectangle Left with Curve -->
-    <div v-else class="relative max-h-full h-full object-contain" id="image-curve-container">
+    <div v-else class="relative max-auto h-full object-contain" id="image-curve-container">
       <svg class=" h-full" :viewBox="landscapeViewBox" xmlns="http://www.w3.org/2000/svg">
         <!-- Define the clipPath to create the shape -->
         <defs>

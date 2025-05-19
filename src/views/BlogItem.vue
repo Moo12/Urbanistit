@@ -145,7 +145,7 @@ const containerAspect = computed(() => {
             
         }
         else{
-            _height = window.innerHeight * 0.9
+            _height = window.innerHeight * 0.9 - 50;
             _width = window.innerWidth / 2 + 75
         }
     
