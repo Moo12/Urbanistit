@@ -22,8 +22,8 @@
                             {'mr-[-75px] mb-[-30px]' :  isLandscape }
                     ]"
                     >
-                    <div class="" v-if="containerAspect">
-                        <BlogItemMainLayuot  :aspectRatio="containerAspect" :imageSrc="mainImageUrl" :isLandscape="isLandscape"/>
+                    <div class="" v-if="ratio">
+                        <BlogItemMainLayuot  :aspectRatio="ratio" :imageSrc="mainImageUrl" :isLandscape="isLandscape"/>
                     </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
     <div v-if="isBlogContentLoaded" class="mt-10">
         <BlogContent :blogItem="blogContent"></BlogContent>
     </div>
-    <div class="w-full">
+    <div class="w-full mt-10">
         <Scroller :items="galleryImgs" :itemWidth="25" :itemGap="1.4"
         @click="(item) => { isGalleryOpen = true; currentGalleryImageIndex = item.index }"
         >
@@ -133,34 +133,6 @@ const blogContent = ref({
 
 const isBlogContentLoaded = ref(false)
 
-const containerAspect = computed(() => {
-
-    if (isLandscape.value != null) {
-
-        let _width, _height
-        
-        if (isLandscape.value){
-            _width = window.innerWidth
-            _height = window.innerHeight * 0.65
-            
-        }
-        else{
-            _height = window.innerHeight * 0.9 - 50;
-            _width = window.innerWidth / 2 + 75
-        }
-    
-    
-        const aspect = _width / _height
-
-        console.log(`containerAspect ${aspect} height ${_height} _width ${_width}`)
-        return aspect
-    }
-
-    return null
-})
-
-// On component mount, check the image's aspect ratio
-
 onMounted( async () => {
     await fetchTagsCollectionOnce()
 })
@@ -201,8 +173,15 @@ watchEffect(async () => {
                 ratio.value = await getImageAspectRatio(mainImageUrl.value);
                 
                 isLandscape.value = ratio.value > 1;
+
+                let _width, _height
+
+                _width = window.innerWidth
+                _height = window.innerHeight 
+
+                ratio.value = isLandscape.value ? _width / (_height * 0.7)  : ratio.value
                 
-                console.log("ratio", ratio.value)
+                console.log(`containerAspect ${ratio.value} height ${_height} _width ${_width}`)
                 console.log("isLandscape", isLandscape.value)
             }
 
@@ -217,7 +196,7 @@ watchEffect(async () => {
 
 const mainImgAndTitleLayoutClass = computed(() => {
     if (isLandscape.value !== null){
-        return isLandscape.value ? "flex flex-col" :  "grid grid-cols-[5fr_7fr]"
+        return isLandscape.value ? "flex flex-col" :  "grid grid-cols-[6fr_4fr]"
     }
 })
 

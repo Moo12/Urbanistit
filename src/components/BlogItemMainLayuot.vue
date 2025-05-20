@@ -1,6 +1,6 @@
 <template>
     <!-- Layout 1: Symmetric Arc and Rectangle -->
-    <div v-if="isLandscape" class="object-contain h-auto w-full max-w-full" id="image-curve-container">
+    <div v-if="isLandscape" class="object-contain w-full max-w-full" id="image-curve-container">
       <svg class=""  :viewBox="landscapeViewBox" xmlns="http://www.w3.org/2000/svg">
         <!-- Define the clipPath to create the shape -->
         <defs>
@@ -19,8 +19,8 @@
     </div>
 
     <!-- Layout 2: Rectangle Left with Curve -->
-    <div v-else class="relative max-auto h-full object-contain" id="image-curve-container">
-      <svg class=" h-full" :viewBox="landscapeViewBox" xmlns="http://www.w3.org/2000/svg">
+    <div v-else class="relative max-auto h-full w-auto object-contain" id="image-curve-container">
+      <svg class=" h-full w-full" :viewBox="landscapeViewBox" xmlns="http://www.w3.org/2000/svg">
         <!-- Define the clipPath to create the shape -->
         <defs>
           <clipPath id="portraitClip">

@@ -47,14 +47,10 @@ export default {
 
     const handleSize = () => {
       aspectRatio.value = window.innerWidth / window.innerHeight;
-
-      console.log("aspectRatio", aspectRatio.value)
     }
     onMounted(() => {
       window.addEventListener("resize", handleSize);
       aspectRatio.value = window.innerWidth / window.innerHeight;
-
-      console.log("aspectRatio", aspectRatio.value)
     })
 
     watchEffect(() => {
