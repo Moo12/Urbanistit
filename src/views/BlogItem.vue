@@ -3,7 +3,7 @@
     <!-- layout -->
     <div class="bg-white">
         <div v-if="isLandscape !== null" ref="containerRef"
-        class="border-background-site h-[90vh] mt-[50px]  border-[30px]" dir="rtl"
+        class="border-background-site h-[95vh] mt-[50px]  border-[30px]" dir="rtl"
         :class="[mainImgAndTitleLayoutClass, {'border-b-0': isLandscape }]">
             <!-- category title -->
             <div class="flex flex-col items-center  gap-3 flex-wrap">
@@ -13,7 +13,9 @@
                     <div class="w-[50px] h-[1px] bg-black-light"></div>
                 </div>
 
-                <p class="text-[27px] md:text-fifty-four-px font-black text-center"> {{ blogDoc.translations.he.title }}</p>
+                <p class="text-[27px] md:text-fifty-four-px font-black text-center"
+                :class="{'break-words max-w-[50%] text-center' : !isLandscape}"> 
+                {{ blogDoc.translations.he.title }}</p>
             </div>
             <!-- image -->
             <div 
@@ -27,23 +29,27 @@
                     </div>
             </div>
         </div>
+    </div>    
+    <div  :class="{'h-[10vh]': !isLandscape, 'h-[5vh]' : isLandscape }">
     </div>
+
     
-        <!-- navigate -->
-    <div class="mt-10 padding-half-section flex justify-between">
+    <!-- navigate -->
+    <div class="padding-half-section flex justify-between">
         <div class="btn">
             <p class="font-light">תאריך עלייה לאתר</p>
-        </div>
+        </div>    
         <router-link :to="{ name: 'Blog'}">
             <div class="btn font-light">
                 <p class="font-light">חזרה לעמוד הקודם</p>
-            </div>
-        </router-link>
-    </div>
-
-
+            </div>    
+        </router-link>    
+    </div>    
+    
+    <div class="h-[5vh]">
+    </div>    
     <!-- sub title -->
-    <div v-if="isBlogContentLoaded" class="mt-10">
+    <div v-if="isBlogContentLoaded">
         <BlogContent :blogItem="blogContent"></BlogContent>
     </div>
     <div class="w-full mt-10">
@@ -179,7 +185,7 @@ watchEffect(async () => {
                 _width = window.innerWidth
                 _height = window.innerHeight 
 
-                ratio.value = isLandscape.value ? _width / (_height * 0.7)  : ratio.value
+                ratio.value = isLandscape.value ? _width / (_height * 0.75)  : ratio.value
                 
                 console.log(`containerAspect ${ratio.value} height ${_height} _width ${_width}`)
                 console.log("isLandscape", isLandscape.value)
@@ -196,7 +202,7 @@ watchEffect(async () => {
 
 const mainImgAndTitleLayoutClass = computed(() => {
     if (isLandscape.value !== null){
-        return isLandscape.value ? "flex flex-col" :  "grid grid-cols-[6fr_4fr]"
+        return isLandscape.value ? "flex flex-col" :  "grid grid-cols-[6fr_7fr]"
     }
 })
 

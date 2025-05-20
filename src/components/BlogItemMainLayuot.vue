@@ -1,6 +1,6 @@
 <template>
     <!-- Layout 1: Symmetric Arc and Rectangle -->
-    <div v-if="isLandscape" class="object-contain w-full max-w-full" id="image-curve-container">
+    <div v-if="isLandscape" class="object-contain aspect-[2.72] w-full max-w-full" id="image-curve-container">
       <svg class=""  :viewBox="landscapeViewBox" xmlns="http://www.w3.org/2000/svg">
         <!-- Define the clipPath to create the shape -->
         <defs>
@@ -19,7 +19,7 @@
     </div>
 
     <!-- Layout 2: Rectangle Left with Curve -->
-    <div v-else class="relative max-auto h-full w-auto object-contain" id="image-curve-container">
+    <div v-else class="relative max-auto h-full max-h-[100vh] w-auto object-contain overflow-hidden" id="image-curve-container">
       <svg class=" h-full w-full" :viewBox="landscapeViewBox" xmlns="http://www.w3.org/2000/svg">
         <!-- Define the clipPath to create the shape -->
         <defs>
@@ -79,12 +79,9 @@ const updatePaths = () => {
     landscapePath.value = `M 0 ${relHeight} L 0 ${relHeighStartCurve} C 0 ${relHeighStartCurve}, 50 0, 100 ${relHeighStartCurve} L 100 ${relHeight} L 0 ${relHeight}`;
     console.log("landscape path:", landscapePath.value)
   } else {
-    let relXStartCurve = 100 * 0.7
+    let relXStartCurve = 100 * 0.4
     let relXMiddleCurve = 100 * 0.95
     let relYMiddleCurve = relHeight * 0.8
-
-    let relXMiddleCurve2 = 92
-    let relYMiddleCurve2 = relHeight * 0.4
 
 
     // Adjust for portrait orientation
