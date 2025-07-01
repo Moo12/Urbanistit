@@ -20,7 +20,7 @@
             </div>
         </div>
         <!-- blog scroller -->
-        <div v-if="convertedItems && !isMobile" class="my-[6%]">
+        <div v-if="convertedItems && !deviceStore.isMobile" class="my-[6%]">
             <Scroller :items="convertedItems" :itemWidth="25" :itemGap="1.4">
                 <template v-slot:default="{ item }">
                     <router-link :to="{ name: 'Single-Blog', params: { id: item.id }}" class="w-full h-full">
@@ -46,6 +46,8 @@ import useImageMetadata from '@/composables/fetchImageMetadata';
 import getCollection from '@/composables/getCollection';
 import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
 
+import { useDeviceStore } from '@/stores/deviceStore'
+
 export default {
     components: {
         BlogCategoryIcons,
@@ -60,18 +62,10 @@ export default {
 
         const backgroundSrc = ref(null)
         const convertedItems = ref(null)
-        const isMobile = ref(false)
+
+        const deviceStore = useDeviceStore()
 
         const router = useRouter()
-        
-        const checkDevice = () => {
-            isMobile.value = window.innerWidth <= 768
-        }
-        
-        onMounted(() => {
-            checkDevice()
-            window.addEventListener('resize', checkDevice)
-        })
         
         watchEffect( async () => {
             convertedItems.value = []
@@ -102,7 +96,7 @@ export default {
             router.push( { name: "Blog" } )
         }
 
-        return { convertedItems, handleCategory, backgroundSrc, isMobile }
+        return { convertedItems, handleCategory, backgroundSrc, deviceStore }
     }
 }
 </script>
