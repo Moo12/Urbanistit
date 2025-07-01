@@ -1,6 +1,6 @@
 <template>
-    <div class="grid grid-cols-12 gap-y-20" :dir="directionClass">
-      <div class="col-span-4">
+    <div class="grid grid-cols-6 md:grid-cols-12 gap-y-8 md:gap-y-20">
+      <div class="col-span-6 md:col-span-4 flex flex-col gap-y-4">
 
         <!-- Title -->
         <p class="break-words max-w-[70%]  text-[27px] font-black">{{ projectDoc.translations[language]?.title }}</p>
@@ -8,19 +8,19 @@
         <!-- Subtitle -->
         <p class="text-[18px] font-light">{{ projectDoc.translations[language]?.sub_title }}</p>
       </div>
-      <div class="col-start-6 col-span-7 aspect-[746/420] overflow-hidden rounded-lg">
+      <div v-if="!deviceStore.isMobile" class="col-start-6 col-span-7 aspect-[746/420] overflow-hidden rounded-lg">
         <img :src="mainImageUrl" alt="" class="object-cover w-full h-auto">
       </div>
       <!-- Images Gallery -->
-      <div class="col-span-12">
-        <Scroller :items="galleryImgs" :itemWidth="25" :itemGap="1.4" :aspect="1"
+      <div class="col-span-6 md:col-span-12">
+        <Scroller :items="galleryImgs" :itemWidth="deviceStore.isMobile ? 50 : 16" :itemGap="deviceStore.isMobile ? 1.4 : 2" :aspect="1"
         @click="(item) => { isGalleryOpen = true; currentGalleryImageIndex = item.index }"
         >
         </Scroller>
       </div>
     </div>
     <div v-if="isGalleryOpen">
-      <ScrollerModel :images="galleryImgs" :index="currentGalleryImageIndex"  @close="isGalleryOpen = false"/>
+      <ScrollerModal :images="galleryImgs" :index="currentGalleryImageIndex"  @close="isGalleryOpen = false"/>
     </div>
   </template>
   
@@ -28,7 +28,8 @@
   import { computed, defineProps, watchEffect, ref } from 'vue';
   import useImageMetadata from '@/composables/fetchImageMetadata'
   import Scroller from './Scroller.vue';
-  import ScrollerModel from './ScrollerModel.vue';
+  import ScrollerModal from './ScrollerModal.vue';
+  import { useDeviceStore } from '@/stores/deviceStore'
 
   const props = defineProps({
     projectDoc: {
@@ -41,10 +42,9 @@
     }
   });
 
-  const language = ref(props.language  || "he")
+  const deviceStore = useDeviceStore()
 
-  const directionClass = ref('')
-  directionClass.value = language.value === 'he' ? "rtl" : "lft"
+  const language = ref(props.language  || "he")
 
   const galleryImgs = ref([])
 

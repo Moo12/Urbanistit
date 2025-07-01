@@ -1,35 +1,43 @@
 <template>
-  <div v-if="!errrorLoadBlogDoc && blogDoc" class="flex flex-col md:mx-[45px] mx-[30px]">
+  <div v-if="!errrorLoadBlogDoc && blogDoc" class="flex flex-col md:mx-[45px] mx-[10px]">
     <!-- layout -->
-    <div class="bg-white">
+    <div class="relative bg-white h-[65vh] md:h-[95vh]">
         <div v-if="isLandscape !== null" ref="containerRef"
-        class="border-background-site h-[95vh] mt-[50px]  border-[30px]" dir="rtl"
+        class="relative z-[10] border-background-site md:h-[85vh] h-[65vh] border-[10px] md:border-[30px]"
         :class="[mainImgAndTitleLayoutClass, {'border-b-0': isLandscape }]">
             <!-- category title -->
-            <div class="flex flex-col items-center  gap-3 flex-wrap">
+            <div class="z-[10] h-full flex flex-col items-center  gap-3 flex-wrap"
+                :class="{'absolute top-0 left-0 w-full h-full': isMobile && !isLandscape}">
                 <div class="flex items-center justify-center gap-2 my-6">
                     <div class="w-[50px] h-[1px]  bg-black-light"></div>
-                    <span class="section-content tracking-wide">{{ selectedCategory }}</span>
+                    <span class="section-content  text-black-light tracking-wide">{{ selectedCategory }}</span>
                     <div class="w-[50px] h-[1px] bg-black-light"></div>
                 </div>
+                
+                <div :class="{'flex justify-center w-full' : !isMobile || isLandscape,
+                    'absolute bottom-0 right-0 w-[50%]': isMobile && !isLandscape}">
+                    <p class="text-[20px] md:text-[27px] lg:text-fifty-four-px font-black text-center"
+                    :class="{'break-words max-w-[50%] text-center' : !isLandscape}"> 
+                    {{ blogDoc.translations.he.title }}</p>
+                </div>
 
-                <p class="text-[27px] md:text-fifty-four-px font-black text-center"
-                :class="{'break-words max-w-[50%] text-center' : !isLandscape}"> 
-                {{ blogDoc.translations.he.title }}</p>
             </div>
             <!-- image -->
-            <div 
-                class="ml-[-75px] h-full"
-                    :class="[{ 'mt-[-30px]' : !isLandscape },
-                            {'mr-[-75px] mb-[-30px]' :  isLandscape }
-                    ]"
-                    >
-                    <div class="" v-if="ratio">
-                        <BlogItemMainLayuot  :aspectRatio="ratio" :imageSrc="mainImageUrl" :isLandscape="isLandscape"/>
-                    </div>
-            </div>
         </div>
-    </div>    
+        <div v-if="ratio"
+            class="absolute z-[11]"
+                :class="[{ 'top-0  h-full h-max-full md:h-full md:h-max-full' : !isLandscape },
+                        {'w-[60%] w-max-[60%]  left-[-45px]' :  !isLandscape && !deviceStore.isMobile },
+                        {'left-[-10px]' : isLandscape && deviceStore.isMobile },
+                        {'w-[100vw] min-w-[100vw] bottom-0 h-[65vh] md:h-[80vh]' :  isLandscape },
+                        {'left-[-45px]' : isLandscape && !deviceStore.isMobile },
+    
+                ]"
+                >    
+            <BlogItemMainLayuot  :aspectRatio="ratio" :imageSrc="mainImageUrl" :isLandscape="isLandscape"/>
+                
+        </div>
+    </div>
     <div  :class="{'h-[10vh]': !isLandscape, 'h-[5vh]' : isLandscape }">
     </div>
 
@@ -59,7 +67,7 @@
         </Scroller>
     </div>
     <div v-if="isGalleryOpen">
-        <ScrollerModel :images="galleryImgs" :index="currentGalleryImageIndex"  @close="isGalleryOpen = false"/>
+        <ScrollerModal :images="galleryImgs" :index="currentGalleryImageIndex"  @close="isGalleryOpen = false"/>
     </div>
   </div>
   <div v-else-if="errrorLoadBlogDoc">
@@ -72,7 +80,8 @@ import { onMounted, ref, watchEffect, computed } from 'vue';
 import BlogItemMainLayuot from '@/components/BlogItemMainLayuot.vue';
 import BlogContent from '@/components/BlogContent.vue';
 import Scroller from '@/components/Scroller.vue';
-import ScrollerModel from '@/components/ScrollerModel.vue';
+import ScrollerModal from '@/components/ScrollerModal.vue';
+import ResponsiveImageHeader from '@/components/ResponsiveImageHeader.vue';
 
 import getCollection from '@/composables/getCollection'
 import getDocument from '@/composables/getDocument';
@@ -81,9 +90,11 @@ import useImageMetadata from '@/composables/fetchImageMetadata'
 
 import { getSelectedOptionValue } from "@/composables/useOptions"
 import { useRoute } from 'vue-router';
+import { useDeviceStore } from '@/stores/deviceStore';
 
 const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 const { imagesMetadata, error, getMainImageUrl, getImagesUrlByRole, getImageUrlByRole } = useImageMetadata();
+const deviceStore = useDeviceStore();
 
 
 const route = useRoute();
@@ -126,6 +137,8 @@ const containerRef = ref(null)
 
 const galleryImgs = ref([])
 
+const isMobile = ref(null)
+
 const blogContent = ref({
   main_image: {
     type : "",
@@ -140,8 +153,16 @@ const blogContent = ref({
 const isBlogContentLoaded = ref(false)
 
 onMounted( async () => {
+    window.addEventListener('resize', checkDevice);
+
+    checkDevice()
+
     await fetchTagsCollectionOnce()
 })
+
+const checkDevice = () => {
+    isMobile.value = window.innerWidth <= 768
+}
 
 watchEffect(async () => {
     const categories = generalContentMetadata?.value?.get("blog")?.categories
@@ -150,7 +171,7 @@ watchEffect(async () => {
         if (categories){
             const categoryItem = getSelectedOptionValue(blogDoc.value.default?.category, categories)
 
-            selectedCategory.value = categoryItem.translations?.[language].title
+            selectedCategory.value = categoryItem.translations?.he.title
         }
         
         if (tagsDocuments.value?.length){
@@ -175,17 +196,19 @@ watchEffect(async () => {
 
 
 
-            if ( isLandscape.value === null){
+            if ( isLandscape.value === null && isMobile.value !== null){
                 ratio.value = await getImageAspectRatio(mainImageUrl.value);
+
+                console.log("ratio", ratio.value)
                 
                 isLandscape.value = ratio.value > 1;
 
                 let _width, _height
 
                 _width = window.innerWidth
-                _height = window.innerHeight 
+                _height = window.innerHeight
 
-                ratio.value = isLandscape.value ? _width / (_height * 0.75)  : ratio.value
+                //ratio.value = isLandscape.value ? _width / (_height * 0.43)  : ratio.value
                 
                 console.log(`containerAspect ${ratio.value} height ${_height} _width ${_width}`)
                 console.log("isLandscape", isLandscape.value)
@@ -201,8 +224,8 @@ watchEffect(async () => {
 })
 
 const mainImgAndTitleLayoutClass = computed(() => {
-    if (isLandscape.value !== null){
-        return isLandscape.value ? "flex flex-col" :  "grid grid-cols-[6fr_7fr]"
+    if (isLandscape.value !== null && isMobile.value !== null) {
+        return isLandscape.value ? "flex flex-col" :  isMobile.value ? ""  : "grid grid-cols-[6fr_7fr]"
     }
 })
 

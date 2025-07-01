@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full px-6 py-12" dir="rtl">
+  <div class="w-full px-6 pb-12" dir="rtl">
     <!-- Top subtitle -->
     <div class="text-right mb-12">
       <h2 class="text-[18px] font-semibold text-black-light">{{subTitle}}</h2>
@@ -21,7 +21,8 @@
           v-else-if="mediaType === 'video'"
           :src="main_image.src"
           controls
-          class="w-full h-auto object-contain"
+          class="w-full h-auto object-contain m-0 p-0"
+          playsinline
         />
         <div v-else class="text-red-500">Unsupported media type</div>
       </div>

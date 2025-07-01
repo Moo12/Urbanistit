@@ -13,10 +13,10 @@
     </div>
 
     <!-- blog posts contact me sections -->
-    <div id="blog_section" class="min-h-screen w-full mt-[4.5%]">
+    <div id="blog_section" class="md:min-h-screen w-full md:mt-[4.5%] mt-[20%]">
       <Blog/>
     </div>
-    <div id="contactme_section" class="my-[4.5%]">
+    <div id="contactme_section" class="md:mt-[4.5%] mt-[20%]">
       <ContactMeWrapper/>
     </div>
   </div>

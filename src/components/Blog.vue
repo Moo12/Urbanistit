@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div class="w-full bg-cover bg-top" dir="rtl"
+        <div class="w-full bg-cover bg-top"
             :style="{ backgroundImage: `url(${backgroundSrc})` }">
             <div class="padding-half-section grid grid-cols-12 w-full h-auto pt-[30%] md:pt-[25%] pb-[5%]"> 
                 <!-- Left part (Cat Image) -->
@@ -20,7 +20,7 @@
             </div>
         </div>
         <!-- blog scroller -->
-        <div v-if="convertedItems" class="my-[6%]">
+        <div v-if="convertedItems && !isMobile" class="my-[6%]">
             <Scroller :items="convertedItems" :itemWidth="25" :itemGap="1.4">
                 <template v-slot:default="{ item }">
                     <router-link :to="{ name: 'Single-Blog', params: { id: item.id }}" class="w-full h-full">
@@ -36,7 +36,7 @@
     
 <script>
 
-import { watchEffect, ref, computed } from 'vue';
+import { watchEffect, ref, onMounted } from 'vue';
     import { useRouter } from 'vue-router';
 
 import BlogCategoryIcons from './BlogCategoryIcons.vue';
@@ -59,10 +59,19 @@ export default {
         const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
 
         const backgroundSrc = ref(null)
-
         const convertedItems = ref(null)
+        const isMobile = ref(false)
 
         const router = useRouter()
+        
+        const checkDevice = () => {
+            isMobile.value = window.innerWidth <= 768
+        }
+        
+        onMounted(() => {
+            checkDevice()
+            window.addEventListener('resize', checkDevice)
+        })
         
         watchEffect( async () => {
             convertedItems.value = []
@@ -93,7 +102,7 @@ export default {
             router.push( { name: "Blog" } )
         }
 
-        return { convertedItems, handleCategory, backgroundSrc }
+        return { convertedItems, handleCategory, backgroundSrc, isMobile }
     }
 }
 </script>

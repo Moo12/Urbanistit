@@ -1,5 +1,5 @@
 <template>
-  <div class="relative bg-black-light h-full">
+  <div class="relative bg-black-light h-full" dir="ltr">
     <!-- Background Image -->
     <div class="w-full h-full bg-cover" :style="{  backgroundImage: `url(${backgroundImage})`, backgroundPosition: '60% 60%' }">
       <div class="absolute inset-0 bg-black-light opacity-20"></div>

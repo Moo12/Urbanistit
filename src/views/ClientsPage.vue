@@ -2,12 +2,12 @@
     <div class="padding-section flex flex-col gap-16">
         <!-- title and clients images -->
          
-        <div class="grid grid-cols-4 gap-10 mt-[30px]" :dir="directionClass">
-            <div class="col-span-2 grid grid-cols-6 gap-4">
-                    <p class="col-span-4 text-[54px] font-black leading-none">פרויקטים שיצאו לאור</p>
-                    <p class="col-span-5 section-content">כאן, בין הרעיונות, אני טווה חוטים דקים של מחשבה והופכת אותם למציאות. משלב האסטרטגיה הראשוני ועד הנגיעה האחרונה בעיצוב - כל פרויקט הוא מסע, מפגש בין חלום למציאות, בין מילים לתמונה.</p>
+        <div class="grid grid-cols-2    md:grid-cols-4 gap-10 mt-[30px]">
+            <div class="col-span-2 flex flex-col justify-center items-center md:grid md:grid-cols-6 gap-4 text-center">
+                    <p class="md:col-span-4 text-[54px] font-black leading-none">פרויקטים שיצאו לאור</p>
+                    <p class="md:col-span-5 section-content">כאן, בין הרעיונות, אני טווה חוטים דקים של מחשבה והופכת אותם למציאות. משלב האסטרטגיה הראשוני ועד הנגיעה האחרונה בעיצוב - כל פרויקט הוא מסע, מפגש בין חלום למציאות, בין מילים לתמונה.</p>
             </div>
-            <div v-for="client in orderedClients" :key="client.id" class="col-span-1" dir="rtl"
+            <div v-for="client in orderedClients" :key="client.id" class="col-span-1 place-self-end"
                 :class="[
                 { 
                     'opacity-70': currentToggledKey === client.id,
@@ -18,9 +18,9 @@
                 </router-link>  
             </div>
         </div>
-    </div>    
+    </div> 
     <div class="mt-[7.3%] py-[3%] bg-gray-background">
-        <Scroller :items="projectsImages" :itemWidth="16" :itemGap="2"
+        <Scroller :items="projectsImages" :itemWidth="deviceStore.isMobile ? 26 : 16" :itemGap="deviceStore.isMobile ? 4 : 2"
         @click="onImageClick">
             <template v-slot:default="{ item }">
                 <div class="w-full h-full group flex flex-wrap justify-center items-center">
@@ -46,6 +46,7 @@
 import { ref, watchEffect, computed} from 'vue';
 import { useRouter } from 'vue-router';
 
+import { useDeviceStore } from '@/stores/deviceStore'
 import useImageMetadata from '@/composables/fetchImageMetadata'
 import useGeneralContentMetadata from '@/composables/fetchGeneralContent';
 import getCollection from '@/composables/getCollection';
@@ -60,9 +61,9 @@ const props = defineProps({
 
 const router = useRouter()
 
+const deviceStore = useDeviceStore()
+
 const selectedLang = ref(props.language || "he")
-const directionClass = ref('')
-directionClass.value = selectedLang.value === 'he' ? "rtl" : "lft"
 
 const projectsImages = ref([])
 

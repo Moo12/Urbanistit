@@ -1,6 +1,12 @@
 <template>
-  <div >
-    <nav class="z-[100] relative padding-section" :class="navClass" ref="navbarRef" >
+  <div>
+    <nav 
+      class="z-[100] padding-section flex items-center" 
+      dir="ltr"
+      :class="navClass" 
+      ref="navbarRef"
+      :style="navbarStyle"
+    >
         <div class="relative">
             <!-- home button -->
              <div class="flex justify-between items-center">
@@ -52,8 +58,7 @@ export default {
   components: {
     DropdownMenu,
   },
-  emits: ['navbarHeightUpdate'],
-  setup(_, { emit }){
+  setup(){
     const navbarRef = ref(null);
     let resizeObserver = null;
 
@@ -68,6 +73,11 @@ export default {
     const isScrolled = ref(false);
     
     const route = useRoute();
+
+    // Get navbar layout from route meta
+    const navbarLayout = computed(() => {
+      return route.meta?.navbarLayout || 'fixed'; // Default to fixed if not specified
+    });
 
     watchEffect(() => {
         if (imagesMetadata?.value?.length && generalContentMetadata?.value?.get("navbar")){
@@ -105,59 +115,54 @@ export default {
       return localMenuItems?.value?.filter(item => item.id.toLowerCase() !== "home") || [];
     });
 
-    const updateHeight = () => {
-      if (navbarRef.value) {
-        const newHeight = navbarRef.value.getBoundingClientRect().height;
-        emit('navbarHeightUpdate', newHeight); // Emit to App.vue
-      }
-    };
-
     const handleScroll = () => {
       isScrolled.value = window.scrollY > 50; // Change when scrolled past 50px
     };
 
     onMounted(() => {
-      nextTick(() => {
-        if (navbarRef.value) {
-          // Setup ResizeObserver
-          resizeObserver = new ResizeObserver(() => updateHeight());
-          resizeObserver.observe(navbarRef.value);
-
-          // Ensure images trigger an update when they load
-          const images = navbarRef.value.querySelectorAll("img");
-          images.forEach(img => {
-            if (!img.complete) {
-              img.onload = updateHeight;
-              img.onerror = updateHeight;
-            }
-          });
-
-          // MutationObserver: Watch for DOM changes like added images
-          const mutationObserver = new MutationObserver(() => updateHeight());
-          mutationObserver.observe(navbarRef.value, { childList: true, subtree: true });
-        }
-      });
-
       window.addEventListener("scroll", handleScroll);
 
     });
 
     onUnmounted(() => {
-      if (resizeObserver) resizeObserver.disconnect();
-
       window.removeEventListener("scroll", handleScroll);
     });
 
-
-
-    const navClass = computed(() => {
-      return  isScrolled.value
-          ? "bg-white text-black border-gray-400 shadow-md" // White background when scrolled
-          :  `bg-transparent text-black-light` // Transparent when at the top
+    // Compute navbar styles based on layout mode
+    const navbarStyle = computed(() => {
+      if (isScrolled.value) {
+        // Fixed layout
+        return {
+          position: 'fixed',
+          top: '0',
+          left: '0',
+          width: '100%',
+        };
+      }
     });
 
+    const navClass = computed(() => {
+      if (navbarLayout.value === 'stacked') {
+        // Stacked layout always has white background
+        return "bg-white text-black border-gray-400 shadow-md";
+      } else {
+        // Fixed layout with scroll-based background
+        return isScrolled.value
+          ? "bg-white text-black border-gray-400 shadow-md" // White background when scrolled
+          : "bg-transparent text-black-light"; // Transparent when at the top
+      }
+    });
 
-    return { isOpen, homeAnchor, sideMenuItems, localMenuItems, navbarRef, navClass }
+    return { 
+      isOpen, 
+      homeAnchor, 
+      sideMenuItems, 
+      localMenuItems, 
+      navbarRef, 
+      navClass, 
+      navbarStyle,
+      navbarLayout 
+    }
   }
 }
 

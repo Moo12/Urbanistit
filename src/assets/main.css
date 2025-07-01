@@ -40,7 +40,7 @@ body {
 }
 
 .project-relative-layout {
-    @apply static h-full aspect-square
+    @apply static w-full aspect-square
 }
 
 .mega-title {

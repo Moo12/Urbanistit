@@ -1,9 +1,9 @@
 <template>
-    <div class="md:h-screen h-[60vh] w-full bg-cover flex flex-col justify-end" 
+    <div class="md:h-screen h-[60vh] w-full bg-cover flex flex-col justify-end relative z-0" 
     :style="{ backgroundImage: `url(${imageSrc})`, backgroundPosition: 'center 90%', backgroundSize: bgSize, backgroundRepeat: 'no-repeat'}">
         <div class="padding-section grid grid-cols-6 md:grid-cols-12 mb-10 md:mb-20">
-            <div class="col-span-5 md:col-span-7 col-start-1 md:col-start-3 bg-black-light flex flex-col  justify-between items-end md:items-center rounded-3xl py-[2%] px-[3%] gap-[3%]">
-                <p class="text-white text-[18px] md:text-[54px] text-right font-black">...משהו מתבשל פה</p>
+            <div class="col-span-5 md:col-span-7 col-start-2 md:col-start-3 bg-black-light flex flex-col  justify-between items-start md:items-center rounded-3xl py-[2%] px-[3%] gap-[3%]">
+                <p class="text-white text-[18px] md:text-[54px] text-right font-black">משהו מתבשל פה...</p>
                 <p class="text-[16px] md:section-content text-white text-right">
                     העמוד הזה עדיין בתהליך התהוות ויצירה<br>
                 </p>
@@ -14,7 +14,7 @@
         </div>
         
     </div>
-    <div class="margin-half-section-top">
+    <div class="my-[10%]">
         <ContactMeWrapper bgColor="gray"/>
     </div>
 </template>

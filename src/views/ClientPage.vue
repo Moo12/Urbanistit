@@ -1,28 +1,29 @@
 <template>
   <div class="my-10 mx-10 md:mx-40 flex flex-col">
     <!-- ALL CONTENT -->
-     <div class="flex flex-col gap-16"
+     <div class="flex flex-col gap-6 md:gap-16"
      :class="{
       'h-full' : selectedProject,
-      'h-[80vh]': !selectedProject
+      'min-h-[80vh]': !selectedProject
      }">
 
        <div v-if="clientDoc && !errrorLoadClientDoc">
          <!-- IMAGE AND TITLES -->
-         <div  class="grid grid-cols-12 justify-start" :dir="directionClass">
+         <div  class="grid  grid-cols-6 md:grid-cols-12 justify-start">
            <!-- IMAGE-->
-           <div class="square-frame project-frame md:col-span-5 lg:col-span-4 col-span-10 overflow-hidden">
+           <div class="square-frame project-frame md:col-span-5 lg:col-span-4 col-span-10 overflow-hidden order-2 md:order-1 my-[10%] md:my-0">
              <img :src=clientMainImage class="h-full object-cover" alt="">
            </div>
            <!-- title and sub title -->
-           <div class="flex flex-col col-span-6 lg:col-start-6 lg:col-span-7 justify-between text-right gap-6">
-             <div class="flex flex-col gap-8">
+           <div class="flex flex-col col-span-6 lg:col-start-6 lg:col-span-7 justify-between text-right gap-6 order-1 md:order-2">
+             <div class="flex flex-col gap-2 md:gap-8">
                <p class="w-[70%] text-twenty-seven-px md:text-[54px] text-black-light leading-none font-black  text-right ">{{ clientDoc.translations.he.title }}</p>
                <p class="section-content text-right">{{ clientDoc.translations.he.sub_title }}</p>
              </div>
-             <ProjectSelector v-if="clientProjects" :projectDocs="clientProjects" :language="language"  @ProjectSelectorClicked="handleProjectSelect" />
+             <ProjectSelector v-if="clientProjects && !deviceStore.isMobile" :projectDocs="clientProjects" :language="language"  @ProjectSelectorClicked="handleProjectSelect" />
            </div>
-           <div>
+           <div v-if="clientProjects && deviceStore.isMobile" class="col-span-6 order-3">
+            <ProjectSelector :projectDocs="clientProjects" :language="language"  @ProjectSelectorClicked="handleProjectSelect" />
            </div>
          </div>
        </div>
@@ -42,6 +43,7 @@
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router';
 
+import { useDeviceStore } from '@/stores/deviceStore'
 import getDocument from '@/composables/getDocument';
 import useImageMetadata from '@/composables/fetchImageMetadata'
 import getCollection from '@/composables/getCollection';
@@ -51,9 +53,7 @@ import ContactMeWrapper from '@/components/ContactMeWrapper.vue';
 
 const language = ref("he")
 
-const directionClass = ref('')
-directionClass.value = language.value === 'he' ? "rtl" : "lft"
-
+const deviceStore = useDeviceStore()
 
 const route = useRoute();
 const id = ref(route.params.id)

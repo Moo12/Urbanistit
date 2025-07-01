@@ -1,6 +1,6 @@
 <template>
-    <div class="grid grid-cols-2 xl:grid-cols-3 gap-1 md:gap-6 padding-section" dir="rtl">
-        <div v-for="client in insertSquareMain" :key="client.id">
+    <div class="grid grid-cols-2 xl:grid-cols-3 gap-1 md:gap-6 padding-section">
+        <div v-for="client in insertSquareMain" :key="client.id" class="col-span-1">
             <div v-if="!client.isMain">
                 <router-link :to="{ name: 'Client', params: { id: client.id }}">
                     <Client :project="client" :hoveEffect="hoverEffect"></Client>

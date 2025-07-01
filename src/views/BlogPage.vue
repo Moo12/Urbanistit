@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col gap-16">
+    <div class="flex flex-col gap-16" dir="ltr">
         <!-- first part -->
         <div class="grid grid-cols-12 gap-2 md:gap-8 padding-section">
             <!-- image -->
@@ -13,8 +13,8 @@
     
     את החולף, את החמקמק, את הפלא שבשינוי ובשגרה. בין כוס קפה בשוק קטן לרגעי שקט מול הים, אני משוטטת ומשאירה עקבות קלילים בסמטאות, לוגמת את רחשי הרחוב, משתהה אל מול היופי הרגעי ומניחה לשאלות להתקיים מסביבי.</p>
                 <!-- image -->
-                <div v-if="isMobile" class="overflow-hidden -mx-20">
-                    <img :src=blogCoverImage class="w-full  object-cover aspect-[0.8] object-[center_90%]" alt="">
+                <div v-if="isMobile" class="w-screen -mx-10 overflow-hidden">
+                    <img :src=blogCoverImage class="w-full h-[35vh] rounded-xl object-cover object-[center_70%]" alt="">
                 </div>
                 <BlogCategoryIcons iconBg="brown-site" :vertical="false" class="max-w-full" @blogCategoryClicked="handleCategory"/>
 
@@ -53,7 +53,7 @@
             </div>
         </div>
     </div>
-    <div id="contactme_section" class="my-[3.7%]">
+    <div id="contactme_section" class="md:mt-[3.7%] mt-[15%]">
       <ContactMeWrapper/>
     </div>
 </template>

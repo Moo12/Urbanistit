@@ -9,23 +9,20 @@
         <div
             class="project-frame project-relative-layout overflow-hidden"
             :class="{
-                'md:invisible md:pointer-events-none': isHovered && hoveEffect,
-                'md:visible': !isHovered && hoveEffect,
+                'md:invisible md:pointer-events-none': isHovered && hoveEffect && !isMobile,
+                'md:visible': !isHovered && hoveEffect && !isMobile,
             }"
         >
             <img class="object-cover w-full h-full" :src="project.image_url" alt="">
         </div>
         <!-- second frame -->
-        <div v-if="hoveEffect" class="project-frame bg-brown-site md:project-absolute-layout flex flex-row-reverse items-center justify-center text-right"
+        <div v-if="hoveEffect && !isMobile" class="project-frame bg-brown-site project-absolute-layout flex flex-row-reverse items-center justify-center text-right"
             :class="{
                 'md:invisible md:pointer-events-none': !isHovered,
                 'md:visible': isHovered,
-                'project-relative-layout' : screenWidth < 768,
-                'project-absolute-layout' : screenWidth >= 768,
- 
             }">
             <div class="px-10 flex flex-row-reverse flex-wrap justify-center items-center content-center">
-                <p dir="rtl" class="text-center mx-auto">
+                <p class="text-center mx-auto">
                     <span class="text-section font-black  text-background-site">{{ project.translations?.he?.title }} </span>
                     <span class="section-content  text-background-site before:content-['|'] before:px-2"> {{ project.translations?.he?.sub_title }}</span>
                 </p>
@@ -38,7 +35,8 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
+import { useDeviceStore } from '@/stores/deviceStore';
 import useImageMetadata from '@/composables/fetchImageMetadata.js'
 
 export default { 
@@ -55,23 +53,9 @@ export default {
     },
     setup(props){
         const language = ref("he")
+        const deviceStore = useDeviceStore();
  
-        const screenWidth = ref(window.innerWidth);
-
         const { imagesMetadata, error: errorUseImageMetadata, getMainImageUrl } = useImageMetadata();
-
-        const updateScreenWidth = () => {
-            screenWidth.value = window.innerWidth;
-        };
-
-        onMounted(async () => {
-            window.addEventListener("resize", updateScreenWidth);
-        });
-
-        onUnmounted(() => {
-            window.removeEventListener("resize", updateScreenWidth);
-        });
-
 
         watchEffect(()=>{
             
@@ -91,7 +75,18 @@ export default {
             isHovered.value = false;
         }
 
-        return {isHovered, onMouseEnter, onMouseLeave, screenWidth, language}
+        return {
+            isHovered, 
+            onMouseEnter, 
+            onMouseLeave, 
+            language,
+            isMobile: deviceStore.isMobile,
+            isTablet: deviceStore.isTablet,
+            isDesktop: deviceStore.isDesktop,
+            deviceType: deviceStore.deviceType,
+            screenWidth: deviceStore.screenWidth,
+            screenHeight: deviceStore.screenHeight
+        }
     }
 
 }

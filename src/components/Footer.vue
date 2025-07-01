@@ -9,7 +9,7 @@
                 </a>
             </div>
         </div>
-        <div class="flex flex-col md:flex-row justify-center md:gap-5 items-center" dir="rtl">
+        <div class="flex flex-col md:flex-row justify-center md:gap-5 items-center">
             <p class="text-[12px]">
   האתר עוצב ונבנה ב<i class="fas fa-heart text-black-light mx-1"></i>
   .ע"י מאיה ומעין

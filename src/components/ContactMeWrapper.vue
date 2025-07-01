@@ -2,7 +2,7 @@
     <div class="relative margin-half-section rounded-[60px]"
         :class = "[bgClass]"
     >
-        <div class="grid grid-cols-6 md:grid-cols-10  gap-2 items-center margin-half-section py-20" dir="rtl">
+        <div class="grid grid-cols-6 md:grid-cols-10  gap-2 items-center margin-half-section py-20">
             <!-- Left part (Cat Image) -->
             <div class="col-span-1">
                 <img :src="sideImgSrc" class="pb-[30%] object-cover w-full h-auto" alt="Cat Image">

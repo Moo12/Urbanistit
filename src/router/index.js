@@ -25,45 +25,52 @@ const routes = [
   {
     path: '/uploadimage',
     name: 'uploadimage',
-    component: UploadImageWrapper
+    component: UploadImageWrapper,
+    meta: { navbarLayout: 'stacked' }
   },
   {
     path: '/store',
     name: 'Store',
     component: ComingSoon,
+    meta: { navbarLayout: 'stacked' }
   },
   {
     path: '/blog',
     name: 'Blog',
     component: BlogPage,
+    meta: { navbarLayout: 'fixed' }
   },
   {
     path: '/blog/:id',
     name: 'Single-Blog',
     component: BlogItem,
-    props: true // Allows passing `id` as a prop to `BlogItem`
+    props: true,
+    meta: { navbarLayout: 'stacked' }
   },
   {
     path: '/client/:id',
     name: 'Client',
     component: ClientPage,
+    meta: { navbarLayout: 'stacked' }
   },
   {
     path: '/clients',
     name: 'ClientsPage',
     component: ClientsPage,
-    props: true
+    props: true,
+    meta: { navbarLayout: 'stacked' }
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: { navbarLayout: 'stacked' }
   },
   {
     path: '/admin',
     name: 'Admin',
-    component: AdminLayout, // The layout that includes the sidebar
-    meta: { requiresAuth: true },
+    component: AdminLayout,
+    meta: { requiresAuth: true, navbarLayout: 'stacked' },
     children: [
       {
         path: "edit-page/:id",
@@ -73,6 +80,7 @@ const routes = [
            id: route.params.id,
            name: route.query.name,
          }),
+         meta: { navbarLayout: 'stacked' }
       },
       {
         path: "edit-section/:id",
@@ -84,6 +92,7 @@ const routes = [
              name: route.query.name,
            }
          }),
+         meta: { navbarLayout: 'stacked' }
       },
       ]
   },
