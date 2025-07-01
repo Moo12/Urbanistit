@@ -81,7 +81,6 @@ import BlogItemMainLayuot from '@/components/BlogItemMainLayuot.vue';
 import BlogContent from '@/components/BlogContent.vue';
 import Scroller from '@/components/Scroller.vue';
 import ScrollerModal from '@/components/ScrollerModal.vue';
-import ResponsiveImageHeader from '@/components/ResponsiveImageHeader.vue';
 
 import getCollection from '@/composables/getCollection'
 import getDocument from '@/composables/getDocument';
