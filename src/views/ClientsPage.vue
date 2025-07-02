@@ -19,7 +19,7 @@
             </div>
         </div>
     </div> 
-    <div class="mt-[7.3%] py-[3%] bg-gray-background">
+    <div class="mt-[7.3%] py-[3%] bg-gray-background" v-if="projectsImages?.length > 0">
         <Scroller :items="projectsImages" :itemWidth="deviceStore.isMobile ? 26 : 16" :itemGap="deviceStore.isMobile ? 4 : 2"
         @click="onImageClick">
             <template v-slot:default="{ item }">
@@ -69,7 +69,7 @@ const projectsImages = ref([])
 
 const { imagesMetadata, error : errorImageMd, getMainImageUrl, getImageUrl } = useImageMetadata();
 const { generalContentMetadata, error: generalContentError } = useGeneralContentMetadata()
-const { documents : clientssDocuments , error : errorClientsDocs, fetchCollectionOnce : fetchCollectionOnceClients } = getCollection("clients")
+const { documents : clientsDocuments , error : errorClientsDocs, fetchCollectionOnce : fetchCollectionOnceClients } = getCollection("clients")
 const { documents : projectsDocuments , error : errorProjectsDocs, fetchCollectionOnce : fetchCollectionOnceProjects } = getCollection("projects")
 
 const { initializeToggled, handleClick, currentToggledKey } = useSelectorToggle([], "")
@@ -81,9 +81,9 @@ fetchCollectionOnceClients()
 fetchCollectionOnceProjects()
 
 const orderedClients = computed(() => {
-    if (clientssDocuments?.value){
+    if (clientsDocuments?.value){
 
-        return clientssDocuments.value.sort((a, b) => {
+        return clientsDocuments.value.sort((a, b) => {
             const aIndex = a.metadata?.index;
           const bIndex = b.metadata?.index;
         
@@ -102,19 +102,27 @@ const orderedClients = computed(() => {
 })
 
 watchEffect(() => {
-    if (clientssDocuments?.value?.length){
-        initializeToggled(clientssDocuments.value.map(category => category.id));
+    console.log("watchEffect projects  documents size" , clientsDocuments.value?.length)
+    if (clientsDocuments?.value?.length){
+        initializeToggled(clientsDocuments.value.map(item => item.id));
     }
 
     projectsDocuments?.value?.forEach((doc, index) => {
-        projectsImages.value.push( { image: getMainImageUrl(doc.default.images_metadata), index : index,
-            title: doc.translations[selectedLang.value]?.title, client_id: doc.default.clients, id : doc.id 
-        })
-    });
+            let imageObj = { image: getMainImageUrl(doc.default.images_metadata), index : index,
+            title: doc.translations[selectedLang.value]?.title, client_id: doc.default.clients, id : doc.id }
+            if  (imageObj?.image){
+                projectsImages.value.push(imageObj)
+            }
+            else{
+                console.log("no image for project", doc.id)
+            }
+    })
+
+    console.log("projectsImages", projectsImages.value)
 })
 
 const currentClient = computed(() =>
-    clientssDocuments?.value?.find(client => client.id === currentToggledKey.value) || null
+    clientsDocuments?.value?.find(client => client.id === currentToggledKey.value) || null
 );
 
 const onImageClick = (item) => {
